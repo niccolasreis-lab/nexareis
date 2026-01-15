@@ -1,7 +1,8 @@
 import React from 'react';
 import { Logo } from './Logo';
 import { NAV_ITEMS, CONTACT_INFO } from '../constants';
-import { Linkedin, Github, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Linkedin, Mail, MapPin, Phone, Instagram } from 'lucide-react';
+import { DevSignature } from './DevSignature';
 
 export const Footer: React.FC = () => {
   return (
@@ -16,14 +17,14 @@ export const Footer: React.FC = () => {
               Impulsionando o futuro dos negócios através de automação inteligente e soluções de software sob medida.
             </p>
             <div className="flex gap-4">
-              <a href={CONTACT_INFO.social.linkedin} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors">
+              <a href={CONTACT_INFO.social.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors" aria-label="Instagram">
+                <Instagram size={20} />
+              </a>
+              <a href={CONTACT_INFO.social.linkedin} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors" aria-label="LinkedIn">
                 <Linkedin size={20} />
               </a>
-              <a href={CONTACT_INFO.social.github} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors">
-                <Github size={20} />
-              </a>
-              <a href={CONTACT_INFO.social.twitter} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors">
-                <Twitter size={20} />
+              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-green-500 transition-colors" aria-label="WhatsApp">
+                <Phone size={20} />
               </a>
             </div>
           </div>
@@ -69,7 +70,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-3 text-gray-400 text-sm">
                 <Phone size={18} className="text-nexa-orange shrink-0" />
-                <a href="tel:+5511999999999" className="hover:text-white transition-colors">{CONTACT_INFO.phone}</a>
+                <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">{CONTACT_INFO.phone}</a>
               </li>
             </ul>
           </div>
@@ -85,6 +86,9 @@ export const Footer: React.FC = () => {
             <span className="text-xs text-gray-400">Sistemas Operacionais</span>
           </div>
         </div>
+
+        {/* Developer Signature */}
+        <DevSignature />
       </div>
     </footer>
   );

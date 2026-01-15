@@ -57,12 +57,13 @@ export const STATS: StatItem[] = [
 ];
 
 export const CONTACT_INFO = {
-  phone: '+55 11 99999-9999',
+  phone: '+55 11 93710-5501',
+  whatsappRaw: '5511937105501',
   email: 'contato@nexareis.com.br',
   address: 'Av. Paulista, 1000 - São Paulo, SP',
   social: {
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    twitter: 'https://twitter.com'
+    linkedin: 'https://linkedin.com/company/nexareisautomation',
+    instagram: 'https://instagram.com/nexareisautomation',
+    whatsapp: 'https://wa.me/5511937105501'
   }
 };
