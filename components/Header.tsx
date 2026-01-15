@@ -87,7 +87,6 @@ export const Header: React.FC = () => {
               ))}
               <Button 
                 variant="primary" 
-                className="btn-full"
                 style={{ width: '100%', marginTop: '1rem' }}
                 onClick={() => scrollToSection('#contato')}
               >
