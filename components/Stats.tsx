@@ -36,18 +36,18 @@ const Counter = ({ from, to, suffix, duration = 2 }: { from: number, to: number,
     return () => clearInterval(timer);
   }, [inView, from, to, suffix, duration]);
 
-  return <span ref={nodeRef} className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-nexa-cyan to-white">{from}{suffix}</span>;
+  return <span ref={nodeRef} className="stat-number">{from}{suffix}</span>;
 };
 
 export const Stats: React.FC = () => {
   return (
-    <section className="py-20 bg-nexa-slate900 border-y border-nexa-slate800">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 text-center divide-x-0 md:divide-x divide-nexa-slate800/50">
+    <section style={{ padding: '5rem 0', backgroundColor: 'var(--color-slate900)', borderTop: '1px solid var(--color-slate800)', borderBottom: '1px solid var(--color-slate800)' }}>
+      <div className="container">
+        <div className="stats-grid">
           {STATS.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center p-4">
+            <div key={index} className="stat-item">
               <Counter from={0} to={stat.value} suffix={stat.suffix} />
-              <p className="mt-4 text-gray-400 font-medium tracking-wide uppercase text-sm">{stat.label}</p>
+              <p className="stat-label">{stat.label}</p>
             </div>
           ))}
         </div>

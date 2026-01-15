@@ -27,26 +27,20 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-        isScrolled 
-          ? 'bg-nexa-navy/70 backdrop-blur-md border-nexa-slate800 py-3' 
-          : 'bg-transparent border-transparent py-5'
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('#home'); }} className="cursor-pointer">
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+      <div className="container flex items-center justify-between">
+        <a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('#home'); }} style={{ cursor: 'pointer' }}>
           <Logo variant="header" />
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md-flex items-center gap-4" style={{ gap: '2rem' }}>
           {NAV_ITEMS.map((item) => (
             <a 
               key={item.label}
               href={item.href}
               onClick={(e) => { e.preventDefault(); scrollToSection(item.href); }}
-              className="text-sm font-medium text-gray-300 hover:text-nexa-cyan transition-colors"
+              className="nav-link"
             >
               {item.label}
             </a>
@@ -62,7 +56,8 @@ export const Header: React.FC = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-gray-300 hover:text-white"
+          className="md-hidden"
+          style={{ color: '#d1d5db' }}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -76,22 +71,24 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-nexa-navy border-b border-nexa-slate800 overflow-hidden"
+            className="mobile-menu md-hidden"
           >
-            <div className="flex flex-col p-6 gap-4">
+            <div style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem', gap: '1rem' }}>
               {NAV_ITEMS.map((item) => (
                 <a 
                   key={item.label}
                   href={item.href}
                   onClick={(e) => { e.preventDefault(); scrollToSection(item.href); }}
-                  className="text-lg font-medium text-gray-300 hover:text-nexa-cyan transition-colors"
+                  className="nav-link"
+                  style={{ fontSize: '1.125rem' }}
                 >
                   {item.label}
                 </a>
               ))}
               <Button 
                 variant="primary" 
-                className="w-full mt-4"
+                className="btn-full"
+                style={{ width: '100%', marginTop: '1rem' }}
                 onClick={() => scrollToSection('#contato')}
               >
                 Falar com Especialista

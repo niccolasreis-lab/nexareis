@@ -45,13 +45,13 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contato" className="py-24 relative overflow-hidden">
+    <section id="contato" className="section-py" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Background blobs for this section */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-nexa-blue/5 rounded-full blur-[100px] -z-10" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-nexa-orange/5 rounded-full blur-[100px] -z-10" />
+      <div style={{ position: 'absolute', top: 0, right: 0, width: '24rem', height: '24rem', backgroundColor: 'rgba(0, 102, 255, 0.05)', borderRadius: '50%', filter: 'blur(100px)', zIndex: -10 }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '24rem', height: '24rem', backgroundColor: 'rgba(255, 107, 53, 0.05)', borderRadius: '50%', filter: 'blur(100px)', zIndex: -10 }} />
 
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="container">
+        <div className="contact-grid">
           
           {/* Left Side Copy */}
           <div>
@@ -59,23 +59,23 @@ export const ContactForm: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold text-white mb-6"
+              className="section-title"
             >
               Vamos Construir o <br/>
               <span className="text-gradient">Futuro Juntos?</span>
             </motion.h2>
-            <p className="text-gray-400 text-lg mb-10 leading-relaxed">
+            <p style={{ fontSize: '1.125rem', color: '#9ca3af', marginBottom: '2.5rem', lineHeight: 1.6 }}>
               Pronto para otimizar sua operação? Preencha o formulário e nossa equipe de especialistas entrará em contato em até 24 horas para uma consultoria inicial gratuita.
             </p>
 
-            <div className="bg-nexa-slate800/30 border border-nexa-slate800 rounded-2xl p-8 mb-8">
-              <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
-                <MessageSquare className="text-nexa-cyan" size={20} /> Preferência por WhatsApp?
+            <div className="contact-info-box">
+              <h4 style={{ color: 'white', fontWeight: 600, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MessageSquare className="text-cyan" style={{ color: 'var(--color-cyan)' }} size={20} /> Preferência por WhatsApp?
               </h4>
-              <p className="text-gray-400 text-sm mb-4">
+              <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '1rem' }}>
                 Se preferir uma conversa mais rápida, chame nosso time comercial diretamente.
               </p>
-              <Button variant="outline" className="w-full sm:w-auto" onClick={openWhatsApp}>
+              <Button variant="outline" style={{ width: '100%', maxWidth: '200px' }} onClick={openWhatsApp}>
                 Falar no WhatsApp
               </Button>
             </div>
@@ -86,65 +86,65 @@ export const ContactForm: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-nexa-slate900 border border-nexa-slate800 p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
+            className="form-card"
           >
              {status === ContactStatus.SUCCESS && (
-                <div className="absolute inset-0 bg-nexa-slate900 z-20 flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-300">
-                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
-                    <CheckCircle2 className="text-green-500 w-8 h-8" />
+                <div className="success-overlay">
+                  <div style={{ width: '4rem', height: '4rem', backgroundColor: 'rgba(34, 197, 94, 0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <CheckCircle2 style={{ color: '#22c55e', width: '2rem', height: '2rem' }} />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Mensagem Recebida!</h3>
-                  <p className="text-gray-400">Obrigado pelo contato. Retornaremos em breve.</p>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white', marginBottom: '0.5rem' }}>Mensagem Recebida!</h3>
+                  <p style={{ color: '#9ca3af' }}>Obrigado pelo contato. Retornaremos em breve.</p>
                 </div>
               )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Nome Completo *</label>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ position: 'relative', zIndex: 10 }}>
+              <div className="form-grid-2">
+                <div className="form-group">
+                  <label className="form-label">Nome Completo *</label>
                   <input 
                     {...register('name')}
-                    className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all placeholder:text-gray-600"
+                    className="form-input"
                     placeholder="Seu nome"
                   />
-                  {errors.name && <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle size={12}/> {errors.name.message}</span>}
+                  {errors.name && <span className="error-msg"><AlertCircle size={12}/> {errors.name.message}</span>}
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Email Corporativo *</label>
+                <div className="form-group">
+                  <label className="form-label">Email Corporativo *</label>
                   <input 
                     {...register('email')}
-                    className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all placeholder:text-gray-600"
+                    className="form-input"
                     placeholder="voce@empresa.com"
                   />
-                  {errors.email && <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle size={12}/> {errors.email.message}</span>}
+                  {errors.email && <span className="error-msg"><AlertCircle size={12}/> {errors.email.message}</span>}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Telefone *</label>
+              <div className="form-grid-2">
+                <div className="form-group">
+                  <label className="form-label">Telefone *</label>
                   <input 
                     {...register('phone')}
-                    className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all placeholder:text-gray-600"
+                    className="form-input"
                     placeholder="(00) 00000-0000"
                   />
-                  {errors.phone && <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle size={12}/> {errors.phone.message}</span>}
+                  {errors.phone && <span className="error-msg"><AlertCircle size={12}/> {errors.phone.message}</span>}
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Empresa</label>
+                <div className="form-group">
+                  <label className="form-label">Empresa</label>
                   <input 
                     {...register('company')}
-                    className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all placeholder:text-gray-600"
+                    className="form-input"
                     placeholder="Nome da sua empresa"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Serviço de Interesse *</label>
+              <div className="form-group">
+                <label className="form-label">Serviço de Interesse *</label>
                 <select 
                   {...register('service')}
-                  className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all"
+                  className="form-select"
                 >
                   <option value="">Selecione uma opção</option>
                   <option value="automacao">Automação Empresarial (RPA)</option>
@@ -152,33 +152,34 @@ export const ContactForm: React.FC = () => {
                   <option value="integracao">Integração de Sistemas</option>
                   <option value="outros">Outros</option>
                 </select>
-                {errors.service && <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle size={12}/> {errors.service.message}</span>}
+                {errors.service && <span className="error-msg"><AlertCircle size={12}/> {errors.service.message}</span>}
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Mensagem *</label>
+              <div className="form-group">
+                <label className="form-label">Mensagem *</label>
                 <textarea 
                   {...register('message')}
                   rows={4}
-                  className="w-full bg-nexa-navy border border-nexa-slate800 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-nexa-blue focus:border-transparent outline-none transition-all placeholder:text-gray-600 resize-none"
+                  className="form-textarea"
+                  style={{ resize: 'none' }}
                   placeholder="Conte um pouco sobre seu desafio..."
                 />
-                {errors.message && <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle size={12}/> {errors.message.message}</span>}
+                {errors.message && <span className="error-msg"><AlertCircle size={12}/> {errors.message.message}</span>}
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full" 
+                style={{ width: '100%' }}
                 size="lg"
                 disabled={status === ContactStatus.SUBMITTING}
               >
                 {status === ContactStatus.SUBMITTING ? (
-                   <span className="flex items-center gap-2">
-                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                     <span style={{ width: '1rem', height: '1rem', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></span>
                      Enviando...
                    </span>
                 ) : (
-                  <span className="flex items-center gap-2">
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     Enviar Solicitação <Send size={18} />
                   </span>
                 )}
@@ -187,6 +188,7 @@ export const ContactForm: React.FC = () => {
           </motion.div>
         </div>
       </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </section>
   );
 };

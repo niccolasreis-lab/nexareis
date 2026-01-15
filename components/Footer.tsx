@@ -6,24 +6,24 @@ import { DevSignature } from './DevSignature';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-nexa-slate900 border-t border-nexa-slate800 pt-16 pb-8">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-grid">
           
           {/* Brand Column */}
-          <div className="col-span-1 lg:col-span-1">
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Logo variant="footer" className="mb-6" />
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <p style={{ color: '#9ca3af', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1.5rem', marginTop: '1.5rem' }}>
               Impulsionando o futuro dos negócios através de automação inteligente e soluções de software sob medida.
             </p>
-            <div className="flex gap-4">
-              <a href={CONTACT_INFO.social.instagram} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors" aria-label="Instagram">
+            <div className="footer-social">
+              <a href={CONTACT_INFO.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
                 <Instagram size={20} />
               </a>
-              <a href={CONTACT_INFO.social.linkedin} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-nexa-blue transition-colors" aria-label="LinkedIn">
+              <a href={CONTACT_INFO.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <Linkedin size={20} />
               </a>
-              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-green-500 transition-colors" aria-label="WhatsApp">
+              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" style={{ color: 'var(--color-gray-400)' }} onMouseOver={(e) => e.currentTarget.style.color = '#22c55e'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--color-gray-400)'} aria-label="WhatsApp">
                 <Phone size={20} />
               </a>
             </div>
@@ -31,65 +31,66 @@ export const Footer: React.FC = () => {
 
           {/* Navigation */}
           <div>
-            <h4 className="text-white font-bold mb-6">Navegação</h4>
-            <ul className="space-y-3">
+            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Navegação</h4>
+            <ul className="footer-links">
               {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">
+                  <a href={item.href}>
                     {item.label}
                   </a>
                 </li>
               ))}
-              <li><a href="#" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Termos de Uso</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Privacidade</a></li>
+              <li><a href="#">Termos de Uso</a></li>
+              <li><a href="#">Privacidade</a></li>
             </ul>
           </div>
 
-          {/* Services (Manual for now to match prompt structure ideas) */}
+          {/* Services */}
           <div>
-            <h4 className="text-white font-bold mb-6">Soluções</h4>
-            <ul className="space-y-3">
-              <li><a href="#servicos" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Automação RPA</a></li>
-              <li><a href="#servicos" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Desenvolvimento Web</a></li>
-              <li><a href="#servicos" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Consultoria Tech</a></li>
-              <li><a href="#servicos" className="text-gray-400 hover:text-nexa-cyan text-sm transition-colors">Integração API</a></li>
+            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Soluções</h4>
+            <ul className="footer-links">
+              <li><a href="#servicos">Automação RPA</a></li>
+              <li><a href="#servicos">Desenvolvimento Web</a></li>
+              <li><a href="#servicos">Consultoria Tech</a></li>
+              <li><a href="#servicos">Integração API</a></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-bold mb-6">Contato</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-gray-400 text-sm">
-                <MapPin size={18} className="text-nexa-orange mt-0.5 shrink-0" />
+            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Contato</h4>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
+                <MapPin size={18} style={{ color: 'var(--color-orange)', flexShrink: 0, marginTop: '0.125rem' }} />
                 <span>{CONTACT_INFO.address}</span>
               </li>
-              <li className="flex items-center gap-3 text-gray-400 text-sm">
-                <Mail size={18} className="text-nexa-orange shrink-0" />
-                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-white transition-colors">{CONTACT_INFO.email}</a>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
+                <Mail size={18} style={{ color: 'var(--color-orange)', flexShrink: 0 }} />
+                <a href={`mailto:${CONTACT_INFO.email}`} style={{ color: 'inherit' }}>{CONTACT_INFO.email}</a>
               </li>
-              <li className="flex items-center gap-3 text-gray-400 text-sm">
-                <Phone size={18} className="text-nexa-orange shrink-0" />
-                <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">{CONTACT_INFO.phone}</a>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
+                <Phone size={18} style={{ color: 'var(--color-orange)', flexShrink: 0 }} />
+                <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>{CONTACT_INFO.phone}</a>
               </li>
             </ul>
           </div>
 
         </div>
 
-        <div className="border-t border-nexa-slate800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm text-center md:text-left">
+        <div className="footer-bottom">
+          <p style={{ color: '#6b7280', fontSize: '0.875rem', textAlign: 'center' }}>
             © 2026 Nexa Reis Automation. Todos os direitos reservados.
           </p>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-xs text-gray-400">Sistemas Operacionais</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#22c55e', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></span>
+            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Sistemas Operacionais</span>
           </div>
         </div>
 
         {/* Developer Signature */}
         <DevSignature />
       </div>
+      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }`}</style>
     </footer>
   );
 };

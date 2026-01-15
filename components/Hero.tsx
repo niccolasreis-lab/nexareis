@@ -17,31 +17,31 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="hero-section">
       
       {/* Background Effects */}
-      <div className="absolute inset-0 z-0">
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <motion.div 
           style={{ y: y1 }}
-          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-nexa-blue/20 rounded-full blur-[100px]" 
+          className="hero-bg-blob-1"
         />
         <motion.div 
           style={{ y: y2 }}
-          className="absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] bg-nexa-cyan/10 rounded-full blur-[120px]" 
+          className="hero-bg-blob-2"
         />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none" />
+        <div className="hero-noise" />
       </div>
 
-      <div className="container mx-auto px-4 z-10 relative">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="container" style={{ zIndex: 10, position: 'relative', textAlign: 'center' }}>
+        <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-nexa-blue/10 border border-nexa-blue/30 text-nexa-cyan text-xs font-semibold tracking-wide mb-8"
+            className="hero-badge"
           >
-            <span className="w-2 h-2 rounded-full bg-nexa-orange"></span>
+            <span style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: 'var(--color-orange)' }}></span>
             NOVA ERA DA AUTOMAÇÃO
           </motion.div>
 
@@ -49,7 +49,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-white"
+            className="hero-title"
           >
             Transforme seu Negócio com <br />
             <span className="text-gradient">Automação Inteligente</span>
@@ -59,7 +59,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
+            className="hero-subtitle"
           >
             Soluções tecnológicas que impulsionam eficiência, reduzem custos e escalam seu crescimento. Deixe a tecnologia trabalhar por você.
           </motion.p>
@@ -68,13 +68,13 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="hero-actions"
           >
-            <Button size="lg" onClick={scrollToContact} className="group w-full sm:w-auto">
+            <Button size="lg" onClick={scrollToContact} className="group" style={{ width: '100%', maxWidth: '300px' }}>
               Solicitar Consultoria
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight style={{ marginLeft: '0.5rem', width: '1.25rem', height: '1.25rem', transition: 'transform 0.2s' }} />
             </Button>
-            <Button variant="outline" size="lg" onClick={scrollToServices} className="w-full sm:w-auto">
+            <Button variant="outline" size="lg" onClick={scrollToServices} style={{ width: '100%', maxWidth: '300px' }}>
               Conheça Nossas Soluções
             </Button>
           </motion.div>
@@ -87,10 +87,10 @@ export const Hero: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500 flex flex-col items-center gap-2"
+        className="scroll-indicator"
       >
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-nexa-cyan/50 to-transparent"></div>
+        <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Scroll</span>
+        <div className="scroll-line"></div>
       </motion.div>
     </section>
   );
