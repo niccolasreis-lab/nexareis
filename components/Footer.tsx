@@ -1,96 +1,145 @@
 import React from 'react';
 import { Logo } from './Logo';
-import { NAV_ITEMS, CONTACT_INFO } from '../constants';
-import { Linkedin, Mail, MapPin, Phone, Instagram } from 'lucide-react';
-import { DevSignature } from './DevSignature';
+import { Mail, Phone, MapPin, ArrowUpRight, Github, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
+
+  const quickLinks = {
+    produtos: [
+      { label: "ChamaAí Food", href: "https://chamaaifood.com.br/pilot" },
+      { label: "ChamaAí — Gestão de Filas", href: "https://chamaai-nine.vercel.app/" },
+      { label: "SignageFlow", href: "https://signageflow.com.br/" }
+    ],
+    servicos: [
+      { label: "Sistemas Web Customizados", href: "#solucoes" },
+      { label: "Plataformas SaaS Escaláveis", href: "#solucoes" },
+      { label: "Dashboards Operacionais", href: "#solucoes" },
+      { label: "Integrações de APIs", href: "#solucoes" }
+    ],
+    institucional: [
+      { label: "Início", href: "#home" },
+      { label: "Sobre Nós", href: "#sobre-nos" },
+      { label: "Processo de Trabalho", href: "#processo" },
+      { label: "Dúvidas Frequentes", href: "#faq" }
+    ]
+  };
+
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.replace('#', '');
+      const element = document.getElementById(targetId);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-grid">
+    <footer className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+      
+      {/* Footer Grid */}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
           
-          {/* Brand Column */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Logo variant="footer" className="mb-6" />
-            <p style={{ color: '#9ca3af', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1.5rem', marginTop: '1.5rem' }}>
-              Impulsionando o futuro dos negócios através de automação inteligente e soluções de software sob medida.
+          {/* Logo Column */}
+          <div className="lg:col-span-4 flex flex-col items-start text-left">
+            <Logo variant="header" showText={true} className="mb-6" />
+            <p className="font-sans text-xs sm:text-sm text-gray-sec leading-relaxed mb-6 max-w-sm">
+              Nexa Reis — Tecnologia de ponta projetada, homologada e integrada diretamente na operação física de estabelecimentos comerciais presenciais.
             </p>
-            <div className="footer-social">
-              <a href={CONTACT_INFO.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-                <Instagram size={20} />
+            {/* Social handles */}
+            <div className="flex gap-4">
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
+                <Github className="w-4 h-4" />
               </a>
-              <a href={CONTACT_INFO.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Linkedin size={20} />
-              </a>
-              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" style={{ color: 'var(--color-gray-400)' }} onMouseOver={(e) => e.currentTarget.style.color = '#22c55e'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--color-gray-400)'} aria-label="WhatsApp">
-                <Phone size={20} />
+              <a href="https://wa.me/5511937105501" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
+                <Phone className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Navegação</h4>
-            <ul className="footer-links">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.label}>
-                  <a href={item.href}>
-                    {item.label}
+          {/* Navigation links Columns */}
+          <div className="lg:col-span-2 text-left">
+            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h4>
+            <ul className="space-y-3.5">
+              {quickLinks.produtos.map((link) => (
+                <li key={link.label}>
+                  <a 
+                    href={link.href} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors flex items-center gap-1 group"
+                  >
+                    {link.label}
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
               ))}
-              <li><a href="#">Termos de Uso</a></li>
-              <li><a href="#">Privacidade</a></li>
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Soluções</h4>
-            <ul className="footer-links">
-              <li><a href="#servicos">Automação RPA</a></li>
-              <li><a href="#servicos">Desenvolvimento Web</a></li>
-              <li><a href="#servicos">Consultoria Tech</a></li>
-              <li><a href="#servicos">Integração API</a></li>
+          <div className="lg:col-span-3 text-left">
+            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h4>
+            <ul className="space-y-3.5">
+              {quickLinks.servicos.map((link) => (
+                <li key={link.label}>
+                  <a 
+                    href={link.href} 
+                    onClick={(e) => handleScrollTo(e, link.href)} 
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 style={{ color: 'white', fontWeight: 'bold', marginBottom: '1.5rem' }}>Contato</h4>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
-                <MapPin size={18} style={{ color: 'var(--color-orange)', flexShrink: 0, marginTop: '0.125rem' }} />
-                <span>{CONTACT_INFO.address}</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
-                <Mail size={18} style={{ color: 'var(--color-orange)', flexShrink: 0 }} />
-                <a href={`mailto:${CONTACT_INFO.email}`} style={{ color: 'inherit' }}>{CONTACT_INFO.email}</a>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#9ca3af', fontSize: '0.875rem' }}>
-                <Phone size={18} style={{ color: 'var(--color-orange)', flexShrink: 0 }} />
-                <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>{CONTACT_INFO.phone}</a>
-              </li>
+          <div className="lg:col-span-3 text-left">
+            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h4>
+            <ul className="space-y-3.5">
+              {quickLinks.institucional.map((link) => (
+                <li key={link.label}>
+                  <a 
+                    href={link.href} 
+                    onClick={(e) => handleScrollTo(e, link.href)} 
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
         </div>
 
-        <div className="footer-bottom">
-          <p style={{ color: '#6b7280', fontSize: '0.875rem', textAlign: 'center' }}>
-            © 2026 Nexa Reis Automation. Todos os direitos reservados.
-          </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#22c55e', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></span>
-            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Sistemas Operacionais</span>
+        {/* 18. GIANT LETTERING STAMP - Grandioso NEXA REIS em Display font with massive letter spacing */}
+        <div className="py-12 select-none border-b border-white/5 pointer-events-none">
+          <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-b from-white/[0.03] to-transparent uppercase pr-[-0.25em]">
+            NEXA REIS
           </div>
         </div>
 
-        {/* Developer Signature */}
-        <DevSignature />
+        {/* Copyright & Legal */}
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-sec gap-4">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+            <span>© {currentYear} Nexa Reis. Todos os direitos reservados.</span>
+            <span className="font-mono text-[9px]">CNPJ: [CONTEÚDO A CONFIRMAR] | São Paulo — SP</span>
+          </div>
+          
+          <div className="flex items-center gap-1.5 font-sans">
+            <span>Operação com dedicação por Nexa Reis</span>
+            <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />
+          </div>
+        </div>
+
       </div>
-      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }`}</style>
     </footer>
   );
 };

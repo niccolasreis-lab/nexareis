@@ -33,3 +33,24 @@ export enum ContactStatus {
   SUCCESS = 'success',
   ERROR = 'error',
 }
+
+export interface ManagerFeedback {
+  id: string;
+  company: string;
+  companyUrl?: string;
+  segment: string;
+  managerName: string;
+  managerRole: string;
+  quote: string;
+  context?: string;
+  products: {
+    name: string;
+    url: string;
+  }[];
+  logo?: string;
+  managerPhoto?: string;
+  companyImages?: string[];
+  productImages?: string[];
+  approved: boolean;
+  publishedAt?: string;
+}

@@ -1,194 +1,390 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from './Button';
-import { ContactStatus } from '../types';
-import { Send, CheckCircle2, AlertCircle, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from './Button';
+import { Phone, Mail, MapPin, Building, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 
-// Schema Definition
-const contactSchema = z.object({
-  name: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres'),
-  email: z.string().email('Digite um e-mail válido'),
-  phone: z.string().min(10, 'Digite um telefone válido'),
-  company: z.string().optional(),
-  service: z.string().min(1, 'Selecione um serviço de interesse'),
-  message: z.string().min(20, 'A mensagem deve ter pelo menos 20 caracteres'),
-});
+interface FormState {
+  nome: string;
+  empresa: string;
+  email: string;
+  whatsapp: string;
+  segmento: string;
+  necessidade: string;
+  mensagem: string;
+}
 
-type ContactFormData = z.infer<typeof contactSchema>;
+const INITIAL_STATE: FormState = {
+  nome: '',
+  empresa: '',
+  email: '',
+  whatsapp: '',
+  segmento: '',
+  necessidade: '',
+  mensagem: ''
+};
 
 export const ContactForm: React.FC = () => {
-  const [status, setStatus] = useState<ContactStatus>(ContactStatus.IDLE);
-  
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
-  });
+  const [form, setForm] = useState<FormState>(INITIAL_STATE);
+  const [errors, setErrors] = useState<Partial<FormState>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const onSubmit = async (data: ContactFormData) => {
-    setStatus(ContactStatus.SUBMITTING);
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form Data:', data);
-      setStatus(ContactStatus.SUCCESS);
-      reset();
-      
-      // Reset status after a delay
-      setTimeout(() => setStatus(ContactStatus.IDLE), 5000);
-    }, 1500);
+  // Mask function for Brazilian WhatsApp / Phone formatting
+  const formatWhatsApp = (value: string) => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 2) return numbers;
+    if (numbers.length <= 6) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    if (numbers.length <= 10) return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6)}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
   };
 
-  const openWhatsApp = () => {
-    const text = "Olá, gostaria de falar com um especialista da NexaReis.";
-    window.open(`https://wa.me/5511999999999?text=${encodeURIComponent(text)}`, '_blank');
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatWhatsApp(e.target.value);
+    setForm({ ...form, whatsapp: formatted });
+    if (errors.whatsapp) setErrors({ ...errors, whatsapp: undefined });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    if (errors[name as keyof FormState]) {
+      setErrors({ ...errors, [name]: undefined });
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Partial<FormState> = {};
+    
+    if (!form.nome.trim()) newErrors.nome = "O nome completo é obrigatório.";
+    if (!form.empresa.trim()) newErrors.empresa = "O nome da empresa é obrigatório.";
+    
+    // Basic email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim()) {
+      newErrors.email = "O e-mail é obrigatório.";
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = "Insira um endereço de e-mail válido.";
+    }
+
+    // Phone length check for Brazilian numbers
+    const cleanPhone = form.whatsapp.replace(/\D/g, '');
+    if (!form.whatsapp.trim()) {
+      newErrors.whatsapp = "O WhatsApp é obrigatório.";
+    } else if (cleanPhone.length < 10 || cleanPhone.length > 11) {
+      newErrors.whatsapp = "Insira um número de WhatsApp com DDD (10 ou 11 dígitos).";
+    }
+
+    if (!form.segmento) newErrors.segmento = "Selecione o seu segmento comercial.";
+    if (!form.necessidade) newErrors.necessidade = "Selecione o seu tipo de necessidade.";
+    if (!form.mensagem.trim()) newErrors.mensagem = "Escreva uma breve mensagem sobre seu projeto.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    
+    // Simulate API request
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+      setForm(INITIAL_STATE);
+    }, 1800);
   };
 
   return (
-    <section id="contato" className="section-py" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Background blobs for this section */}
-      <div style={{ position: 'absolute', top: 0, right: 0, width: '24rem', height: '24rem', backgroundColor: 'rgba(0, 102, 255, 0.05)', borderRadius: '50%', filter: 'blur(100px)', zIndex: -10 }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '24rem', height: '24rem', backgroundColor: 'rgba(255, 107, 53, 0.05)', borderRadius: '50%', filter: 'blur(100px)', zIndex: -10 }} />
+    <section id="contato" className="py-28 bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
+      <div className="absolute inset-0 grid-lines opacity-[0.02] pointer-events-none" />
 
-      <div className="container">
-        <div className="contact-grid">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
-          {/* Left Side Copy */}
-          <div>
-            <motion.h2 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="section-title"
-            >
-              Vamos Construir o <br/>
-              <span className="text-gradient">Futuro Juntos?</span>
-            </motion.h2>
-            <p style={{ fontSize: '1.125rem', color: '#9ca3af', marginBottom: '2.5rem', lineHeight: 1.6 }}>
-              Pronto para otimizar sua operação? Preencha o formulário e nossa equipe de especialistas entrará em contato em até 24 horas para uma consultoria inicial gratuita.
+          {/* Left Column: Institutional Contacts and Value proposition */}
+          <div className="lg:col-span-5 text-left">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-brand-blue font-bold block mb-4">
+              Contato Comercial
+            </span>
+            <h2 className="title-editorial text-[#050505] uppercase mb-6">
+              Comece a otimizar <br />
+              sua operação <span className="text-brand-blue font-bold">hoje.</span>
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-[#666662] leading-relaxed mb-10 font-light">
+              Nossa equipe de engenheiros e designers de produto está pronta para entender seus processos manuais e desenhar as soluções sob medida que economizam tempo e aumentam seus lucros. Preencha o formulário e responderemos em até 24 horas úteis.
             </p>
 
-            <div className="contact-info-box">
-              <h4 style={{ color: 'white', fontWeight: 600, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <MessageSquare className="text-cyan" style={{ color: 'var(--color-cyan)' }} size={20} /> Preferência por WhatsApp?
-              </h4>
-              <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '1rem' }}>
-                Se preferir uma conversa mais rápida, chame nosso time comercial diretamente.
-              </p>
-              <Button variant="outline" style={{ width: '100%', maxWidth: '200px' }} onClick={openWhatsApp}>
-                Falar no WhatsApp
-              </Button>
+            {/* Direct contact badges */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+                <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Envie um e-mail</h4>
+                  <a href="mailto:niccolasreis@gmail.com" className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
+                    niccolasreis@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+                <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">WhatsApp Comercial</h4>
+                  <a href="https://wa.me/5511937105501" target="_blank" rel="noreferrer" className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
+                    +55 (11) 93710-5501
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+                <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Localização</h4>
+                  <span className="font-sans text-sm font-medium text-[#555550]">
+                    São Paulo, SP, Brasil
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Side Form */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="form-card"
-          >
-             {status === ContactStatus.SUCCESS && (
-                <div className="success-overlay">
-                  <div style={{ width: '4rem', height: '4rem', backgroundColor: 'rgba(34, 197, 94, 0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-                    <CheckCircle2 style={{ color: '#22c55e', width: '2rem', height: '2rem' }} />
-                  </div>
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white', marginBottom: '0.5rem' }}>Mensagem Recebida!</h3>
-                  <p style={{ color: '#9ca3af' }}>Obrigado pelo contato. Retornaremos em breve.</p>
-                </div>
-              )}
+          {/* Right Column: Lead Capture Form Block */}
+          <div className="lg:col-span-7 w-full">
+            <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] border border-[#EBEBE6] shadow-sm relative overflow-hidden">
+              
+              <AnimatePresence mode="wait">
+                {!submitSuccess ? (
+                  <motion.form 
+                    key="form"
+                    onSubmit={handleSubmit}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-6 text-left"
+                    noValidate
+                  >
+                    <h3 className="font-display text-lg font-bold text-[#050505] uppercase tracking-tight mb-6">
+                      Apresente seu projeto comercial
+                    </h3>
 
-            <form onSubmit={handleSubmit(onSubmit)} style={{ position: 'relative', zIndex: 10 }}>
-              <div className="form-grid-2">
-                <div className="form-group">
-                  <label className="form-label">Nome Completo *</label>
-                  <input 
-                    {...register('name')}
-                    className="form-input"
-                    placeholder="Seu nome"
-                  />
-                  {errors.name && <span className="error-msg"><AlertCircle size={12}/> {errors.name.message}</span>}
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Email Corporativo *</label>
-                  <input 
-                    {...register('email')}
-                    className="form-input"
-                    placeholder="voce@empresa.com"
-                  />
-                  {errors.email && <span className="error-msg"><AlertCircle size={12}/> {errors.email.message}</span>}
-                </div>
-              </div>
+                    {/* Nome & Empresa Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="nome" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          Seu Nome Completo *
+                        </label>
+                        <div className="relative">
+                          <input 
+                            type="text" 
+                            id="nome"
+                            name="nome"
+                            value={form.nome}
+                            onChange={handleInputChange}
+                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.nome ? 'border-red-400' : 'border-[#EBEBE6]'
+                            }`}
+                            placeholder="Ex: João da Silva"
+                          />
+                        </div>
+                        {errors.nome && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.nome}</span>}
+                      </div>
 
-              <div className="form-grid-2">
-                <div className="form-group">
-                  <label className="form-label">Telefone *</label>
-                  <input 
-                    {...register('phone')}
-                    className="form-input"
-                    placeholder="(00) 00000-0000"
-                  />
-                  {errors.phone && <span className="error-msg"><AlertCircle size={12}/> {errors.phone.message}</span>}
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Empresa</label>
-                  <input 
-                    {...register('company')}
-                    className="form-input"
-                    placeholder="Nome da sua empresa"
-                  />
-                </div>
-              </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="empresa" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          Nome da Empresa *
+                        </label>
+                        <div className="relative">
+                          <input 
+                            type="text" 
+                            id="empresa"
+                            name="empresa"
+                            value={form.empresa}
+                            onChange={handleInputChange}
+                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.empresa ? 'border-red-400' : 'border-[#EBEBE6]'
+                            }`}
+                            placeholder="Ex: Minha Empresa Ltda"
+                          />
+                        </div>
+                        {errors.empresa && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.empresa}</span>}
+                      </div>
+                    </div>
 
-              <div className="form-group">
-                <label className="form-label">Serviço de Interesse *</label>
-                <select 
-                  {...register('service')}
-                  className="form-select"
-                >
-                  <option value="">Selecione uma opção</option>
-                  <option value="automacao">Automação Empresarial (RPA)</option>
-                  <option value="desenvolvimento">Sistemas Personalizados</option>
-                  <option value="integracao">Integração de Sistemas</option>
-                  <option value="outros">Outros</option>
-                </select>
-                {errors.service && <span className="error-msg"><AlertCircle size={12}/> {errors.service.message}</span>}
-              </div>
+                    {/* E-mail & WhatsApp Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="email" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          E-mail Corporativo *
+                        </label>
+                        <div className="relative">
+                          <input 
+                            type="email" 
+                            id="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleInputChange}
+                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.email ? 'border-red-400' : 'border-[#EBEBE6]'
+                            }`}
+                            placeholder="Ex: joao@empresa.com"
+                          />
+                        </div>
+                        {errors.email && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.email}</span>}
+                      </div>
 
-              <div className="form-group">
-                <label className="form-label">Mensagem *</label>
-                <textarea 
-                  {...register('message')}
-                  rows={4}
-                  className="form-textarea"
-                  style={{ resize: 'none' }}
-                  placeholder="Conte um pouco sobre seu desafio..."
-                />
-                {errors.message && <span className="error-msg"><AlertCircle size={12}/> {errors.message.message}</span>}
-              </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="whatsapp" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          WhatsApp de Contato *
+                        </label>
+                        <div className="relative">
+                          <input 
+                            type="tel" 
+                            id="whatsapp"
+                            name="whatsapp"
+                            value={form.whatsapp}
+                            onChange={handlePhoneChange}
+                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.whatsapp ? 'border-red-400' : 'border-[#EBEBE6]'
+                            }`}
+                            placeholder="(88) 99999-9999"
+                          />
+                        </div>
+                        {errors.whatsapp && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.whatsapp}</span>}
+                      </div>
+                    </div>
 
-              <Button 
-                type="submit" 
-                style={{ width: '100%' }}
-                size="lg"
-                disabled={status === ContactStatus.SUBMITTING}
-              >
-                {status === ContactStatus.SUBMITTING ? (
-                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                     <span style={{ width: '1rem', height: '1rem', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></span>
-                     Enviando...
-                   </span>
+                    {/* Segmento & Necessidade selectors Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="segmento" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          Seu Segmento Comercial *
+                        </label>
+                        <select 
+                          id="segmento"
+                          name="segmento"
+                          value={form.segmento}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
+                            errors.segmento ? 'border-red-400' : 'border-[#EBEBE6]'
+                          }`}
+                        >
+                          <option value="">Selecione...</option>
+                          <option value="supermercados">Supermercados / Lojas</option>
+                          <option value="restaurantes">Restaurantes / Docerias</option>
+                          <option value="clinicas">Clínicas / Laboratórios</option>
+                          <option value="varejo">Varejo / Franquias</option>
+                          <option value="outros">Outros Processos Manuais</option>
+                        </select>
+                        {errors.segmento && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.segmento}</span>}
+                      </div>
+
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="necessidade" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                          Tipo de Necessidade *
+                        </label>
+                        <select 
+                          id="necessidade"
+                          name="necessidade"
+                          value={form.necessidade}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
+                            errors.necessidade ? 'border-red-400' : 'border-[#EBEBE6]'
+                          }`}
+                        >
+                          <option value="">Selecione...</option>
+                          <option value="chamaai-food">ChamaAí Food (Delivery)</option>
+                          <option value="chamaai-filas">ChamaAí Gestão de Filas</option>
+                          <option value="signageflow">SignageFlow (Mídia Indoor)</option>
+                          <option value="sob-medida">Sistema Customizado Sob Medida</option>
+                          <option value="outros">Outras dúvidas ou parcerias</option>
+                        </select>
+                        {errors.necessidade && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.necessidade}</span>}
+                      </div>
+                    </div>
+
+                    {/* Mensagem TextBox */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="mensagem" className="font-mono text-[10px] uppercase tracking-widest text-gray-sec font-bold">
+                        Como podemos ajudar o seu negócio? *
+                      </label>
+                      <textarea 
+                        id="mensagem"
+                        name="mensagem"
+                        rows={4}
+                        value={form.mensagem}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors resize-none ${
+                          errors.mensagem ? 'border-red-400' : 'border-[#EBEBE6]'
+                        }`}
+                        placeholder="Conte-nos brevemente sobre os gargalos do seu processo operacional atual..."
+                      />
+                      {errors.mensagem && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.mensagem}</span>}
+                    </div>
+
+                    {/* Submission button with loader */}
+                    <Button 
+                      type="submit" 
+                      variant="primary" 
+                      className="w-full py-4 bg-[#050505] text-white hover:bg-black font-semibold uppercase tracking-wider"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <RefreshCw className="w-4 h-4 animate-spin text-brand-cyan" />
+                          Enviando proposta...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          Enviar Proposta Operacional <Send className="w-4 h-4" />
+                        </span>
+                      )}
+                    </Button>
+                  </motion.form>
                 ) : (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    Enviar Solicitação <Send size={18} />
-                  </span>
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="py-16 text-center flex flex-col items-center justify-center space-y-6"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-500 animate-[bounce_1s_1]">
+                      <CheckCircle2 className="w-10 h-10" />
+                    </div>
+                    
+                    <div className="max-w-md">
+                      <h3 className="font-display text-2xl font-black text-[#050505] uppercase tracking-tight mb-2">
+                        Mensagem Recebida!
+                      </h3>
+                      <p className="font-sans text-sm text-gray-sec leading-relaxed">
+                        Agradecemos o seu contato. Nossa equipe de engenharia e modelagem operacional já foi notificada e entrará em contato com você via e-mail ou WhatsApp em até 24 horas úteis.
+                      </p>
+                    </div>
+
+                    <button 
+                      onClick={() => setSubmitSuccess(false)}
+                      className="font-mono text-xs text-brand-blue font-bold hover:underline cursor-pointer"
+                    >
+                      Enviar nova mensagem
+                    </button>
+                  </motion.div>
                 )}
-              </Button>
-            </form>
-          </motion.div>
+              </AnimatePresence>
+
+            </div>
+          </div>
+
         </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </section>
   );
 };
