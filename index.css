@@ -143,3 +143,12 @@ html {
 .line-reveal {
   overflow: hidden;
 }
+
+/* Custom Cursor styles */
+@media (min-width: 769px) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
