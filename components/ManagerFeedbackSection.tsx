@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Tv, 
-  Users, 
   ExternalLink, 
   ArrowRight, 
   FileText, 
@@ -916,16 +915,18 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
               <ClientLogo src={feedback.logo} alt={`Logo do ${feedback.company}`} className="w-12 h-12" />
             </div>
 
-            {/* Simulated Establishment Illustration card / Frame */}
-            <div className="relative h-44 rounded-2xl bg-gradient-to-br from-neutral-900 to-black border border-white/5 overflow-hidden flex items-center justify-center p-6">
+            {/* Real establishment photo */}
+            <div className="relative h-44 rounded-2xl bg-neutral-900 border border-white/5 overflow-hidden">
+              <img
+                src="/images/clients/mercantil-santa-paula-storefront.png"
+                alt="Entrada do Mercantil Santa Paula na Rua da alfandega, 415"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
               <div className="absolute inset-0 grid-lines opacity-10" />
               <div className="absolute bottom-3 left-4 text-left">
                 <h6 className="font-display font-black text-white text-xs uppercase tracking-widest">ESTABELECIMENTO REAL</h6>
-                <span className="font-sans text-[9px] text-gray-sec block">Unidade Principal — São Paulo, SP</span>
-              </div>
-              {/* Artistic store icon representation */}
-              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                <Users className="w-8 h-8" />
+                <span className="font-sans text-[9px] text-gray-light block">Rua da alfandega, 415 — São Paulo, SP</span>
               </div>
             </div>
 
