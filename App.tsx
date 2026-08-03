@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
-import { ServiceDetail } from './pages/ServiceDetail';
-import { CustomCursor } from './components/CustomCursor';
+
+const ServiceDetail = React.lazy(() =>
+  import('./pages/ServiceDetail').then(({ ServiceDetail }) => ({ default: ServiceDetail })),
+);
+const CustomCursor = React.lazy(() =>
+  import('./components/CustomCursor').then(({ CustomCursor }) => ({ default: CustomCursor })),
+);
 
 // Componente para garantir que a página sempre role para o topo ao mudar de rota
 function ScrollToTop() {
@@ -62,15 +67,17 @@ function AnimatedRoutes() {
         <Route
           path="/servicos/:serviceId"
           element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="w-full"
-            >
-              <ServiceDetail />
-            </motion.div>
+            <Suspense fallback={null}>
+              <motion.div
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="w-full"
+              >
+                <ServiceDetail />
+              </motion.div>
+            </Suspense>
           }
         />
       </Routes>
@@ -78,11 +85,27 @@ function AnimatedRoutes() {
   );
 }
 
+function DeferredCustomCursor() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const timeoutId = window.setTimeout(() => setShouldLoad(true), 600);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  return shouldLoad ? (
+    <Suspense fallback={null}>
+      <CustomCursor />
+    </Suspense>
+  ) : null;
+}
+
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <CustomCursor />
+      <DeferredCustomCursor />
       <div className="app-root">
         <Header />
         <main>

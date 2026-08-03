@@ -115,6 +115,25 @@ export const PRODUCTS: ProductDetail[] = [
     segments: ["Varejo", "Redes de Lojas", "Supermercados", "Franquias", "Academia"],
     tagColor: "border-[#FF6B35] text-[#FF6B35] bg-[#FF6B35]/10",
     accentColor: "#FF6B35"
+  },
+  {
+    id: "cesta-esperta",
+    name: "CestaEsperta",
+    url: "#contato",
+    category: "Catálogo, pedidos e logística",
+    title: "Do catálogo à entrega, sem perder o controle.",
+    description: "O CestaEsperta organiza o catálogo digital, os pedidos, a pré-conferência de estoque e o acompanhamento da entrega em uma única operação.",
+    features: [
+      "Catálogo digital por loja, categoria e disponibilidade",
+      "Pedidos e orçamentos acompanhados do início ao fim",
+      "Pré-conferência de itens antes da separação e do envio",
+      "Ajustes de indisponibilidade com comunicação ao cliente",
+      "Status de preparo, retirada e entrega em tempo real",
+      "Painel operacional para equipes de varejo alimentar"
+    ],
+    segments: ["Supermercados", "Mercados", "Empórios", "Varejo alimentar", "Distribuidores"],
+    tagColor: "border-[#60A5FA] text-[#60A5FA] bg-[#60A5FA]/10",
+    accentColor: "#60A5FA"
   }
 ];
 
@@ -140,6 +159,13 @@ export const COMPARISON_ROWS = [
     audience: "Varejo, redes de lojas e estabelecimentos comerciais",
     hardware: "Televisores promocionais e menus digitais",
     benefit: "Telas de oferta sincronizadas em tempo real"
+  },
+  {
+    product: "CestaEsperta",
+    operation: "Catálogo, pedidos e logística",
+    audience: "Supermercados, mercados, empórios e distribuidores",
+    hardware: "Computadores, tablets e celular do cliente",
+    benefit: "Menos ruptura e mais controle em cada pedido"
   }
 ];
 
@@ -193,9 +219,9 @@ export const INDUSTRIES: SegmentInfo[] = [
     id: "supermercados",
     name: "Supermercados",
     problem: "Filas tumultuadas nos caixas e balcão de frios, além de dificuldades para atualizar promoções físicas de forma unificada nas prateleiras.",
-    solution: "Sistemas de senha e chamada digital combinados com telas de mídia indoor integradas para ofertas instantâneas.",
-    product: "ChamaAí — Gestão de Filas & SignageFlow",
-    example: "Um painel de senhas no açougue reduz filas físicas enquanto as TVs exibem as ofertas do dia do SignageFlow."
+    solution: "Sistemas de senha e chamada digital, telas de mídia indoor e catálogo com pedidos acompanhados em uma operação conectada.",
+    product: "ChamaAí, SignageFlow & CestaEsperta",
+    example: "O painel organiza a fila no açougue, as TVs exibem ofertas e o CestaEsperta acompanha catálogo, separação e entrega dos pedidos."
   },
   {
     id: "restaurantes-docerias",

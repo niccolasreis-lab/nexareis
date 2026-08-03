@@ -4,7 +4,7 @@ import { PRODUCTS, ProductDetail } from '../data/landingData';
 import { Button } from './Button';
 import { 
   ArrowRight, Check, ExternalLink, HelpCircle, Smartcard, Play,
-  Tv, Monitor, Laptop, Server, Bell, BadgeAlert, Users, Layers
+  Tv, Monitor, Laptop, Server, Bell, BadgeAlert, Users, Layers, PackageCheck, Truck
 } from 'lucide-react';
 
 export const ProductShowcase: React.FC = () => {
@@ -220,12 +220,72 @@ export const ProductShowcase: React.FC = () => {
             </div>
           </div>
         );
+      case 'cesta-esperta':
+        return (
+          <div className="w-full h-full bg-[#071426] rounded-2xl border border-blue-400/15 p-6 flex flex-col justify-between text-left relative overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 grid-lines opacity-5 pointer-events-none" />
+            <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#60A5FA]" />
+                <span className="font-display font-bold text-sm tracking-wider text-white uppercase">CESTAESPERTA — PEDIDOS</span>
+              </div>
+              <span className="text-[9px] font-mono bg-[#60A5FA]/15 text-[#93C5FD] border border-[#60A5FA]/25 px-2 py-0.5 rounded-full font-bold">OPERAÇÃO ATIVA</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 flex-grow">
+              <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10">
+                <span className="font-mono text-[9px] text-[#93C5FD] uppercase tracking-widest font-semibold">Pré-conferência</span>
+                <div className="mt-4 space-y-2.5">
+                  {[
+                    ['Arroz Tipo 1 5kg', 'Confirmado'],
+                    ['Café Torrado 500g', 'Ajuste necessário'],
+                    ['Azeite Extra Virgem', 'Confirmado'],
+                  ].map(([item, status]) => (
+                    <div key={item} className="rounded-lg border border-white/10 bg-black/15 px-3 py-2">
+                      <span className="block text-[10px] text-white">{item}</span>
+                      <span className={`text-[8px] font-mono ${status === 'Confirmado' ? 'text-emerald-400' : 'text-amber-300'}`}>{status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10 flex flex-col justify-between">
+                <div>
+                  <span className="font-mono text-[9px] text-gray-sec uppercase tracking-widest font-semibold">Pedido #10428</span>
+                  <div className="mt-5 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#60A5FA]/15 text-[#93C5FD] flex items-center justify-center"><PackageCheck className="w-5 h-5" /></div>
+                    <div><span className="block text-sm font-bold text-white">Separação concluída</span><span className="text-[9px] text-gray-sec">18 itens conferidos</span></div>
+                  </div>
+                </div>
+                <div className="rounded-lg bg-[#60A5FA]/10 border border-[#60A5FA]/20 p-3">
+                  <span className="flex items-center gap-1.5 text-[9px] font-mono text-[#93C5FD]"><Truck className="w-3.5 h-3.5" /> PRONTO PARA ENTREGA</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] text-gray-sec">
+              <span>Catálogo, pedido e expedição em um fluxo só</span>
+              <span className="font-mono text-[#93C5FD]">CestaEsperta</span>
+            </div>
+          </div>
+        );
       default:
         return null;
     }
   };
 
   const activeProduct = PRODUCTS.find(p => p.id === activeTab) || PRODUCTS[0];
+  const isContactCta = activeProduct.url === '#contato';
+
+  const handleContactCta = () => {
+    window.dispatchEvent(new CustomEvent('nexa:contact-intent', {
+      detail: {
+        segmento: 'supermercados',
+        necessidade: 'cesta-esperta',
+        mensagem: 'Tenho interesse no CestaEsperta para catálogo, pedidos e logística.',
+      },
+    }));
+    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <section id="produtos" className="py-28 bg-[#050505] border-t border-white/5 relative overflow-hidden">
@@ -310,26 +370,29 @@ export const ProductShowcase: React.FC = () => {
 
             {/* Actions for this product */}
             <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <a 
-                href={activeProduct.url} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="w-full sm:w-auto"
-              >
-                <Button variant="lime" size="md" className="w-full font-bold">
-                  Conhecer o {activeProduct.name.split(' ')[0]} <ExternalLink className="w-4 h-4 ml-1" />
-                </Button>
-              </a>
-              <a 
-                href={activeProduct.url} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="w-full sm:w-auto"
-              >
-                <Button variant="outline" size="md" className="w-full">
-                  Abrir demonstração
-                </Button>
-              </a>
+              {isContactCta ? (
+                <>
+                  <Button variant="lime" size="md" className="w-full sm:w-auto font-bold" onClick={handleContactCta}>
+                    Falar sobre o CestaEsperta <ArrowRight className="w-4 h-4 ml-1" />
+                  </Button>
+                  <Button variant="outline" size="md" className="w-full sm:w-auto" onClick={handleContactCta}>
+                    Solicitar demonstração
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                    <Button variant="lime" size="md" className="w-full font-bold">
+                      Conhecer o {activeProduct.name.split(' ')[0]} <ExternalLink className="w-4 h-4 ml-1" />
+                    </Button>
+                  </a>
+                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                    <Button variant="outline" size="md" className="w-full">
+                      Abrir demonstração
+                    </Button>
+                  </a>
+                </>
+              )}
             </div>
 
           </div>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
 import { Phone, Mail, MapPin, Building, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { CONTACT_INFO } from '../constants';
 
 interface FormState {
   nome: string;
@@ -28,6 +29,20 @@ export const ContactForm: React.FC = () => {
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  useEffect(() => {
+    const handleContactIntent = (event: Event) => {
+      const intent = (event as CustomEvent<Partial<FormState>>).detail;
+      if (!intent) return;
+
+      setForm((current) => ({ ...current, ...intent }));
+      setErrors({});
+      setSubmitSuccess(false);
+    };
+
+    window.addEventListener('nexa:contact-intent', handleContactIntent);
+    return () => window.removeEventListener('nexa:contact-intent', handleContactIntent);
+  }, []);
 
   // Mask function for Brazilian WhatsApp / Phone formatting
   const formatWhatsApp = (value: string) => {
@@ -125,8 +140,8 @@ export const ContactForm: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Envie um e-mail</h4>
-                  <a href="mailto:niccolasreis@gmail.com" className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
-                    niccolasreis@gmail.com
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
+                    {CONTACT_INFO.email}
                   </a>
                 </div>
               </div>
@@ -137,8 +152,8 @@ export const ContactForm: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">WhatsApp Comercial</h4>
-                  <a href="https://wa.me/5511937105501" target="_blank" rel="noreferrer" className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
-                    +55 (11) 93710-5501
+                  <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="font-sans text-sm font-semibold text-[#050505] hover:text-brand-blue transition-colors">
+                    {CONTACT_INFO.phone}
                   </a>
                 </div>
               </div>
@@ -149,9 +164,9 @@ export const ContactForm: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Localização</h4>
-                  <span className="font-sans text-sm font-medium text-[#555550]">
-                    São Paulo, SP, Brasil
-                  </span>
+                  <a href={CONTACT_INFO.mapsUrl} target="_blank" rel="noreferrer" className="font-sans text-sm font-medium text-[#555550] hover:text-brand-blue transition-colors">
+                    {CONTACT_INFO.address}
+                  </a>
                 </div>
               </div>
             </div>
@@ -304,6 +319,7 @@ export const ContactForm: React.FC = () => {
                           <option value="chamaai-food">ChamaAí Food (Delivery)</option>
                           <option value="chamaai-filas">ChamaAí Gestão de Filas</option>
                           <option value="signageflow">SignageFlow (Mídia Indoor)</option>
+                          <option value="cesta-esperta">CestaEsperta (Catálogo, Pedidos e Logística)</option>
                           <option value="sob-medida">Sistema Customizado Sob Medida</option>
                           <option value="outros">Outras dúvidas ou parcerias</option>
                         </select>

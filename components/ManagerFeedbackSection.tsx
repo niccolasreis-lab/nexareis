@@ -1161,7 +1161,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
 // ==========================================
 // 10. MAIN SECTION CONTAINER COMPONENT
 // ==========================================
-export const ManagerFeedbackSection: React.FC = () => {
+export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ sectionId = 'feedback-gestores' }) => {
   const [feedbacks, setFeedbacks] = useState<ManagerFeedback[]>(() => {
     const saved = localStorage.getItem('nexa_manager_feedbacks');
     if (saved) {
@@ -1223,7 +1223,7 @@ export const ManagerFeedbackSection: React.FC = () => {
   const mspCase = feedbacks.find(f => f.id === 'mercantil-santa-paula') || initialFeedbacks[0];
 
   return (
-    <section id="feedback-gestores" className="py-32 bg-[#050505] text-white border-t border-white/5 relative overflow-hidden" aria-label="Feedback de Gestores e Clientes">
+    <section id={sectionId} className="py-32 bg-[#050505] text-white border-t border-white/5 relative overflow-hidden" aria-label="Feedback de Gestores e Clientes">
       
       {/* Structural Editorial grid line design */}
       <div className="absolute inset-0 grid-lines opacity-10 pointer-events-none" />

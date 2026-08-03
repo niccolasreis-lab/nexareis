@@ -1,6 +1,7 @@
 import React from 'react';
 import { Logo } from './Logo';
 import { Mail, Phone, MapPin, ArrowUpRight, Github, Heart } from 'lucide-react';
+import { CONTACT_INFO } from '../constants';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,8 @@ export const Footer: React.FC = () => {
     produtos: [
       { label: "ChamaAí Food", href: "https://chamaaifood.com.br/pilot" },
       { label: "ChamaAí — Gestão de Filas", href: "https://chamaai-nine.vercel.app/" },
-      { label: "SignageFlow", href: "https://signageflow.com.br/" }
+      { label: "SignageFlow", href: "https://signageflow.com.br/" },
+      { label: "CestaEsperta", href: "#contato" }
     ],
     servicos: [
       { label: "Sistemas Web Customizados", href: "#solucoes" },
@@ -57,7 +59,7 @@ export const Footer: React.FC = () => {
               <a href="https://github.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="https://wa.me/5511937105501" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
+              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
                 <Phone className="w-4 h-4" />
               </a>
             </div>
@@ -71,8 +73,9 @@ export const Footer: React.FC = () => {
                 <li key={link.label}>
                   <a 
                     href={link.href} 
-                    target="_blank" 
-                    rel="noreferrer" 
+                    target={link.href.startsWith('#') ? undefined : "_blank"}
+                    rel={link.href.startsWith('#') ? undefined : "noreferrer"}
+                    onClick={(e) => handleScrollTo(e, link.href)}
                     className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors flex items-center gap-1 group"
                   >
                     {link.label}
@@ -130,7 +133,7 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-sec gap-4">
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
             <span>© {currentYear} Nexa Reis. Todos os direitos reservados.</span>
-            <span className="font-mono text-[9px]">CNPJ: [CONTEÚDO A CONFIRMAR] | São Paulo — SP</span>
+            <span className="font-mono text-[9px]">{CONTACT_INFO.address}</span>
           </div>
           
           <div className="flex items-center gap-1.5 font-sans">

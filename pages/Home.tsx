@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Hero } from '../components/Hero';
 import { Manifesto } from '../components/Manifesto';
 import { ProductShowcase } from '../components/ProductShowcase';
-import { ProductComparison } from '../components/ProductComparison';
 import { CustomSolutions } from '../components/CustomSolutions';
 import { DevelopmentProcess } from '../components/DevelopmentProcess';
 import { IndustrySelector } from '../components/IndustrySelector';
 import { MetricsGrid } from '../components/MetricsGrid';
 import { AboutSection } from '../components/AboutSection';
-import { ManagerFeedbackSection } from '../components/ManagerFeedbackSection';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { ContactForm } from '../components/ContactForm';
 import { SectionIndicator } from '../components/SectionIndicator';
+import { DeferredSection } from '../components/DeferredSection';
+
+const ProductComparison = React.lazy(() =>
+  import('../components/ProductComparison').then(({ ProductComparison }) => ({ default: ProductComparison })),
+);
+const ManagerFeedbackSection = React.lazy(() =>
+  import('../components/ManagerFeedbackSection').then(({ ManagerFeedbackSection }) => ({ default: ManagerFeedbackSection })),
+);
 
 export const Home: React.FC = () => {
   return (
@@ -29,7 +35,11 @@ export const Home: React.FC = () => {
       <ProductShowcase />
 
       {/* 4. Tabela de Comparação Visual */}
-      <ProductComparison />
+      <DeferredSection minHeight="32rem">
+        <Suspense fallback={null}>
+          <ProductComparison />
+        </Suspense>
+      </DeferredSection>
 
       {/* 5. Soluções Customizadas Sob Medida */}
       <CustomSolutions />
@@ -47,7 +57,11 @@ export const Home: React.FC = () => {
       <AboutSection />
 
       {/* 10. Feedback de Gestores e Clientes - Prova social com controle admin */}
-      <ManagerFeedbackSection />
+      <DeferredSection id="feedback-gestores" minHeight="96rem">
+        <Suspense fallback={null}>
+          <ManagerFeedbackSection sectionId={undefined} />
+        </Suspense>
+      </DeferredSection>
 
       {/* 11. FAQ Accordion - 10 ARIA accessible accordion Q&As */}
       <FAQAccordion />

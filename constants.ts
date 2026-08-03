@@ -57,10 +57,13 @@ export const STATS: StatItem[] = [
 ];
 
 export const CONTACT_INFO = {
+  name: 'Nexa Reis Automation',
+  url: 'https://www.nexareis.com.br',
   phone: '+55 11 93710-5501',
   whatsappRaw: '5511937105501',
-  email: 'contato@nexareis.com.br',
-  address: 'Av. Paulista, 1000 - São Paulo, SP',
+  email: 'niccolasreis@gmail.com',
+  address: 'Atendimento em São Paulo, SP',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=S%C3%A3o+Paulo%2C+SP',
   social: {
     linkedin: 'https://linkedin.com/company/nexareisautomation',
     instagram: 'https://instagram.com/nexareisautomation',
