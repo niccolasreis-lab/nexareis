@@ -25,61 +25,16 @@ import { ManagerFeedback } from '../types';
 import { managerFeedbacks as initialFeedbacks } from '../data/landingData';
 
 // ==========================================
-// 1. CLIENT LOGO COMPONENT (High-Fidelity SVG of Mercantil Santa Paula)
+// 1. CLIENT LOGO COMPONENT
 // ==========================================
-export const ClientLogo: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => {
+export const ClientLogo: React.FC<{ src?: string; alt?: string; className?: string }> = ({
+  src = '/images/clients/mercantil-santa-paula.png',
+  alt = 'Logo do Mercantil Santa Paula',
+  className = "w-16 h-16",
+}) => {
   return (
     <div className={`relative ${className} flex-shrink-0 select-none`} id="client-logo-msp">
-      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-        {/* Outer Circular Ring */}
-        <circle cx="50" cy="50" r="48" fill="none" stroke="#1E3A8A" strokeWidth="4" />
-        <circle cx="50" cy="50" r="45" fill="none" stroke="#22C55E" strokeWidth="1.5" />
-        
-        {/* Green inner field */}
-        <circle cx="50" cy="50" r="38" fill="#16A34A" />
-        
-        {/* Wheat ears (stylized side laurels) */}
-        <path d="M 18 50 C 18 35, 25 22, 35 18" fill="none" stroke="white" strokeWidth="1.5" strokeDasharray="2,3" />
-        <path d="M 82 50 C 82 35, 75 22, 65 18" fill="none" stroke="white" strokeWidth="1.5" strokeDasharray="2,3" />
-        
-        {/* Shopping Basket Outline */}
-        <path d="M 32 45 L 68 45 L 64 72 C 64 75, 62 77, 58 77 L 42 77 C 38 77, 36 75, 36 72 Z" fill="#1E3A8A" stroke="white" strokeWidth="2" />
-        
-        {/* Basket Grid Lines */}
-        <path d="M 38 45 L 42 77" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 44 45 L 48 77" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 50 45 L 50 77" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 56 45 L 52 77" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 62 45 L 58 77" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 34 53 L 66 53" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 35 61 L 65 61" stroke="white" strokeWidth="1" opacity="0.6" />
-        <path d="M 36 69 L 64 69" stroke="white" strokeWidth="1" opacity="0.6" />
-
-        {/* Grocery Items in Basket */}
-        {/* Bread / Baguette */}
-        <rect x="36" y="30" width="8" height="20" rx="3" fill="#F59E0B" stroke="white" strokeWidth="1" transform="rotate(-15 36 30)" />
-        {/* Milk/Juice Bottle */}
-        <rect x="46" y="24" width="8" height="22" rx="1.5" fill="#EF4444" stroke="white" strokeWidth="1" />
-        <circle cx="50" cy="27" r="2" fill="white" />
-        {/* Leaf/Veggie */}
-        <path d="M 56 32 C 54 26, 62 20, 62 28 Z" fill="#4ADE80" stroke="white" strokeWidth="1" />
-        
-        {/* Text Curving along outer blue path (simulated for clean SVG representation) */}
-        <path id="textPathTop" d="M 12 50 A 38 38 0 0 1 88 50" fill="none" />
-        <path id="textPathBottom" d="M 88 50 A 38 38 0 0 1 12 50" fill="none" />
-        
-        <text className="font-sans font-black tracking-widest text-[8.5px]" fill="white" textAnchor="middle">
-          <textPath href="#textPathTop" startOffset="50%">
-            MERCANTIL
-          </textPath>
-        </text>
-        
-        <text className="font-sans font-black tracking-wider text-[7.5px]" fill="white" textAnchor="middle">
-          <textPath href="#textPathBottom" startOffset="50%">
-            SANTA PAULA
-          </textPath>
-        </text>
-      </svg>
+      <img src={src} alt={alt} className="h-full w-full object-contain drop-shadow-md" />
     </div>
   );
 };
@@ -540,7 +495,7 @@ export const FeedbackCollectionForm: React.FC<FeedbackCollectionFormProps> = ({ 
         quote: formData.quote,
         context: formData.context,
         products: prods,
-        logo: editingFeedback?.logo || 'https://i.imgur.com/8QG3XG7.png',
+        logo: editingFeedback?.logo || '/images/clients/mercantil-santa-paula.png',
         approved: formData.status === 'Aprovado para publicação' && formData.autorizacaoPublicacao,
         publishedAt: formData.status === 'Aprovado para publicação' ? new Date().toISOString().split('T')[0] : undefined
       };
@@ -958,8 +913,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
                 <span className="font-mono text-[9px] uppercase tracking-widest text-brand-cyan font-bold">CLIENTE EM DESTAQUE</span>
               </div>
               
-              {/* Dynamic SVG Client Logo */}
-              <ClientLogo className="w-12 h-12" />
+              <ClientLogo src={feedback.logo} alt={`Logo do ${feedback.company}`} className="w-12 h-12" />
             </div>
 
             {/* Simulated Establishment Illustration card / Frame */}
@@ -1100,7 +1054,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
             <span className="font-mono text-[9px] uppercase tracking-widest text-brand-cyan font-bold">CLIENTE EM DESTAQUE</span>
           </div>
           
-          <ClientLogo className="w-10 h-10" />
+          <ClientLogo src={feedback.logo} alt={`Logo do ${feedback.company}`} className="w-10 h-10" />
         </div>
 
         {/* Mobile Step 2: Client Name */}

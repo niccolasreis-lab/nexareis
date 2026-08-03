@@ -324,7 +324,7 @@ export const managerFeedbacks: ManagerFeedback[] = [
         url: "https://signageflow.com.br/"
       }
     ],
-    logo: "https://i.imgur.com/8QG3XG7.png", // Let's use a nice local SVG or a mock image path. We will also render a gorgeous SVG logo dynamically!
+    logo: "/images/clients/mercantil-santa-paula.png",
     managerPhoto: "",
     companyImages: [],
     productImages: [],
