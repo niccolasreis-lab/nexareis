@@ -108,7 +108,7 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
         )}>
           {/* Main Logo Text with Wide futuristic spacing */}
           <span className={clsx(
-            "font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-light leading-none",
+            "font-display font-bold text-white leading-none",
             isFooter ? "text-3xl tracking-[0.15em]" : isHero ? "text-4xl tracking-[0.2em]" : "text-xl tracking-[0.1em]"
           )}>
             NEXA

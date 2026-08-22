@@ -3,21 +3,17 @@ import { Logo } from './Logo';
 import { Button } from './Button';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { NAV_ITEMS } from '../constants';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = [
-    { label: 'Início', href: '#home', id: 'home' },
-    { label: 'Produtos', href: '#produtos', id: 'produtos' },
-    { label: 'Soluções', href: '#solucoes', id: 'solucoes' },
-    { label: 'Processo', href: '#processo', id: 'processo' },
-    { label: 'Sobre', href: '#sobre', id: 'sobre' },
-    { label: 'FAQ', href: '#faq', id: 'faq' },
-    { label: 'Contato', href: '#contato', id: 'contato' },
-  ];
+  const navItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    id: item.href.replace('#', ''),
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,6 +36,17 @@ export const Header: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();

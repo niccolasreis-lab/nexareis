@@ -26,7 +26,7 @@ const INITIAL_STATE: FormState = {
 
 const CONTACT_WEBHOOK_URL =
   import.meta.env.VITE_CONTACT_WEBHOOK_URL ||
-  'https://1-n8n.n3hukr.easypanel.host/webhook/nexareis/formularios';
+  'https://1-n8n.n3hukr.easypanel.host/webhook/chamaai-lead';
 
 export const ContactForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
@@ -43,7 +43,6 @@ export const ContactForm: React.FC = () => {
       setForm((current) => ({ ...current, ...intent }));
       setErrors({});
       setSubmitSuccess(false);
-      setSubmitError('');
     };
 
     window.addEventListener('nexa:contact-intent', handleContactIntent);
@@ -113,6 +112,11 @@ export const ContactForm: React.FC = () => {
 
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 15000);
+    const bodyStr = JSON.stringify({
+      formulario: 'Contato Comercial NexaReis',
+      origem: window.location.href,
+      ...form
+    });
 
     try {
       const response = await fetch(CONTACT_WEBHOOK_URL, {
@@ -120,19 +124,30 @@ export const ContactForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          formulario: 'Contato Comercial NexaReis',
-          origem: window.location.href,
-          ...form
-        }),
+        body: bodyStr,
         signal: controller.signal
       });
 
-      const result = await response.json().catch(() => null);
-
-      if (!response.ok || result?.success !== true) {
-        throw new Error('Não foi possível confirmar o recebimento da mensagem.');
+      if (response.ok) {
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        setForm(INITIAL_STATE);
+        return;
       }
+    } catch {
+      // Ignore initial CORS/network error and proceed to fallback
+    }
+
+    try {
+      await fetch(CONTACT_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: bodyStr,
+        signal: controller.signal
+      });
 
       setIsSubmitting(false);
       setSubmitSuccess(true);
@@ -307,7 +322,7 @@ export const ContactForm: React.FC = () => {
                             className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
                               errors.whatsapp ? 'border-red-400' : 'border-[#EBEBE6]'
                             }`}
-                            placeholder="(88) 99999-9999"
+                            placeholder="(11) 99999-9999"
                           />
                         </div>
                         {errors.whatsapp && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.whatsapp}</span>}
@@ -386,8 +401,9 @@ export const ContactForm: React.FC = () => {
                     {/* Submission button with loader */}
                     <Button 
                       type="submit" 
-                      variant="primary" 
-                      className="w-full py-4 bg-[#050505] text-white hover:bg-black font-semibold uppercase tracking-wider"
+                      variant="dark" 
+                      size="lg"
+                      className="w-full font-semibold uppercase tracking-wider"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (

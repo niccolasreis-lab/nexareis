@@ -53,7 +53,7 @@ export const PRODUCTS: ProductDetail[] = [
   {
     id: "chamaai-food",
     name: "ChamaAí Food",
-    url: "https://chamaaifood.com.br/pilot",
+    url: "https://chamaaifood.nexareis.com.br/pilot",
     category: "Operação de delivery e retiradas",
     title: "Pedidos organizados. Retiradas sem confusão.",
     description: "O ChamaAí Food organiza o andamento dos pedidos e exibe informações claras para equipes, clientes e entregadores em tempo real.",
@@ -75,7 +75,7 @@ export const PRODUCTS: ProductDetail[] = [
   {
     id: "chamaai-filas",
     name: "ChamaAí — Gestão de Filas",
-    url: "https://chamaai-nine.vercel.app/",
+    url: "https://chamaai.nexareis.com.br",
     category: "Atendimento e gestão de filas",
     title: "Cada atendimento, no momento certo.",
     description: "O ChamaAí digitaliza a retirada de senhas, a chamada de clientes e o acompanhamento do atendimento de forma eficiente e humanizada.",
@@ -97,7 +97,7 @@ export const PRODUCTS: ProductDetail[] = [
   {
     id: "signageflow",
     name: "SignageFlow",
-    url: "https://signageflow.com.br/",
+    url: "https://signageflow.nexareis.com.br",
     category: "Gestão de mídia indoor",
     title: "Conteúdo organizado. Telas sincronizadas.",
     description: "O SignageFlow centraliza a operação de mídia indoor, permitindo organizar conteúdos, campanhas, preços, playlists e telas em diferentes pontos.",
@@ -343,11 +343,11 @@ export const managerFeedbacks: ManagerFeedback[] = [
     products: [
       {
         name: "ChamaAí",
-        url: "https://chamaai-nine.vercel.app/"
+        url: "https://chamaai.nexareis.com.br"
       },
       {
         name: "SignageFlow",
-        url: "https://signageflow.com.br/"
+        url: "https://signageflow.nexareis.com.br"
       }
     ],
     logo: "/images/clients/mercantil-santa-paula.png",

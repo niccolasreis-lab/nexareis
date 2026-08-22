@@ -61,7 +61,7 @@ export const Hero: React.FC = () => {
           >
             Tecnologia <br />
             para operações <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-blue to-white font-black">
+            <span className="text-brand-cyan font-black">
               reais.
             </span>
           </motion.h1>
@@ -280,7 +280,14 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Down Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity" onClick={() => handleScrollTo('sobre')}>
+      <div 
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity" 
+        onClick={() => handleScrollTo('sobre')}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleScrollTo('sobre'); }}
+        aria-label="Rolar para a seção Sobre"
+      >
         <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-gray-sec">Desbloquear</span>
         <motion.div 
           animate={{ y: [0, 5, 0] }}

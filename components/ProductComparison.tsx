@@ -18,7 +18,7 @@ export const ProductComparison: React.FC = () => {
           </span>
           <h2 className="title-editorial text-white uppercase mb-4">
             Uma base tecnológica. <br />
-            Diferentes <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C5F467] to-brand-cyan font-bold">operações.</span>
+            Diferentes <span className="text-[#C5F467] font-bold">operações.</span>
           </h2>
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light leading-relaxed">
             Nossos sistemas operam sob a mesma filosofia de simplicidade de ponta a ponta, permitindo controlar e medir todas as etapas de atendimento presencial e exibição digital.

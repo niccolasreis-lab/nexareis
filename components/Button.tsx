@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { motion, HTMLMotionProps } from 'framer-motion';
 
 interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'outline' | 'ghost' | 'lime';
+  variant?: 'primary' | 'outline' | 'ghost' | 'lime' | 'dark';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
 }
@@ -21,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   const variants = {
     primary: "bg-white text-[#050505] hover:bg-white-soft shadow-lg shadow-white/5",
     lime: "bg-[#C5F467] text-[#050505] hover:bg-[#b2e052] shadow-lg shadow-[#C5F467]/10",
+    dark: "bg-[#050505] text-white hover:bg-black shadow-lg shadow-black/10",
     outline: "bg-transparent text-white border border-white/20 hover:border-white hover:bg-white/5",
     ghost: "bg-transparent text-gray-light hover:text-white hover:bg-white/5",
   };

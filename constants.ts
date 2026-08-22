@@ -2,9 +2,12 @@ import { NavItem, ServiceItem, StatItem } from './types';
 import { Bot, Code2, Workflow, Zap, Database, Cpu } from 'lucide-react';
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Serviços', href: '#servicos' },
+  { label: 'Início', href: '#home' },
   { label: 'Produtos', href: '#produtos' },
+  { label: 'Soluções', href: '#solucoes' },
+  { label: 'Processo', href: '#processo' },
   { label: 'Sobre', href: '#sobre' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contato', href: '#contato' },
 ];
 

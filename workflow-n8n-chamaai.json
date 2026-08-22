@@ -1,0 +1,81 @@
+{
+  "name": "ChamaAí Food - Lead Form to Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chamaai-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ],
+      "id": "webhook-node",
+      "name": "Webhook Lead Form"
+    },
+    {
+      "parameters": {
+        "chatId": "1785799287",
+        "text": "=🔔 *Novo Lead Comercial — ChamaAí Food*\n\n👤 *Nome:* {{ $json.body.name || $json.body.nome || 'Não informado' }}\n🏢 *Empresa:* {{ $json.body.businessName || $json.body.empresa || 'Não informado' }}\n📧 *E-mail:* {{ $json.body.email || 'Não informado' }}\n📱 *WhatsApp:* {{ $json.body.phone || $json.body.whatsapp || 'Não informado' }}\n📍 *Localização:* {{ $json.body.city || 'N/A' }} - {{ $json.body.state || 'N/A' }}\n🍕 *Segmento:* {{ $json.body.segment || $json.body.segmento || 'N/A' }}\n🏪 *Unidades:* {{ $json.body.locations || '1' }}\n📦 *Pedidos/Mês:* {{ $json.body.monthlyDeliveryOrders || 'N/A' }}\n🛵 *Plataformas:* {{ Array.isArray($json.body.platforms) ? $json.body.platforms.join(', ') : ($json.body.platforms || 'N/A') }}\n💬 *Contato Preferencial:* {{ $json.body.preferredContact || 'whatsapp' }}\n📝 *Dificuldade / Mensagem:* {{ $json.body.currentPain || $json.body.mensagem || 'Nenhum detalhe informado' }}\n\n🆔 *ID:* `{{ $json.body.id || 'N/A' }}`",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        500,
+        300
+      ],
+      "id": "telegram-node",
+      "name": "Telegram Notifier"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"ok\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ],
+      "id": "respond-node",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook Lead Form": {
+      "main": [
+        [
+          {
+            "node": "Telegram Notifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Notifier": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -17,13 +17,11 @@ export const CustomCursor: React.FC = () => {
   const trailY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    // Detect mobile / touch devices or small screens where custom cursor isn't appropriate
+    // Detect mobile / touch-only primary devices or small screens
     const checkDevice = () => {
-      const touchCapable = 
-        'ontouchstart' in window || 
-        navigator.maxTouchPoints > 0 || 
-        (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-      setIsMobile(touchCapable);
+      const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const isSmallScreen = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+      setIsMobile(Boolean(isCoarsePointer || isSmallScreen));
     };
 
     checkDevice();

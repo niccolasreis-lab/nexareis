@@ -67,7 +67,7 @@ export const ServiceDetail: React.FC = () => {
               Nossos especialistas analisarão seu caso e enviarão uma proposta personalizada para <strong>{service.title}</strong>.
             </p>
             <Link to="/#contato">
-              <Button style={{ width: '100%' }} size="lg">Ir para formulário de contato</Button>
+              <Button variant="lime" size="lg" className="w-full font-bold">Ir para formulário de contato</Button>
             </Link>
           </motion.div>
         </div>

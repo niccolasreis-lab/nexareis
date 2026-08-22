@@ -32,7 +32,7 @@ export const MetricsGrid: React.FC = () => {
               className="p-8 bg-white/[0.01] border border-white/5 rounded-3xl text-center flex flex-col justify-center hover:bg-white/[0.03] hover:border-brand-cyan/25 transition-all duration-300 min-h-[180px]"
             >
               {/* Massive displaying numbers */}
-              <div className="font-display text-4xl sm:text-5xl font-black text-white mb-3 tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-sec">
+              <div className="font-display text-4xl sm:text-5xl font-black text-white mb-3 tracking-tighter">
                 {metric.value}
               </div>
               

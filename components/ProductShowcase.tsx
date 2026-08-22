@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { PRODUCTS, ProductDetail } from '../data/landingData';
 import { Button } from './Button';
 import { 
-  ArrowRight, Check, ExternalLink, HelpCircle, Smartcard, Play,
+  ArrowRight, Check, ExternalLink, HelpCircle, CreditCard, Play,
   Tv, Monitor, Laptop, Server, Bell, BadgeAlert, Users, Layers, PackageCheck, Truck
 } from 'lucide-react';
 
@@ -303,7 +303,7 @@ export const ProductShowcase: React.FC = () => {
           </span>
           <h2 className="title-editorial text-white uppercase mb-6">
             Produtos criados para <br className="hidden sm:block" />
-            resolver <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue font-bold">operações reais.</span>
+            resolver <span className="text-brand-cyan font-bold">operações reais.</span>
           </h2>
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light leading-relaxed">
             Construímos plataformas completas de automação que ligam estabelecimentos físicos à eficiência da nuvem. Sistemas prontos, testados e de rápida implantação.

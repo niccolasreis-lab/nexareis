@@ -31,7 +31,7 @@ export const IndustrySelector: React.FC = () => {
           </span>
           <h2 className="title-editorial text-white uppercase leading-tight mb-4">
             Tecnologia próxima <br />
-            da <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue font-bold">operação.</span>
+            da <span className="text-brand-cyan font-bold">operação.</span>
           </h2>
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light leading-relaxed">
             Cada segmento de negócio possui dinâmicas e dificuldades específicas no fluxo de atendimento presencial. Selecione seu setor para ver como otimizamos seu fluxo de trabalho:

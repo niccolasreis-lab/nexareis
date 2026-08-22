@@ -8,9 +8,9 @@ export const Footer: React.FC = () => {
 
   const quickLinks = {
     produtos: [
-      { label: "ChamaAí Food", href: "https://chamaaifood.com.br/pilot" },
-      { label: "ChamaAí — Gestão de Filas", href: "https://chamaai-nine.vercel.app/" },
-      { label: "SignageFlow", href: "https://signageflow.com.br/" },
+      { label: "ChamaAí Food", href: "https://chamaaifood.nexareis.com.br/pilot" },
+      { label: "ChamaAí — Gestão de Filas", href: "https://chamaai.nexareis.com.br" },
+      { label: "SignageFlow", href: "https://signageflow.nexareis.com.br" },
       { label: "CestaEsperta", href: "#contato" }
     ],
     servicos: [
@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
     ],
     institucional: [
       { label: "Início", href: "#home" },
-      { label: "Sobre Nós", href: "#sobre-nos" },
+      { label: "Sobre Nós", href: "#sobre" },
       { label: "Processo de Trabalho", href: "#processo" },
       { label: "Dúvidas Frequentes", href: "#faq" }
     ]
@@ -124,7 +124,7 @@ export const Footer: React.FC = () => {
 
         {/* 18. GIANT LETTERING STAMP - Grandioso NEXA REIS em Display font with massive letter spacing */}
         <div className="py-12 select-none border-b border-white/5 pointer-events-none">
-          <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-b from-white/[0.03] to-transparent uppercase pr-[-0.25em]">
+          <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-white/[0.04] uppercase pr-[-0.25em]">
             NEXA REIS
           </div>
         </div>

@@ -77,7 +77,7 @@ export const FAQAccordion: React.FC = () => {
 
           <h2 className="title-editorial text-white uppercase mb-6">
             Perguntas <br className="sm:hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue font-extrabold">Frequentes.</span>
+            <span className="text-brand-cyan font-extrabold">Frequentes.</span>
           </h2>
           
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light max-w-2xl mx-auto leading-relaxed">
@@ -153,7 +153,7 @@ export const FAQAccordion: React.FC = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <div className="px-6 sm:px-8 pb-8 pt-2 border-t border-white/[0.03] ml-[44px]">
+                      <div className="px-6 sm:px-8 pb-8 pt-2 border-t border-white/[0.03] ml-0 sm:ml-[44px]">
                         <p className="font-sans text-xs sm:text-sm text-gray-light leading-relaxed font-light">
                           {faq.answer}
                         </p>

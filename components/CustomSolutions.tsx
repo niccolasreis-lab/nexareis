@@ -34,7 +34,7 @@ export const CustomSolutions: React.FC = () => {
           </span>
           <h2 className="title-editorial text-white uppercase mb-6 leading-tight">
             Seu problema não precisa <br />
-            caber em um <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue font-bold">software pronto.</span>
+            caber em um <span className="text-brand-cyan font-bold">software pronto.</span>
           </h2>
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light leading-relaxed">
             Quando as plataformas existentes no mercado não cobrem as peculiaridades de suas regras de negócios, nós projetamos, programamos, homologamos e evoluímos uma solução digital proprietária exclusiva para sua empresa.

@@ -477,8 +477,8 @@ export const FeedbackCollectionForm: React.FC<FeedbackCollectionFormProps> = ({ 
         return {
           name: trimmed,
           url: trimmed.toLowerCase().includes('chama') 
-            ? 'https://chamaai-nine.vercel.app/' 
-            : 'https://signageflow.com.br/'
+            ? 'https://chamaai.nexareis.com.br' 
+            : 'https://signageflow.nexareis.com.br'
         };
       });
 
@@ -1017,7 +1017,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
               Quero digitalizar minha operação
             </button>
             <a 
-              href="https://chamaai-nine.vercel.app/" 
+              href="https://chamaai.nexareis.com.br" 
               target="_blank" 
               rel="noreferrer" 
               className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-white font-sans text-xs font-semibold transition-all border border-white/10 flex items-center gap-1.5"
@@ -1025,7 +1025,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
               Conhecer o ChamaAí
             </a>
             <a 
-              href="https://signageflow.com.br/" 
+              href="https://signageflow.nexareis.com.br" 
               target="_blank" 
               rel="noreferrer" 
               className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-white font-sans text-xs font-semibold transition-all border border-white/10 flex items-center gap-1.5"
@@ -1126,7 +1126,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
           </button>
           
           <a 
-            href="https://chamaai-nine.vercel.app/" 
+            href="https://chamaai.nexareis.com.br" 
             target="_blank" 
             rel="noreferrer" 
             className="w-full py-3 rounded-xl bg-white/5 text-white border border-white/10 font-sans text-xs font-semibold text-center block"
@@ -1135,7 +1135,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
           </a>
           
           <a 
-            href="https://signageflow.com.br/" 
+            href="https://signageflow.nexareis.com.br" 
             target="_blank" 
             rel="noreferrer" 
             className="w-full py-3 rounded-xl bg-white/5 text-white border border-white/10 font-sans text-xs font-semibold text-center block"
@@ -1296,7 +1296,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
 
           <h2 className="title-editorial text-white uppercase mb-6 leading-tight">
             Quem vive a operação <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue font-extrabold">percebe a diferença.</span>
+            <span className="text-brand-cyan font-extrabold">percebe a diferença.</span>
           </h2>
           
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light max-w-3xl leading-relaxed">
