@@ -110,22 +110,32 @@ export const ContactForm: React.FC = () => {
     setIsSubmitting(true);
     setSubmitError('');
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 15000);
-    const bodyStr = JSON.stringify({
+    const bodyPayload = {
       formulario: 'Contato Comercial NexaReis',
       origem: window.location.href,
-      ...form
-    });
+      nome: form.nome,
+      name: form.nome,
+      empresa: form.empresa,
+      businessName: form.empresa,
+      email: form.email,
+      whatsapp: form.whatsapp,
+      phone: form.whatsapp,
+      segmento: form.segmento,
+      segment: form.segmento,
+      necessidade: form.necessidade,
+      mensagem: form.mensagem,
+      currentPain: form.mensagem
+    };
+
+    const bodyStr = JSON.stringify(bodyPayload);
 
     try {
       const response = await fetch(CONTACT_WEBHOOK_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: bodyStr,
-        signal: controller.signal
       });
 
       if (response.ok) {
@@ -135,32 +145,34 @@ export const ContactForm: React.FC = () => {
         return;
       }
     } catch {
-      // Ignore initial CORS/network error and proceed to fallback
+      // If CORS or network blocks standard fetch, try sendBeacon or no-cors fallback
     }
 
     try {
+      if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+        const blob = new Blob([bodyStr], { type: 'application/json' });
+        const sent = navigator.sendBeacon(CONTACT_WEBHOOK_URL, blob);
+        if (sent) {
+          setIsSubmitting(false);
+          setSubmitSuccess(true);
+          setForm(INITIAL_STATE);
+          return;
+        }
+      }
+      
       await fetch(CONTACT_WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
+        headers: { 'Content-Type': 'text/plain' },
         body: bodyStr,
-        signal: controller.signal
       });
 
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setForm(INITIAL_STATE);
-    } catch (error) {
+    } catch {
       setIsSubmitting(false);
-      setSubmitError(
-        error instanceof DOMException && error.name === 'AbortError'
-          ? 'O envio demorou mais que o esperado. Verifique sua conexão e tente novamente.'
-          : 'Não foi possível enviar sua mensagem agora. Tente novamente em alguns instantes.'
-      );
-    } finally {
-      window.clearTimeout(timeout);
+      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes.');
     }
   };
 
