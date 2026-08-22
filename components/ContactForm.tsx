@@ -24,11 +24,16 @@ const INITIAL_STATE: FormState = {
   mensagem: ''
 };
 
+const CONTACT_WEBHOOK_URL =
+  import.meta.env.VITE_CONTACT_WEBHOOK_URL ||
+  'https://1-n8n.n3hukr.easypanel.host/webhook/nexareis/formularios';
+
 export const ContactForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     const handleContactIntent = (event: Event) => {
@@ -38,6 +43,7 @@ export const ContactForm: React.FC = () => {
       setForm((current) => ({ ...current, ...intent }));
       setErrors({});
       setSubmitSuccess(false);
+      setSubmitError('');
     };
 
     window.addEventListener('nexa:contact-intent', handleContactIntent);
@@ -97,19 +103,50 @@ export const ContactForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API request
-    setTimeout(() => {
+    setSubmitError('');
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const response = await fetch(CONTACT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          formulario: 'Contato Comercial NexaReis',
+          origem: window.location.href,
+          ...form
+        }),
+        signal: controller.signal
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || result?.success !== true) {
+        throw new Error('Não foi possível confirmar o recebimento da mensagem.');
+      }
+
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setForm(INITIAL_STATE);
-    }, 1800);
+    } catch (error) {
+      setIsSubmitting(false);
+      setSubmitError(
+        error instanceof DOMException && error.name === 'AbortError'
+          ? 'O envio demorou mais que o esperado. Verifique sua conexão e tente novamente.'
+          : 'Não foi possível enviar sua mensagem agora. Tente novamente em alguns instantes.'
+      );
+    } finally {
+      window.clearTimeout(timeout);
+    }
   };
 
   return (
@@ -364,6 +401,16 @@ export const ContactForm: React.FC = () => {
                         </span>
                       )}
                     </Button>
+
+                    {submitError && (
+                      <div
+                        role="alert"
+                        className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                      >
+                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>{submitError}</span>
+                      </div>
+                    )}
                   </motion.form>
                 ) : (
                   <motion.div 
