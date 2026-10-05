@@ -22,21 +22,49 @@ import {
 } from 'lucide-react';
 import { ManagerFeedback } from '../types';
 import { managerFeedbacks as initialFeedbacks } from '../data/landingData';
+import { mercantilSantaPaula } from '../data/mercantilSantaPaula';
 
 // ==========================================
 // 1. CLIENT LOGO COMPONENT
 // ==========================================
 export const ClientLogo: React.FC<{ src?: string; alt?: string; className?: string }> = ({
-  src = '/images/clients/mercantil-santa-paula.png',
+  src = mercantilSantaPaula.logo,
   alt = 'Logo do Mercantil Santa Paula',
   className = "w-16 h-16",
 }) => {
   return (
     <div className={`relative ${className} flex-shrink-0 select-none`} id="client-logo-msp">
-      <img src={src} alt={alt} className="h-full w-full object-contain drop-shadow-md" />
+      <img src={src} alt={alt} width={250} height={250} loading="lazy" decoding="async" className="h-full w-full object-contain" />
     </div>
   );
 };
+
+const CompanyPhoto: React.FC = () => (
+  <figure className="space-y-2">
+    <img
+      src={mercantilSantaPaula.photo.src}
+      alt={mercantilSantaPaula.photo.alt}
+      width={mercantilSantaPaula.photo.width}
+      height={mercantilSantaPaula.photo.height}
+      loading="lazy"
+      decoding="async"
+      className="block h-auto w-full rounded-xl"
+    />
+    <figcaption className="font-sans text-xs leading-relaxed text-gray-light">
+      {mercantilSantaPaula.photo.caption}
+    </figcaption>
+  </figure>
+);
+
+const CompanyIdentity: React.FC = () => (
+  <div className="space-y-2 font-sans text-sm leading-relaxed text-gray-light">
+    <p>{mercantilSantaPaula.description}</p>
+    <p>{mercantilSantaPaula.address}</p>
+    <a href={mercantilSantaPaula.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-brand-cyan underline underline-offset-4 hover:text-white">
+      Conhecer a Mercantil Santa Paula <ExternalLink className="h-3.5 w-3.5" />
+    </a>
+  </div>
+);
 
 // ==========================================
 // 2. CLIENT PRODUCT BADGE
@@ -157,9 +185,9 @@ export const CaseStudyGallery: React.FC = () => {
 
   // Offers to cycle on SignageFlow TV mockup
   const Offers = [
-    { item: "Melancia Inteira", price: "R$ 14,90", desc: "Direto do produtor", color: "from-emerald-950 to-green-900", accent: "text-green-400" },
-    { item: "Pão de Queijo Mineiro", price: "R$ 2,49", desc: "Fornada quente a cada hora", color: "from-amber-950 to-orange-950", accent: "text-amber-400" },
-    { item: "Arroz Integral Camil 1kg", price: "R$ 6,89", desc: "Oferta especial de mercearia", color: "from-blue-950 to-slate-900", accent: "text-blue-400" }
+    { item: "Frios e laticínios", desc: "Exemplo de conteúdo", color: "from-emerald-950 to-green-900", accent: "text-green-400" },
+    { item: "Conservas e temperos", desc: "Exemplo de conteúdo", color: "from-amber-950 to-orange-950", accent: "text-amber-400" },
+    { item: "Frutas secas e cereais", desc: "Exemplo de conteúdo", color: "from-blue-950 to-slate-900", accent: "text-blue-400" }
   ];
 
   useEffect(() => {
@@ -237,7 +265,7 @@ export const CaseStudyGallery: React.FC = () => {
       </div>
 
       {/* Screen Frame Mockup */}
-      <div className="relative rounded-3xl bg-[#080808] border border-white/10 p-4 shadow-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9.5]">
+      <div className="relative rounded-3xl bg-[#080808] border border-white/10 p-4 shadow-2xl overflow-hidden min-h-[400px]">
         
         {/* TV Glare/Reflection */}
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-white/[0.04] pointer-events-none z-20" />
@@ -262,7 +290,7 @@ export const CaseStudyGallery: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4 }}
-              className="w-full h-full bg-[#030712] rounded-xl border border-white/5 overflow-hidden p-6 flex flex-col justify-between relative"
+              className="w-full min-h-[360px] bg-[#030712] rounded-xl border border-white/5 overflow-hidden p-6 flex flex-col justify-between relative"
             >
               {/* Header */}
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
@@ -334,12 +362,12 @@ export const CaseStudyGallery: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4 }}
-              className="w-full h-full rounded-xl border border-white/5 overflow-hidden flex flex-col justify-between relative"
+              className="w-full min-h-[360px] rounded-xl border border-white/5 overflow-hidden flex flex-col justify-between relative"
             >
               {/* Dynamic background slide color */}
               <div className={`absolute inset-0 bg-gradient-to-br ${Offers[signageOfferIndex].color} transition-all duration-700`} />
               
-              <div className="relative z-10 w-full h-full p-6 flex flex-col justify-between">
+              <div className="relative z-10 w-full min-h-[360px] p-6 flex flex-col justify-between">
                 {/* Promo Header */}
                 <div className="flex justify-between items-center border-b border-white/10 pb-4">
                   <div className="flex items-center gap-2">
@@ -347,7 +375,7 @@ export const CaseStudyGallery: React.FC = () => {
                     <span className="font-display text-[9px] text-white tracking-widest uppercase font-black">SIGNAGE-FLOW</span>
                   </div>
                   <div className="bg-brand-cyan text-black px-2.5 py-0.5 rounded font-mono text-[8px] uppercase tracking-wider font-black">
-                    OFERTAS SANTA PAULA
+                    DEMONSTRAÇÃO
                   </div>
                 </div>
 
@@ -363,20 +391,19 @@ export const CaseStudyGallery: React.FC = () => {
                     <div className="h-0.5 w-12 bg-brand-cyan mt-3" />
                   </div>
                   
-                  {/* Huge Price Tag */}
+                  {/* The demo does not publish invented prices for this client. */}
                   <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md text-right relative min-w-[140px]">
-                    <span className="font-mono text-[7px] text-gray-sec uppercase tracking-widest block">Preço Exclusivo</span>
-                    <h3 className={`font-sans text-2xl sm:text-3xl font-black ${Offers[signageOfferIndex].accent} tracking-tight`}>
-                      {Offers[signageOfferIndex].price}
+                    <span className="font-sans text-xs text-gray-light block">Conteúdo ilustrativo</span>
+                    <h3 className={`font-sans text-base sm:text-lg font-bold ${Offers[signageOfferIndex].accent}`}>
+                      Catálogo na tela
                     </h3>
-                    <span className="font-mono text-[8px] text-white/50">pág. à vista / un.</span>
                   </div>
                 </div>
 
                 {/* Loading/Playlist Timeline bar */}
                 <div>
                   <div className="flex justify-between font-mono text-[7px] text-white/60 mb-1">
-                    <span>PLAYLIST: SUPERMERCADO_PROMO_V1</span>
+                    <span>PLAYLIST DE DEMONSTRAÇÃO</span>
                     <span>ATUALIZADO REMOTAMENTE</span>
                   </div>
                   <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
@@ -395,6 +422,9 @@ export const CaseStudyGallery: React.FC = () => {
         </AnimatePresence>
 
       </div>
+      <p className="font-sans text-xs leading-relaxed text-gray-light">
+        Demonstração interativa. As senhas e os conteúdos exibidos são ilustrativos.
+      </p>
     </div>
   );
 };
@@ -494,7 +524,7 @@ export const FeedbackCollectionForm: React.FC<FeedbackCollectionFormProps> = ({ 
         quote: formData.quote,
         context: formData.context,
         products: prods,
-        logo: editingFeedback?.logo || '/images/clients/mercantil-santa-paula.png',
+        logo: editingFeedback?.logo || mercantilSantaPaula.logo,
         approved: formData.status === 'Aprovado para publicação' && formData.autorizacaoPublicacao,
         publishedAt: formData.status === 'Aprovado para publicação' ? new Date().toISOString().split('T')[0] : undefined
       };
@@ -915,20 +945,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
               <ClientLogo src={feedback.logo} alt={`Logo do ${feedback.company}`} className="w-12 h-12" />
             </div>
 
-            {/* Real establishment photo */}
-            <div className="relative h-44 rounded-2xl bg-neutral-900 border border-white/5 overflow-hidden">
-              <img
-                src="/images/clients/mercantil-santa-paula-storefront.png"
-                alt="Entrada do Mercantil Santa Paula na Rua da alfandega, 415"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
-              <div className="absolute inset-0 grid-lines opacity-10" />
-              <div className="absolute bottom-3 left-4 text-left">
-                <h6 className="font-display font-black text-white text-xs uppercase tracking-widest">ESTABELECIMENTO REAL</h6>
-                <span className="font-sans text-[9px] text-gray-light block">Rua da alfandega, 415 — São Paulo, SP</span>
-              </div>
-            </div>
+            <CompanyPhoto />
 
             {/* Dynamic Systems Interactive TV Screen */}
             <CaseStudyGallery />
@@ -945,8 +962,9 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
               Tecnologia aplicada onde a operação acontece.
             </h2>
             <p className="font-sans text-sm text-gray-light leading-relaxed mt-4 font-light">
-              O Mercantil Santa Paula escolheu soluções da Nexa Reis para organizar o atendimento ao público e aprimorar a gestão dos conteúdos exibidos em suas telas.
+              {feedback.context}
             </p>
+            <div className="mt-5"><CompanyIdentity /></div>
           </div>
 
           {/* Solution context grid (Section 33 & 34) */}
@@ -1064,7 +1082,10 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
           <h3 className="font-display font-black text-2xl text-white uppercase mt-0.5">
             {feedback.company}
           </h3>
+          <div className="mt-3"><CompanyIdentity /></div>
         </div>
+
+        <CompanyPhoto />
 
         {/* Mobile Step 3: Main interactive screen gallery */}
         <CaseStudyGallery />
@@ -1075,7 +1096,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
             Tecnologia aplicada onde a operação acontece.
           </h4>
           <p className="font-sans text-xs text-gray-sec leading-relaxed font-light">
-            O Mercantil Santa Paula escolheu soluções da Nexa Reis para organizar o atendimento ao público e aprimorar a gestão dos conteúdos exibidos em suas telas.
+            {feedback.context}
           </p>
         </div>
 
@@ -1108,7 +1129,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
           <div className="space-y-1 pt-3 border-t border-white/5">
             <span className="font-mono text-[8px] text-brand-blue uppercase tracking-widest block font-bold">SIGNAGE-FLOW CONTEÚDO</span>
             <p className="font-sans text-[11px] text-gray-light font-light">
-              Utilizado para organização de playlists promocionais e ofertas diárias enviadas de forma remota para as Smart TVs do supermercado.
+              Utilizado para organização de playlists e atualização remota de conteúdos nas telas da loja.
             </p>
           </div>
         </div>

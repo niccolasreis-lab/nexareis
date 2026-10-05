@@ -1,5 +1,6 @@
 import { Bot, Code2, Workflow, Tv, Users, ShoppingCart, HelpCircle } from 'lucide-react';
 import { ManagerFeedback } from '../types';
+import { mercantilSantaPaula } from './mercantilSantaPaula';
 
 export interface ProductDetail {
   id: string;
@@ -334,8 +335,8 @@ export const managerFeedbacks: ManagerFeedback[] = [
   {
     id: "mercantil-santa-paula",
     company: "Mercantil Santa Paula",
-    companyUrl: "https://www.mercantilsantapaula.com.br/",
-    segment: "Varejo alimentar",
+    companyUrl: mercantilSantaPaula.website,
+    segment: "Distribuição de alimentos",
     managerName: "Sr. Luiz",
     managerRole: "Gestor Geral",
     quote: "Facilitou muito nosso atendimento, organizando as filas e também vendo em tempo real os preços dos queijos",
@@ -350,9 +351,9 @@ export const managerFeedbacks: ManagerFeedback[] = [
         url: "https://signageflow.nexareis.com.br"
       }
     ],
-    logo: "/images/clients/mercantil-santa-paula.png",
+    logo: mercantilSantaPaula.logo,
     managerPhoto: "",
-    companyImages: [],
+    companyImages: [mercantilSantaPaula.photo.src],
     productImages: [],
     approved: true
   }
