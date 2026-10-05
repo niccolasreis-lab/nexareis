@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Logo } from './Logo';
 import { Button } from './Button';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { NAV_ITEMS } from '../constants';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuPanelRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   const navItems = NAV_ITEMS.map((item) => ({
     ...item,
@@ -38,13 +42,42 @@ export const Header: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = requestAnimationFrame(() => {
+      menuPanelRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
+    });
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false);
+      if (event.key !== 'Tab') return;
+      const controls = [
+        menuButtonRef.current,
+        ...Array.from(menuPanelRef.current?.querySelectorAll<HTMLElement>('a, button') ?? []),
+      ].filter((control): control is HTMLElement => control !== null);
+      if (!controls.length) return;
+      const current = controls.findIndex(control => control === document.activeElement);
+      const next = event.shiftKey
+        ? (current - 1 + controls.length) % controls.length
+        : (current + 1) % controls.length;
+      event.preventDefault();
+      controls[next]?.focus();
+    };
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMobileMenuOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    desktop.addEventListener('change', closeOnDesktop);
+    closeOnDesktop();
     return () => {
-      document.body.style.overflow = '';
+      cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      desktop.removeEventListener('change', closeOnDesktop);
+      if (menuButtonRef.current?.getClientRects().length) {
+        menuButtonRef.current.focus({ preventScroll: true });
+      }
     };
   }, [mobileMenuOpen]);
 
@@ -78,8 +111,11 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled 
+    <>
+    <header className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+      mobileMenuOpen
+        ? 'py-4 bg-dark-bg border-b border-dark-border'
+        : isScrolled
         ? 'py-4 bg-dark-bg/85 backdrop-blur-xl border-b border-dark-border' 
         : 'py-6 bg-transparent border-b border-transparent'
     }`}>
@@ -130,36 +166,40 @@ export const Header: React.FC = () => {
 
         {/* Mobile Hamburger Menu */}
         <button 
-          className="lg:hidden p-2 z-50 text-white hover:text-brand-cyan transition-colors"
+          ref={menuButtonRef}
+          type="button"
+          className="lg:hidden p-3 z-50 text-white hover:text-brand-cyan transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
+    </header>
 
-      {/* Full-Screen Mobile Menu */}
+      {/* A body portal avoids the fixed containing block created by header blur. */}
+      {createPortal(
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+            ref={menuPanelRef}
+            id="mobile-navigation"
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-dark-bg/98 backdrop-blur-2xl flex flex-col justify-center items-center px-8 lg:hidden"
+            exit={{ opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            className="fixed inset-0 z-50 bg-dark-bg flex flex-col items-center overflow-y-auto px-8 pt-28 pb-8 lg:hidden"
           >
-            {/* Background grids */}
-            <div className="absolute inset-0 grid-lines opacity-10 pointer-events-none" />
-            <div className="absolute w-[40vw] h-[40vw] rounded-full bg-brand-cyan/5 blur-3xl top-1/4 left-1/4 pointer-events-none" />
-            
-            <nav className="flex flex-col gap-6 items-center text-center">
+            <nav aria-label="Navegação móvel" className="my-auto flex w-full flex-col gap-5 items-center text-center">
               {navItems.map((item, index) => (
                 <motion.a 
                   key={item.label}
                   href={item.href}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.05 }}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`font-display text-2xl tracking-wide transition-all ${
                     activeSection === item.id 
@@ -172,10 +212,10 @@ export const Header: React.FC = () => {
               ))}
               
               <motion.div 
-                initial={{ opacity: 0, y: 15 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navItems.length * 0.05 }}
-                className="mt-8 w-full max-w-xs"
+                transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : navItems.length * 0.05 }}
+                className="mt-4 w-full max-w-xs"
               >
                 <Button 
                   variant="lime" 
@@ -189,7 +229,7 @@ export const Header: React.FC = () => {
             </nav>
           </motion.div>
         )}
-      </AnimatePresence>
-    </header>
+      </AnimatePresence>, document.body)}
+    </>
   );
 };
