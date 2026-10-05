@@ -15,12 +15,13 @@
         300
       ],
       "id": "webhook-node",
-      "name": "Webhook Lead Form"
+      "name": "Webhook Lead Form",
+      "webhookId": "f303cae2-9320-43bf-8e75-7644a0c2453b"
     },
     {
       "parameters": {
         "chatId": "1785799287",
-        "text": "={{ (function() {\n  const b = $json.body || {};\n  const lines = [];\n\n  lines.push(`🔔 *${b.formulario || 'Novo Lead Comercial'}*`);\n  lines.push('');\n\n  const name = b.name || b.nome;\n  if (name) lines.push(`👤 *Nome:* ${name}`);\n\n  const empresa = b.businessName || b.empresa;\n  if (empresa) lines.push(`🏢 *Empresa:* ${empresa}`);\n\n  if (b.email) lines.push(`📧 *E-mail:* ${b.email}`);\n\n  const rawPhone = b.phone || b.whatsapp;\n  if (rawPhone) {\n    const digits = String(rawPhone).replace(/\\D/g, '');\n    const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : '';\n    const waLink = cleanPhone ? `[wa.me/${cleanPhone}](https://wa.me/${cleanPhone})` : rawPhone;\n    lines.push(`📱 *WhatsApp:* ${waLink}`);\n  }\n\n  if (b.necessidade) lines.push(`🎯 *Necessidade:* ${b.necessidade}`);\n\n  const segmento = b.segment || b.segmento;\n  if (segmento) lines.push(`🍕 *Segmento:* ${segmento}`);\n\n  if (b.city || b.state) {\n    const loc = [b.city, b.state].filter(Boolean).join(' - ');\n    if (loc) lines.push(`📍 *Localização:* ${loc}`);\n  }\n\n  if (b.locations && Number(b.locations) > 1) lines.push(`🏪 *Unidades:* ${b.locations}`);\n\n  if (b.monthlyDeliveryOrders && b.monthlyDeliveryOrders !== 'N/A') lines.push(`📦 *Pedidos/Mês:* ${b.monthlyDeliveryOrders}`);\n\n  if (b.platforms) {\n    const platStr = Array.isArray(b.platforms) ? b.platforms.join(', ') : b.platforms;\n    if (platStr && platStr !== 'N/A') lines.push(`🛵 *Plataformas:* ${platStr}`);\n  }\n\n  if (b.preferredContact && b.preferredContact !== 'whatsapp') lines.push(`💬 *Contato Preferencial:* ${b.preferredContact}`);\n\n  const msg = b.mensagem || b.currentPain;\n  if (msg && msg !== 'N/A') lines.push(`📝 *Mensagem:* ${msg}`);\n\n  if (b.origem) lines.push(`🌐 *Origem:* ${b.origem}`);\n\n  if (b.id && b.id !== 'N/A') lines.push(`🆔 *ID:* \\\`${b.id}\\\``);\n\n  return lines.join('\\n');\n})() }}",
+        "text": "={{ (function() {\n  const b = $json.body || {};\n  const escapeHtml = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n  const lines = [];\n\n  lines.push('🔔 <b>' + escapeHtml(b.formulario || 'Novo Lead Comercial') + '</b>');\n  lines.push('');\n\n  const name = b.name || b.nome;\n  if (name) lines.push('👤 <b>Nome:</b> ' + escapeHtml(name));\n\n  const empresa = b.businessName || b.empresa;\n  if (empresa) lines.push('🏢 <b>Empresa:</b> ' + escapeHtml(empresa));\n\n  if (b.email) lines.push('📧 <b>E-mail:</b> ' + escapeHtml(b.email));\n\n  const rawPhone = b.phone || b.whatsapp;\n  if (rawPhone) {\n    const digits = String(rawPhone).replace(/\\D/g, '');\n    const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : '';\n    const waLink = cleanPhone ? '<a href=\"https://wa.me/' + cleanPhone + '\">wa.me/' + cleanPhone + '</a>' : escapeHtml(rawPhone);\n    lines.push('📱 <b>WhatsApp:</b> ' + waLink);\n  }\n\n  if (b.necessidade) lines.push('🎯 <b>Necessidade:</b> ' + escapeHtml(b.necessidade));\n\n  const segmento = b.segment || b.segmento;\n  if (segmento) lines.push('🍕 <b>Segmento:</b> ' + escapeHtml(segmento));\n\n  if (b.city || b.state) {\n    const loc = [b.city, b.state].filter(Boolean).join(' - ');\n    if (loc) lines.push('📍 <b>Localização:</b> ' + escapeHtml(loc));\n  }\n\n  if (b.locations && Number(b.locations) > 1) lines.push('🏪 <b>Unidades:</b> ' + escapeHtml(b.locations));\n\n  if (b.monthlyDeliveryOrders && b.monthlyDeliveryOrders !== 'N/A') lines.push('📦 <b>Pedidos/Mês:</b> ' + escapeHtml(b.monthlyDeliveryOrders));\n\n  if (b.platforms) {\n    const platStr = Array.isArray(b.platforms) ? b.platforms.join(', ') : b.platforms;\n    if (platStr && platStr !== 'N/A') lines.push('🛵 <b>Plataformas:</b> ' + escapeHtml(platStr));\n  }\n\n  if (b.preferredContact && b.preferredContact !== 'whatsapp') lines.push('💬 <b>Contato Preferencial:</b> ' + escapeHtml(b.preferredContact));\n\n  const msg = b.currentPain || b.mensagem;\n  if (msg && msg !== 'N/A') lines.push('📝 <b>Mensagem:</b> ' + escapeHtml(msg));\n\n  if (b.origem) lines.push('🌐 <b>Origem:</b> ' + escapeHtml(b.origem));\n\n  if (b.id && b.id !== 'N/A') lines.push('🆔 <b>ID:</b> <code>' + escapeHtml(b.id) + '</code>');\n\n  return lines.join('\\n');\n})() }}",
         "replyMarkup": "inlineKeyboard",
         "inlineKeyboard": {
           "rows": [
@@ -29,7 +30,9 @@
                 "buttons": [
                   {
                     "text": "💬 Abrir no WhatsApp",
-                    "url": "={{ (function() { const b = $json.body || {}; const rawPhone = b.phone || b.whatsapp; const digits = String(rawPhone || '').replace(/\\D/g, ''); const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : ''; return cleanPhone ? 'https://wa.me/' + cleanPhone : 'https://wa.me/'; })() }}"
+                    "additionalFields": {
+                      "url": "={{ (function() { const b = $json.body || {}; const rawPhone = b.phone || b.whatsapp; const digits = String(rawPhone || '').replace(/\\D/g, ''); const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : ''; return cleanPhone ? 'https://wa.me/' + cleanPhone : 'https://wa.me/'; })() }}"
+                    }
                   }
                 ]
               }
@@ -37,7 +40,7 @@
           ]
         },
         "additionalFields": {
-          "parse_mode": "Markdown"
+          "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
@@ -52,8 +55,10 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "{\n  \"ok\": true\n}",
-        "options": {}
+        "responseBody": "={{ { ok: $json.ok === true } }}",
+        "options": {
+          "responseCode": "={{ $json.ok === true ? 200 : 502 }}"
+        }
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,

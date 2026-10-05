@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
 import { Phone, Mail, MapPin, Building, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 import { CONTACT_INFO } from '../constants';
+import { ContactSubmission, CONTACT_SUBMIT_ERROR } from '../lib/contactSubmission';
 
 interface FormState {
   nome: string;
@@ -34,6 +35,16 @@ export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [submission] = useState(() => new ContactSubmission());
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      submission.cancel();
+    };
+  }, [submission]);
 
   useEffect(() => {
     const handleContactIntent = (event: Event) => {
@@ -105,7 +116,7 @@ export const ContactForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (submission.isPending || !validateForm()) return;
 
     setIsSubmitting(true);
     setSubmitError('');
@@ -127,52 +138,15 @@ export const ContactForm: React.FC = () => {
       currentPain: form.mensagem
     };
 
-    const bodyStr = JSON.stringify(bodyPayload);
-
     try {
-      const response = await fetch(CONTACT_WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: bodyStr,
-      });
-
-      if (response.ok) {
-        setIsSubmitting(false);
-        setSubmitSuccess(true);
-        setForm(INITIAL_STATE);
-        return;
-      }
-    } catch {
-      // If CORS or network blocks standard fetch, try sendBeacon or no-cors fallback
-    }
-
-    try {
-      if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
-        const blob = new Blob([bodyStr], { type: 'application/json' });
-        const sent = navigator.sendBeacon(CONTACT_WEBHOOK_URL, blob);
-        if (sent) {
-          setIsSubmitting(false);
-          setSubmitSuccess(true);
-          setForm(INITIAL_STATE);
-          return;
-        }
-      }
-      
-      await fetch(CONTACT_WEBHOOK_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: bodyStr,
-      });
-
-      setIsSubmitting(false);
+      await submission.submit(CONTACT_WEBHOOK_URL, bodyPayload);
+      if (!mountedRef.current) return;
       setSubmitSuccess(true);
       setForm(INITIAL_STATE);
     } catch {
-      setIsSubmitting(false);
-      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes.');
+      if (mountedRef.current) setSubmitError(CONTACT_SUBMIT_ERROR);
+    } finally {
+      if (mountedRef.current) setIsSubmitting(false);
     }
   };
 
@@ -436,7 +410,12 @@ export const ContactForm: React.FC = () => {
                         className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
                       >
                         <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                        <span>{submitError}</span>
+                        <span>
+                          {submitError}{' '}
+                          <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="font-semibold underline">
+                            Abrir WhatsApp
+                          </a>
+                        </span>
                       </div>
                     )}
                   </motion.form>
