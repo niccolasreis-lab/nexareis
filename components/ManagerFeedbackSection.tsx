@@ -1163,6 +1163,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
 // ==========================================
 export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ sectionId = 'feedback-gestores' }) => {
   const [feedbacks, setFeedbacks] = useState<ManagerFeedback[]>(() => {
+    if (!import.meta.env.DEV) return initialFeedbacks;
     const saved = localStorage.getItem('nexa_manager_feedbacks');
     if (saved) {
       try {
@@ -1184,7 +1185,8 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
     return initialFeedbacks;
   });
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isPreviewEnabled, setIsAdmin] = useState(false);
+  const isAdmin = import.meta.env.DEV && isPreviewEnabled;
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingFeedback, setEditingFeedback] = useState<ManagerFeedback | null>(null);
 
@@ -1215,7 +1217,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
   // Live feedbacks are approved feedbacks
   const liveFeedbacks = feedbacks.filter(f => f.approved === true);
   
-  // In development, the prompt wants us to allow previewing unapproved testimonials (Section 41)
+  // Draft preview is available only in the local development build.
   const displayFeedbacks = isAdmin ? feedbacks : liveFeedbacks;
 
   // Let's get the main featured case "Mercantil Santa Paula"
@@ -1232,7 +1234,8 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* Admin/Developer Console Bar (Fulfills Section 41: preview draft mode) */}
+        {/* Local development controls never render in the production build. */}
+        {import.meta.env.DEV && (
         <div className="mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
@@ -1284,6 +1287,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
             )}
           </div>
         </div>
+        )}
 
         {/* Section Header */}
         <div className="text-left mb-20">
@@ -1324,21 +1328,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
               }}
               isAdmin={isAdmin}
             />
-          ) : (
-            <div className="py-16 px-6 border border-dashed border-white/10 rounded-3xl bg-white/[0.01] text-center flex flex-col items-center justify-center max-w-2xl mx-auto">
-              <Lock className="w-8 h-8 text-brand-cyan mb-4 opacity-85" />
-              <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider mb-2">Aguardando Aprovação do Gestor</h4>
-              <p className="font-sans text-xs text-gray-sec max-w-md mb-6">
-                Os detalhes do estudo de caso do Mercantil Santa Paula estão em fase de validação operacional e serão exibidos publicamente em instantes. Use o <strong>Modo Preview</strong> acima para pré-visualizar as telas interativas!
-              </p>
-              <button
-                onClick={() => setIsAdmin(true)}
-                className="px-5 py-2 rounded-full bg-brand-cyan text-black font-sans text-xs font-bold hover:bg-white transition-all cursor-pointer"
-              >
-                Ativar Pré-Visualização
-              </button>
-            </div>
-          )}
+          ) : null}
         </div>
 
         {/* 2. SECONDARY TESTIMONIALS GRID (Renders any additional submitted feedbacks) */}
@@ -1355,7 +1345,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
 
       {/* 3. MODAL FEEDBACK COLLECTION FORM */}
       <AnimatePresence>
-        {isFormOpen && (
+        {isAdmin && isFormOpen && (
           <FeedbackCollectionForm 
             onClose={() => {
               setIsFormOpen(false);
