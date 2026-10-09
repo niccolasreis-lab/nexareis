@@ -1,0 +1,142 @@
+{
+  "name": "NexaReis - Receber formulários e notificar WhatsApp",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexareis/formularios",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9e2bfb87-52f8-46c4-8a59-d4f6199ef301",
+      "name": "Webhook Formulários NexaReis",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -520,
+        0
+      ],
+      "webhookId": "916e3a57-b6c5-470f-91bc-4f4ec4094048"
+    },
+    {
+      "parameters": {
+        "jsCode": "const envelope = $json && typeof $json === 'object' ? $json : {};\nconst raw = envelope.body && typeof envelope.body === 'object' ? envelope.body : envelope;\n\nconst value = (key) => String(raw[key] ?? '').trim();\nconst segmentoLabels = {\n  supermercados: 'Supermercados / Lojas',\n  restaurantes: 'Restaurantes / Docerias',\n  clinicas: 'Clínicas / Laboratórios',\n  varejo: 'Varejo / Franquias',\n  outros: 'Outros Processos Manuais'\n};\nconst interesseLabels = {\n  'chamaai-food': 'ChamaAí Food (Delivery)',\n  'chamaai-filas': 'ChamaAí Gestão de Filas',\n  signageflow: 'SignageFlow (Mídia Indoor)',\n  'cesta-esperta': 'CestaEsperta (Catálogo, Pedidos e Logística)',\n  'sob-medida': 'Sistema Customizado Sob Medida',\n  outros: 'Outras dúvidas ou parcerias'\n};\n\nconst required = ['nome', 'empresa', 'email', 'whatsapp', 'segmento', 'necessidade', 'mensagem'];\nconst missing = required.filter((key) => !value(key));\nif (missing.length) throw new Error('CAMPOS_OBRIGATORIOS_AUSENTES:' + missing.join(','));\n\nconst receivedAt = new Date();\nconst dateTime = new Intl.DateTimeFormat('pt-BR', {\n  timeZone: 'America/Sao_Paulo',\n  dateStyle: 'full',\n  timeStyle: 'medium'\n}).format(receivedAt);\n\nconst segmento = segmentoLabels[value('segmento')] || value('segmento');\nconst interesse = interesseLabels[value('necessidade')] || value('necessidade');\nconst origem = value('origem') || 'Página não informada';\nconst whatsappDigits = value('whatsapp').replace(/\\D/g, '');\nconst whatsappInternational = whatsappDigits.startsWith('55') && whatsappDigits.length >= 12\n  ? whatsappDigits\n  : '55' + whatsappDigits;\nconst whatsappLink = 'https://wa.me/' + whatsappInternational;\n\nlet text = [\n  '📥 NOVO CONTATO COMERCIAL — NEXAREIS',\n  '',\n  '🕒 Data e horário: ' + dateTime,\n  '🎯 Interesse: ' + interesse,\n  '🏪 Segmento: ' + segmento,\n  '',\n  '👤 Nome: ' + value('nome'),\n  '🏢 Empresa: ' + value('empresa'),\n  '✉️ E-mail: ' + value('email'),\n  '📱 WhatsApp: ' + value('whatsapp'),\n  '🔗 Conversar no WhatsApp: ' + whatsappLink,\n  '',\n  '💬 Mensagem:',\n  value('mensagem'),\n  '',\n  '🌐 Origem: ' + origem\n].join('\\n');\n\nif (text.length > 3900) text = text.slice(0, 3880) + '\\n\\n[Mensagem truncada]';\n\nreturn [{\n  json: {\n    whatsappText: text,\n    receivedAt: receivedAt.toISOString(),\n    dateTime,\n    interesse,\n    segmento,\n    nome: value('nome'),\n    empresa: value('empresa'),\n    email: value('email'),\n    whatsapp: value('whatsapp'),\n    whatsappLink,\n    mensagem: value('mensagem'),\n    origem\n  }\n}];"
+      },
+      "id": "b00c976b-3d70-4762-a381-3b47de4e6dd6",
+      "name": "Validar e detalhar formulário",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        0
+      ]
+    },
+    {
+      "id": "40399682-f568-4ddc-bf7c-48ea40ea1a02",
+      "name": "Enviar formulário — Assistente do Ni",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "jU6m1dnXkjVbKUIN",
+          "name": "Assistente do Ni"
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "https://1-evolution-api.n3hukr.easypanel.host/message/sendText/Assistente%20do%20Ni",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "evolutionApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { number: \"5511937105501\", text: $json.whatsappText, linkPreview: false } }}",
+        "options": {
+          "timeout": 10000
+        }
+      }
+    },
+    {
+      "id": "confirm-whatsapp",
+      "name": "Confirmar aceitação WhatsApp",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        188,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const r = $json;\nconst accepted = typeof r.key?.id === 'string' && r.key.id.trim().length > 0 && r.key.fromMe === true && r.key.remoteJid === '5511937105501@s.whatsapp.net' && ['PENDING','SERVER_ACK','DELIVERY_ACK','READ','PLAYED'].includes(r.status);\nreturn [{json: {ok: accepted, success: accepted, delivery: 'whatsapp', messageId: accepted ? r.key.id : null}}];"
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.ok === true ? 200 : 502 }}"
+        }
+      },
+      "id": "97fbd05e-39a0-46bd-bbd0-b79a9c6ef3f3",
+      "name": "Responder ao site",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        408,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Formulários NexaReis": {
+      "main": [
+        [
+          {
+            "node": "Validar e detalhar formulário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar e detalhar formulário": {
+      "main": [
+        [
+          {
+            "node": "Enviar formulário — Assistente do Ni",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar formulário — Assistente do Ni": {
+      "main": [
+        [
+          {
+            "node": "Confirmar aceitação WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmar aceitação WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Responder ao site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

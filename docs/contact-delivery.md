@@ -1,5 +1,9 @@
 # Confirmação de entrega do formulário
 
+## Atualização posterior
+
+Em 9 de outubro de 2026, os formulários passaram a usar a credencial Evolution API `Assistente do Ni` para WhatsApp. Consulte [whatsapp-form-delivery.md](whatsapp-form-delivery.md) para a configuração atual. O restante deste documento é o registro da implementação anterior com Telegram.
+
 ## Verificação local
 
 Na raiz do repositório, com Node.js 24:

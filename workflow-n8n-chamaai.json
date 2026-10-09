@@ -1,5 +1,5 @@
 {
-  "name": "ChamaAí Food - Lead Form to Telegram",
+  "name": "ChamaAí Food - Formulario Pilot -> WhatsApp",
   "nodes": [
     {
       "parameters": {
@@ -11,51 +11,58 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1.1,
       "position": [
-        250,
-        300
+        256,
+        304
       ],
       "id": "webhook-node",
       "name": "Webhook Lead Form",
       "webhookId": "f303cae2-9320-43bf-8e75-7644a0c2453b"
     },
     {
-      "parameters": {
-        "chatId": "1785799287",
-        "text": "={{ (function() {\n  const b = $json.body || {};\n  const escapeHtml = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n  const lines = [];\n\n  lines.push('🔔 <b>' + escapeHtml(b.formulario || 'Novo Lead Comercial') + '</b>');\n  lines.push('');\n\n  const name = b.name || b.nome;\n  if (name) lines.push('👤 <b>Nome:</b> ' + escapeHtml(name));\n\n  const empresa = b.businessName || b.empresa;\n  if (empresa) lines.push('🏢 <b>Empresa:</b> ' + escapeHtml(empresa));\n\n  if (b.email) lines.push('📧 <b>E-mail:</b> ' + escapeHtml(b.email));\n\n  const rawPhone = b.phone || b.whatsapp;\n  if (rawPhone) {\n    const digits = String(rawPhone).replace(/\\D/g, '');\n    const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : '';\n    const waLink = cleanPhone ? '<a href=\"https://wa.me/' + cleanPhone + '\">wa.me/' + cleanPhone + '</a>' : escapeHtml(rawPhone);\n    lines.push('📱 <b>WhatsApp:</b> ' + waLink);\n  }\n\n  if (b.necessidade) lines.push('🎯 <b>Necessidade:</b> ' + escapeHtml(b.necessidade));\n\n  const segmento = b.segment || b.segmento;\n  if (segmento) lines.push('🍕 <b>Segmento:</b> ' + escapeHtml(segmento));\n\n  if (b.city || b.state) {\n    const loc = [b.city, b.state].filter(Boolean).join(' - ');\n    if (loc) lines.push('📍 <b>Localização:</b> ' + escapeHtml(loc));\n  }\n\n  if (b.locations && Number(b.locations) > 1) lines.push('🏪 <b>Unidades:</b> ' + escapeHtml(b.locations));\n\n  if (b.monthlyDeliveryOrders && b.monthlyDeliveryOrders !== 'N/A') lines.push('📦 <b>Pedidos/Mês:</b> ' + escapeHtml(b.monthlyDeliveryOrders));\n\n  if (b.platforms) {\n    const platStr = Array.isArray(b.platforms) ? b.platforms.join(', ') : b.platforms;\n    if (platStr && platStr !== 'N/A') lines.push('🛵 <b>Plataformas:</b> ' + escapeHtml(platStr));\n  }\n\n  if (b.preferredContact && b.preferredContact !== 'whatsapp') lines.push('💬 <b>Contato Preferencial:</b> ' + escapeHtml(b.preferredContact));\n\n  const msg = b.currentPain || b.mensagem;\n  if (msg && msg !== 'N/A') lines.push('📝 <b>Mensagem:</b> ' + escapeHtml(msg));\n\n  if (b.origem) lines.push('🌐 <b>Origem:</b> ' + escapeHtml(b.origem));\n\n  if (b.id && b.id !== 'N/A') lines.push('🆔 <b>ID:</b> <code>' + escapeHtml(b.id) + '</code>');\n\n  return lines.join('\\n');\n})() }}",
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "💬 Abrir no WhatsApp",
-                    "additionalFields": {
-                      "url": "={{ (function() { const b = $json.body || {}; const rawPhone = b.phone || b.whatsapp; const digits = String(rawPhone || '').replace(/\\D/g, ''); const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : ''; return cleanPhone ? 'https://wa.me/' + cleanPhone : 'https://wa.me/'; })() }}"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "additionalFields": {
-          "parse_mode": "HTML"
+      "id": "telegram-node",
+      "name": "Enviar formulário — Assistente do Ni",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        512,
+        304
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "jU6m1dnXkjVbKUIN",
+          "name": "Assistente do Ni"
         }
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.1,
+      "parameters": {
+        "method": "POST",
+        "url": "https://1-evolution-api.n3hukr.easypanel.host/message/sendText/Assistente%20do%20Ni",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "evolutionApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { number: \"5511937105501\", text: (function() {\n  const b = $json.body || {};\n  const escapeHtml = (value) => String(value);\n  const lines = [];\n\n  lines.push('🔔 ' + escapeHtml(b.formulario || 'Novo Lead Comercial') + '');\n  lines.push('');\n\n  const name = b.name || b.nome;\n  if (name) lines.push('👤 Nome: ' + escapeHtml(name));\n\n  const empresa = b.businessName || b.empresa;\n  if (empresa) lines.push('🏢 Empresa: ' + escapeHtml(empresa));\n\n  if (b.email) lines.push('📧 E-mail: ' + escapeHtml(b.email));\n\n  const rawPhone = b.phone || b.whatsapp;\n  if (rawPhone) {\n    const digits = String(rawPhone).replace(/\\D/g, '');\n    const cleanPhone = digits.length > 0 ? (digits.length <= 11 ? '55' + digits : digits) : '';\n    const waLink = cleanPhone ? 'https://wa.me/' + cleanPhone : escapeHtml(rawPhone);\n    lines.push('📱 WhatsApp: ' + waLink);\n  }\n\n  if (b.necessidade) lines.push('🎯 Necessidade: ' + escapeHtml(b.necessidade));\n\n  const segmento = b.segment || b.segmento;\n  if (segmento) lines.push('🍕 Segmento: ' + escapeHtml(segmento));\n\n  if (b.city || b.state) {\n    const loc = [b.city, b.state].filter(Boolean).join(' - ');\n    if (loc) lines.push('📍 Localização: ' + escapeHtml(loc));\n  }\n\n  if (b.locations && Number(b.locations) > 1) lines.push('🏪 Unidades: ' + escapeHtml(b.locations));\n\n  if (b.monthlyDeliveryOrders && b.monthlyDeliveryOrders !== 'N/A') lines.push('📦 Pedidos/Mês: ' + escapeHtml(b.monthlyDeliveryOrders));\n\n  if (b.platforms) {\n    const platStr = Array.isArray(b.platforms) ? b.platforms.join(', ') : b.platforms;\n    if (platStr && platStr !== 'N/A') lines.push('🛵 Plataformas: ' + escapeHtml(platStr));\n  }\n\n  if (b.preferredContact && b.preferredContact !== 'whatsapp') lines.push('💬 Contato Preferencial: ' + escapeHtml(b.preferredContact));\n\n  const msg = b.currentPain || b.mensagem;\n  if (msg && msg !== 'N/A') lines.push('📝 Mensagem: ' + escapeHtml(msg));\n\n  if (b.origem) lines.push('🌐 Origem: ' + escapeHtml(b.origem));\n\n  if (b.id && b.id !== 'N/A') lines.push('🆔 ID: ' + escapeHtml(b.id) + '');\n\n  return lines.join('\\n');\n})(), linkPreview: false } }}",
+        "options": {
+          "timeout": 10000
+        }
+      }
+    },
+    {
+      "id": "confirm-whatsapp",
+      "name": "Confirmar aceitação WhatsApp",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        500,
-        300
+        732,
+        304
       ],
-      "id": "telegram-node",
-      "name": "Telegram Notifier"
+      "parameters": {
+        "jsCode": "const r = $json;\nconst accepted = typeof r.key?.id === 'string' && r.key.id.trim().length > 0 && r.key.fromMe === true && r.key.remoteJid === '5511937105501@s.whatsapp.net' && ['PENDING','SERVER_ACK','DELIVERY_ACK','READ','PLAYED'].includes(r.status);\nreturn [{json: {ok: accepted, success: accepted, delivery: 'whatsapp', messageId: accepted ? r.key.id : null}}];"
+      }
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ { ok: $json.ok === true } }}",
+        "responseBody": "={{ $json }}",
         "options": {
           "responseCode": "={{ $json.ok === true ? 200 : 502 }}"
         }
@@ -63,8 +70,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        750,
-        300
+        952,
+        304
       ],
       "id": "respond-node",
       "name": "Respond to Webhook"
@@ -75,14 +82,25 @@
       "main": [
         [
           {
-            "node": "Telegram Notifier",
+            "node": "Enviar formulário — Assistente do Ni",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Telegram Notifier": {
+    "Enviar formulário — Assistente do Ni": {
+      "main": [
+        [
+          {
+            "node": "Confirmar aceitação WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmar aceitação WhatsApp": {
       "main": [
         [
           {
@@ -94,8 +112,8 @@
       ]
     }
   },
-  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   }
 }
