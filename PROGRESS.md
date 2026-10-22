@@ -59,3 +59,13 @@ Validação da marca d’água: typecheck, 29 testes unitários, build e 28 veri
 - Rota `/curriculo`: versão A4 com foto, informações profissionais, cursos, indicação de Testemunha de Jeová e link JW.ORG no início. Comando do navegador para imprimir ou salvar como PDF; não é um PDF estático hospedado.
 - Metadados e rewrite da rota adicionados; testes de regressão e verificação de PDF no navegador incluídos.
 - Aguardam conferência de CI/preview e validação visual. Não houve merge ou deploy em produção nesta etapa.
+
+## Confirmação do fundador e atualização visual — 22/10/2026
+
+- O responsável confirmou ser o **fundador da Nexa Reis e criador dos projetos exibidos**.
+- Hero da rota `/nicolas-reis` alinhado ao conceito do QR Code: “Conheça meu portfólio profissional”, subtítulo e identificação “Nícolas Reis — Administração e Tecnologia”.
+- Adicionados quatro atalhos visuais internos: **Experiência, Projetos, Formação e Contato**, com âncoras para as seções.
+- Removido o botão “Visualizar currículo para impressão” do perfil; rota `/curriculo` continua disponível separadamente.
+- Endereço recomendado para o QR Code: `https://www.nexareis.com.br/nicolas-reis` (caminho no domínio oficial, sem novo subdomínio).
+- Atualizados testes automatizados para refletir a autoria confirmada e a navegação.
+- Não houve merge nem alteração em produção nesta revisão.
