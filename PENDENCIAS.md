@@ -46,3 +46,9 @@ Nenhum dado de resultado foi substituído por estimativa. Depoimento existente m
 - Botão de currículo removido da página pessoal; rota `/curriculo` segue disponível.
 - Link preferido para o QR: caminho direto no domínio oficial, `/nicolas-reis`.
 - Faltam verificação visual em celular e validação de links de demonstração dos projetos em produção.
+
+## Revisão de microinterações — 22/10/2026
+
+- Criados efeitos slow iniciais e finais para Experiência, Projetos, Formação e Contato.
+- Preservadas âncoras navegáveis e prioridade de acessibilidade `prefers-reduced-motion`.
+- Pendente: conferir no GitHub Actions o CI do último commit e revisar as transições em dispositivos reais, sem aplicar alterações em produção antes da aprovação.
