@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, BriefcaseBusiness, Code2, GraduationCap, Github, Instagram, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { PRODUCTS } from '../data/landingData';
@@ -15,9 +16,27 @@ const portfolioNavigation = [
   { id: 'contato-profissional', label: 'Contato', detail: 'Vamos conversar', icon: MessageCircle },
 ];
 
-export const NicolasReis: React.FC = () => (
+const slowEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+export const NicolasReis: React.FC = () => {
+  const reduceMotion = useReducedMotion();
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedSection) return;
+    const timeout = window.setTimeout(() => setSelectedSection(null), 2000);
+    return () => window.clearTimeout(timeout);
+  }, [selectedSection]);
+
+  return (
   <article className="pb-24">
-    <section className="relative isolate overflow-hidden pt-32 pb-16" aria-labelledby="nicolas-heading">
+    <motion.section
+      className="relative isolate overflow-hidden pt-32 pb-16"
+      aria-labelledby="nicolas-heading"
+      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.95, ease: slowEasing }}
+    >
       <div data-profile-watermark aria-hidden="true" className="profile-watermark pointer-events-none absolute top-20 right-0 -z-10 w-full lg:w-1/2 select-none">
         <img src={nicolasProfile.portrait} alt="" width={1147} height={1536} decoding="async" className="h-auto w-full" />
       </div>
@@ -56,20 +75,40 @@ export const NicolasReis: React.FC = () => (
         </div>
 
         <nav aria-label="Navegação do portfólio profissional" className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-14">
-          {portfolioNavigation.map(({ id, label, detail, icon: Icon }) => (
-            <a key={id} href={'#' + id} className="group flex flex-col items-start justify-between gap-4 min-h-[130px] rounded-2xl bg-[#13161a] border border-white/15 p-4 sm:p-6 hover:border-brand-cyan/70 hover:bg-[#192027] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-cyan">
+          {portfolioNavigation.map(({ id, label, detail, icon: Icon }, index) => (
+            <motion.a
+              key={id}
+              href={'#' + id}
+              data-portfolio-card={id}
+              data-portfolio-active={selectedSection === id ? 'true' : undefined}
+              onClick={() => setSelectedSection(reduceMotion ? null : id)}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              whileHover={reduceMotion ? undefined : { y: -4 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+              transition={{ duration: reduceMotion ? 0 : 0.7, ease: slowEasing, delay: reduceMotion ? 0 : index * 0.09 }}
+              className="group flex flex-col items-start justify-between gap-4 min-h-[130px] rounded-2xl bg-[#13161a] border border-white/15 p-4 sm:p-6 hover:border-brand-cyan/70 hover:bg-[#192027] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-cyan"
+            >
               <Icon size={24} className="text-brand-cyan" aria-hidden="true" />
               <span className="block">
                 <span className="block text-lg font-display font-semibold text-white">{label}</span>
                 <span className="block text-xs text-gray-light mt-1">{detail}</span>
               </span>
-            </a>
+            </motion.a>
           ))}
         </nav>
       </div>
-    </section>
+    </motion.section>
 
-    <section id="experiencia" aria-labelledby="experiencia-heading" className="bg-white-soft text-dark-bg py-16">
+    <motion.section id="experiencia" aria-labelledby="experiencia-heading" className="bg-white-soft text-dark-bg py-16"
+      data-portfolio-effect="experience"
+      data-portfolio-selected={selectedSection === 'experiencia' && !reduceMotion ? 'true' : undefined}
+      initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: reduceMotion ? 0 : 0.82, ease: slowEasing }}
+    >
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-4">
           <BriefcaseBusiness size={25} className="mb-4 text-brand-blue" aria-hidden="true" />
@@ -87,9 +126,16 @@ export const NicolasReis: React.FC = () => (
           ))}
         </ol>
       </div>
-    </section>
+    </motion.section>
 
-    <section id="projetos" aria-labelledby="projetos-heading" className="bg-[#0d0d0d] border-y border-white/10 py-16">
+    <motion.section id="projetos" aria-labelledby="projetos-heading" className="bg-[#0d0d0d] border-y border-white/10 py-16"
+      data-portfolio-effect="projects"
+      data-portfolio-selected={selectedSection === 'projetos' && !reduceMotion ? 'true' : undefined}
+      initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.975 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: reduceMotion ? 0 : 0.96, ease: slowEasing }}
+    >
       <div className="max-w-7xl mx-auto px-6">
         <p className="text-brand-cyan uppercase font-semibold text-xs tracking-widest mb-3">Projetos que desenvolvi</p>
         <h2 id="projetos-heading" className="font-display text-3xl sm:text-4xl font-bold mb-4">Da ideia à solução</h2>
@@ -120,9 +166,16 @@ export const NicolasReis: React.FC = () => (
           })}
         </div>
       </div>
-    </section>
+    </motion.section>
 
-    <section id="formacao" aria-labelledby="formacao-heading" className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-12 gap-10">
+    <motion.section id="formacao" aria-labelledby="formacao-heading" className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-12 gap-10"
+      data-portfolio-effect="education"
+      data-portfolio-selected={selectedSection === 'formacao' && !reduceMotion ? 'true' : undefined}
+      initial={reduceMotion ? false : { opacity: 0, x: -18 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: reduceMotion ? 0 : 0.88, ease: slowEasing }}
+    >
       <h2 id="formacao-heading" className="lg:col-span-4 font-display text-3xl font-bold">Formação</h2>
       <ul className="lg:col-span-8 space-y-7 text-gray-light">
         {nicolasProfile.courses.map(course => (
@@ -132,9 +185,16 @@ export const NicolasReis: React.FC = () => (
           </li>
         ))}
       </ul>
-    </section>
+    </motion.section>
 
-    <section id="contato-profissional" className="max-w-7xl mx-auto px-6 border-t border-white/15 pt-16" aria-labelledby="contato-profissional-heading">
+    <motion.section id="contato-profissional" className="max-w-7xl mx-auto px-6 border-t border-white/15 pt-16" aria-labelledby="contato-profissional-heading"
+      data-portfolio-effect="contact"
+      data-portfolio-selected={selectedSection === 'contato-profissional' && !reduceMotion ? 'true' : undefined}
+      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: reduceMotion ? 0 : 1, ease: slowEasing }}
+    >
       <h2 id="contato-profissional-heading" className="font-display text-3xl font-semibold mb-3">Vamos conversar?</h2>
       <p className="text-gray-light mb-6 max-w-2xl">Se quiser conhecer minha trajetória ou conversar sobre oportunidades e projetos, estes são meus canais de contato.</p>
       <div className="flex flex-wrap gap-5 text-gray-light">
@@ -142,6 +202,7 @@ export const NicolasReis: React.FC = () => (
         <a href={nicolasProfile.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex gap-2 items-center py-3 underline underline-offset-4"><Instagram size={18} aria-hidden="true" />{nicolasProfile.instagramHandle}</a>
         <a href={nicolasProfile.github} target="_blank" rel="noopener noreferrer" className="inline-flex gap-2 items-center py-3 underline underline-offset-4"><Github size={18} aria-hidden="true" />GitHub</a>
       </div>
-    </section>
+    </motion.section>
   </article>
-);
+  );
+};
