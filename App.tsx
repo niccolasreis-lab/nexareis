@@ -8,6 +8,8 @@ import { RouteMetadata } from './components/RouteMetadata';
 import { Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 
+const NicolasCurriculo = React.lazy(() => import('./pages/NicolasCurriculo').then(({ NicolasCurriculo }) => ({ default: NicolasCurriculo })));
+
 const NicolasReis = React.lazy(() => import('./pages/NicolasReis').then(({ NicolasReis }) => ({ default: NicolasReis })));
 
 const ServiceDetail = React.lazy(() =>
@@ -95,6 +97,7 @@ function AnimatedRoutes() {
             </Suspense>
           }
         />
+        <Route path="/curriculo" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando currículo…</p>}><NicolasCurriculo /></Suspense>} />
         <Route path="/nicolas-reis" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando perfil…</p>}><NicolasReis /></Suspense>} />
         <Route path="*" element={<div className="max-w-7xl mx-auto px-6 pt-40 pb-24"><h1 className="font-display text-3xl mb-6">Página não encontrada</h1><Link to="/" className="text-brand-cyan underline">Voltar para a página inicial</Link></div>} />
       </Routes>
