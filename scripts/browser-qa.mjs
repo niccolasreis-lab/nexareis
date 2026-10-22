@@ -157,6 +157,21 @@ try {
     assert.equal(await page.getByRole('link', { name:'GitHub de Nícolas Reis' }).getAttribute('href'), 'https://github.com/niccolasreis-lab');
     assert.equal(await page.getByRole('link', { name:'Contato pelo WhatsApp', exact: true }).getAttribute('href'), 'https://wa.me/5511937105501');
   });
+  await check('personal portfolio hero and four quick links', async () => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(base + '/nicolas-reis');
+    await page.getByRole('heading', { level: 1, name: 'Conheça meu portfólio profissional' }).waitFor();
+    await page.getByText('Fundador da Nexa Reis', { exact: false }).first().waitFor();
+    const navigation = page.getByRole('navigation', { name: 'Navegação do portfólio profissional' });
+    for (const id of ['experiencia', 'projetos', 'formacao', 'contato-profissional']) {
+      const link = navigation.locator('a[href="#' + id + '"]');
+      assert.equal(await link.count(), 1, id);
+      assert.equal(await page.locator('#' + id).count(), 1, id + ' target');
+    }
+    assert.equal(await page.getByText('Visualizar currículo para impressão').count(), 0);
+    await navigation.locator('a[href="#projetos"]').click();
+    assert.equal(new URL(page.url()).hash, '#projetos');
+  });
   await check('A4 curriculum route has contact, courses and print-only layout', async () => {
     await page.goto(base + '/curriculo');
     await page.getByRole('heading', { name: 'Nícolas Reis', exact: true }).waitFor();
