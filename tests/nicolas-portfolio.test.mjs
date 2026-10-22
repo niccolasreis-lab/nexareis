@@ -35,3 +35,19 @@ test('profile presents the founder and the four-section navigation', () => {
   assert.ok(!page.includes('Visualizar currículo para impressão'));
   assert.match(page, /aria-labelledby="projetos-heading"/);
 });
+
+
+test('slow entrance/exit feedback is scoped to the selected portfolio section', () => {
+  const page = read('pages/NicolasReis.tsx');
+  const css = read('index.css');
+  assert.match(page, /useReducedMotion/);
+  assert.match(page, /data-portfolio-active/);
+  assert.match(page, /data-portfolio-selected/);
+  assert.match(page, /setTimeout\(\(\) => setSelectedSection\(null\), 2000\)/);
+  assert.match(page, /once: true, amount: 0\.08/);
+  for (const effect of ['experience', 'projects', 'education', 'contact']) {
+    assert.ok(page.includes('data-portfolio-effect="' + effect + '"'), effect);
+  }
+  assert.match(css, /@keyframes portfolio-arrival/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
