@@ -69,3 +69,11 @@ Validação da marca d’água: typecheck, 29 testes unitários, build e 28 veri
 - Endereço recomendado para o QR Code: `https://www.nexareis.com.br/nicolas-reis` (caminho no domínio oficial, sem novo subdomínio).
 - Atualizados testes automatizados para refletir a autoria confirmada e a navegação.
 - Não houve merge nem alteração em produção nesta revisão.
+
+## Microinterações slow no portfólio — 22/10/2026
+
+- Adicionados efeitos de entrada escalonada aos quatro cards de navegação em `/nicolas-reis`.
+- Cada seção usa um efeito suave coerente com a ação: experiência (deslocamento vertical), projetos (fade e escala), formação (lateral), contato (fade vertical). Durações entre 0,82 e 1,0 segundo.
+- Ao clicar em um atalho, a navegação mantém a âncora HTML e exibe um brilho discreto de chegada, que desaparece ao longo de 1,75 segundo. O estado selecionado é removido após 2 segundos.
+- As animações respeitam `prefers-reduced-motion`: entrada instantânea e sem brilho quando essa preferência está ativa.
+- Testes unitários e de browser incluem estados animado, finalizado e reduzido; resultados precisam ser confirmados no CI do SHA atualizado antes de merge.
