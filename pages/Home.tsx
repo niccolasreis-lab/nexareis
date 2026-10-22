@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { Manifesto } from '../components/Manifesto';
 import { ProductShowcase } from '../components/ProductShowcase';
@@ -27,6 +28,10 @@ export const Home: React.FC = () => {
 
       {/* 1. Hero Section - TV, Monitor & Laptop interactive mockups */}
       <Hero />
+      <nav aria-label="Escolha seu interesse" className="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row gap-4 sm:gap-10 border-b border-white/10">
+        <Link to="/nicolas-reis" className="text-brand-cyan underline underline-offset-4 py-3">Sou recrutador — conhecer Nícolas Reis</Link>
+        <Link to="/#solucoes" className="text-gray-light underline underline-offset-4 py-3">Preciso de uma solução para minha empresa</Link>
+      </nav>
 
       {/* 2. Manifesto - Transition to White-Soft background, Asymmetric editorial grid */}
       <Manifesto />
@@ -59,7 +64,7 @@ export const Home: React.FC = () => {
       {/* 10. Feedback de Gestores e Clientes - Prova social com controle admin */}
       <DeferredSection id="feedback-gestores" minHeight="96rem">
         <Suspense fallback={null}>
-          <ManagerFeedbackSection sectionId={undefined} />
+          <ManagerFeedbackSection sectionId={null} />
         </Suspense>
       </DeferredSection>
 

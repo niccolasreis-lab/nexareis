@@ -4,9 +4,13 @@ import { Logo } from './Logo';
 import { Button } from './Button';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { scrollToSection } from '../lib/navigation';
 import { NAV_ITEMS } from '../constants';
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -82,32 +86,20 @@ export const Header: React.FC = () => {
   }, [mobileMenuOpen]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     setMobileMenuOpen(false);
-    
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+    if (location.pathname !== '/') navigate('/' + href);
+    else {
+      navigate('/' + href);
+      scrollToSection(href.slice(1));
     }
   };
 
   const handleCTA = () => {
     setMobileMenuOpen(false);
-    const element = document.getElementById('contato');
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
+    navigate('/#contato');
+    if (location.pathname === '/') scrollToSection('contato');
   };
 
   return (
@@ -122,16 +114,16 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         
         {/* Nexa Reis Logo */}
-        <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="z-50">
+        <a href="/#home" onClick={(e) => handleNavClick(e, '#home')} className="z-50">
           <Logo variant="header" showText={true} />
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav aria-label="Navegação principal" className="hidden lg:flex items-center gap-8">
           {navItems.map((item) => (
             <a 
               key={item.label}
-              href={item.href}
+              href={"/" + item.href}
               onClick={(e) => handleNavClick(e, item.href)}
               className={`relative font-sans text-sm tracking-wide transition-colors duration-300 ${
                 activeSection === item.id 
@@ -196,7 +188,7 @@ export const Header: React.FC = () => {
               {navItems.map((item, index) => (
                 <motion.a 
                   key={item.label}
-                  href={item.href}
+                  href={"/" + item.href}
                   initial={reduceMotion ? false : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.05 }}

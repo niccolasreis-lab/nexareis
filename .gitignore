@@ -33,3 +33,6 @@ dist-ssr
 .impeccable/live/previews/
 .impeccable/live/annotations/
 .impeccable/live/cache/
+
+# Reproducible visual QA artifacts are uploaded by CI, not versioned.
+qa/*.png

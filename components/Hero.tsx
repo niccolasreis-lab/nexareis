@@ -1,21 +1,17 @@
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { scrollToSection } from '../lib/navigation';
 import { Button } from './Button';
 import { ArrowRight, Monitor, Tv, Laptop, CheckCircle, Wifi, RefreshCw, Layers } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 150]);
   const opacityBg = useTransform(scrollY, [0, 500], [1, 0]);
 
   const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      window.scrollTo({
-        top: el.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
+    scrollToSection(id);
   };
 
   return (
@@ -23,7 +19,7 @@ export const Hero: React.FC = () => {
       
       {/* Background Tech Grids & Radial Glow */}
       <motion.div 
-        style={{ y: yBg, opacity: opacityBg }}
+        style={reduceMotion ? undefined : { y: yBg, opacity: opacityBg }}
         className="absolute inset-0 pointer-events-none z-0"
       >
         {/* Editorial Tech Grid lines */}
@@ -46,7 +42,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6"
           >
-            <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-brand-cyan"></span>
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brand-cyan font-semibold">
               Software Studio & Lab
             </span>
@@ -122,8 +118,10 @@ export const Hero: React.FC = () => {
         {/* Right Side: Composition Visual with 3 mockups (TV, Monitor, Notebook) */}
         <div className="lg:col-span-6 relative h-[500px] sm:h-[600px] flex items-center justify-center w-full mt-10 lg:mt-0">
           
+          <p className="absolute bottom-0 left-0 text-xs text-gray-light">Interfaces ilustrativas com dados de exemplo.</p>
+
           {/* Ambient Glow spots behind mockups */}
-          <div className="absolute w-[300px] h-[300px] rounded-full bg-brand-cyan/15 blur-2xl top-1/4 left-1/4 animate-pulse pointer-events-none" />
+          <div className="absolute w-[300px] h-[300px] rounded-full bg-brand-cyan/15 blur-2xl top-1/4 left-1/4 pointer-events-none" />
           <div className="absolute w-[200px] h-[200px] rounded-full bg-[#C5F467]/10 blur-2xl bottom-1/4 right-1/4 pointer-events-none" />
 
           {/* 1. SMART TV MOCKUP - CHAMAÍ FOOD (Delivery Screen) */}
@@ -161,7 +159,7 @@ export const Hero: React.FC = () => {
                 <div className="bg-[#151515] p-2 rounded border border-brand-cyan/10">
                   <h4 className="text-[8px] sm:text-[10px] text-brand-cyan uppercase tracking-widest font-semibold mb-2">Prontos</h4>
                   <div className="space-y-1">
-                    <div className="text-[9px] sm:text-xs font-mono text-emerald-400 font-bold py-0.5 px-1 bg-emerald-500/10 rounded animate-pulse">#1205 - Sushi</div>
+                    <div className="text-[9px] sm:text-xs font-mono text-emerald-400 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1205 - Sushi</div>
                     <div className="text-[9px] sm:text-xs font-mono text-emerald-400 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1206 - Temaki</div>
                   </div>
                 </div>
@@ -248,10 +246,9 @@ export const Hero: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Floating UI micro-cards with real status info */}
+          {/* Illustrative interface cards */}
           <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            animate={undefined}
             className="absolute top-[160px] right-[40px] bg-dark-card/90 border border-white/10 p-3 rounded-xl shadow-xl z-50 flex items-center gap-2.5"
           >
             <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
@@ -259,13 +256,12 @@ export const Hero: React.FC = () => {
             </div>
             <div>
               <div className="font-mono text-[9px] text-gray-sec uppercase tracking-widest">Sistemas</div>
-              <div className="text-[11px] font-semibold text-white">100% Operacionais</div>
+              <div className="text-[11px] font-semibold text-white">Soluções para operações</div>
             </div>
           </motion.div>
 
           <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            animate={undefined}
             className="absolute top-[380px] left-1/2 -translate-x-1/2 bg-dark-card/90 border border-white/10 p-3 rounded-xl shadow-xl z-50 flex items-center gap-2.5"
           >
             <Layers className="w-4 h-4 text-brand-cyan" />
@@ -280,21 +276,17 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Down Scroll Indicator */}
-      <div 
+      <button type="button"
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity" 
-        onClick={() => handleScrollTo('sobre')}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleScrollTo('sobre'); }}
-        aria-label="Rolar para a seção Sobre"
+        onClick={() => handleScrollTo('manifesto')}
+        aria-label="Conhecer a abordagem da Nexa Reis"
       >
-        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-gray-sec">Desbloquear</span>
+        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-gray-sec">Conheça nossa abordagem</span>
         <motion.div 
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          animate={undefined}
           className="w-1 h-8 bg-gradient-to-b from-brand-cyan to-transparent"
         />
-      </div>
+      </button>
 
     </section>
   );

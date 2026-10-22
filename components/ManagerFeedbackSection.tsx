@@ -33,7 +33,7 @@ export const ClientLogo: React.FC<{ src?: string; alt?: string; className?: stri
   className = "w-16 h-16",
 }) => {
   return (
-    <div className={`relative ${className} flex-shrink-0 select-none`} id="client-logo-msp">
+    <div className={`relative ${className} flex-shrink-0 select-none`} data-component="client-logo-msp">
       <img src={src} alt={alt} width={250} height={250} loading="lazy" decoding="async" className="h-full w-full object-contain" />
     </div>
   );
@@ -76,9 +76,9 @@ export const ClientProductBadge: React.FC<{ name: string; url: string }> = ({ na
       target="_blank" 
       rel="noreferrer" 
       className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full hover:bg-brand-cyan/10 hover:border-brand-cyan/30 text-xs text-gray-sec hover:text-white transition-all duration-300"
-      id={`badge-${name.toLowerCase().replace(/\s+/g, '-')}`}
+      data-component="client-product-badge"
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+      <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
       <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">{name}</span>
       <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />
     </a>
@@ -92,7 +92,7 @@ export const ManagerQuote: React.FC<{ quote: string; manager: string; role: stri
   const isPlaceholder = quote === "[INSERIR FEEDBACK REAL DO GESTOR DO MERCANTIL SANTA PAULA]";
   
   return (
-    <div className="relative p-8 rounded-3xl bg-[#0c0c0c] border border-white/5 overflow-hidden" id="manager-quote-container">
+    <div className="relative p-8 rounded-3xl bg-[#0c0c0c] border border-white/5 overflow-hidden" data-component="manager-quote-container">
       {/* Decorative quotes graphic */}
       <div className="absolute top-4 left-4 font-serif text-8xl text-white/[0.02] leading-none select-none pointer-events-none">
         “
@@ -238,7 +238,7 @@ export const CaseStudyGallery: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6" id="casestudy-gallery-root">
+    <div className="w-full flex flex-col gap-6" data-component="casestudy-gallery-root">
       
       {/* Tab Selector */}
       <div className="flex gap-2 p-1.5 bg-white/[0.02] border border-white/5 rounded-full max-w-xs">
@@ -277,7 +277,7 @@ export const CaseStudyGallery: React.FC = () => {
 
         {/* Outer Bezel indicator */}
         <div className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20 bg-black/40 px-2.5 py-0.5 rounded-full border border-white/5">
-          <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
           <span className="font-mono text-[7px] text-gray-sec uppercase tracking-widest font-black">NEXA REIS DISPLAY</span>
         </div>
 
@@ -938,7 +938,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
             {/* Header info */}
             <div className="flex items-center justify-between">
               <div className="inline-flex items-center gap-1 bg-brand-cyan/10 border border-brand-cyan/20 px-3 py-1 rounded-full">
-                <Sparkles className="w-3 h-3 text-brand-cyan animate-pulse" />
+                <Sparkles className="w-3 h-3 text-brand-cyan" />
                 <span className="font-mono text-[9px] uppercase tracking-widest text-brand-cyan font-bold">CLIENTE EM DESTAQUE</span>
               </div>
               
@@ -1182,7 +1182,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
 // ==========================================
 // 10. MAIN SECTION CONTAINER COMPONENT
 // ==========================================
-export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ sectionId = 'feedback-gestores' }) => {
+export const ManagerFeedbackSection: React.FC<{ sectionId?: string | null }> = ({ sectionId = 'feedback-gestores' }) => {
   const [feedbacks, setFeedbacks] = useState<ManagerFeedback[]>(() => {
     if (!import.meta.env.DEV) return initialFeedbacks;
     const saved = localStorage.getItem('nexa_manager_feedbacks');
@@ -1246,7 +1246,7 @@ export const ManagerFeedbackSection: React.FC<{ sectionId?: string }> = ({ secti
   const mspCase = feedbacks.find(f => f.id === 'mercantil-santa-paula') || initialFeedbacks[0];
 
   return (
-    <section id={sectionId} className="py-32 bg-[#050505] text-white border-t border-white/5 relative overflow-hidden" aria-label="Feedback de Gestores e Clientes">
+    <section id={sectionId ?? undefined} className="py-32 bg-[#050505] text-white border-t border-white/5 relative overflow-hidden" aria-label="Feedback de Gestores e Clientes">
       
       {/* Structural Editorial grid line design */}
       <div className="absolute inset-0 grid-lines opacity-10 pointer-events-none" />

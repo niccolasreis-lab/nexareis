@@ -1,3 +1,4 @@
+import { scrollToSection } from '../lib/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -65,17 +66,7 @@ export const SectionIndicator: React.FC = () => {
   }, []);
 
   const handleScrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    scrollToSection(id);
   };
 
   return (
@@ -95,13 +86,14 @@ export const SectionIndicator: React.FC = () => {
         const isHovered = hoveredSection === section.id;
 
         return (
-          <div
+          <button
+            type="button"
             key={section.id}
             className="flex items-center gap-4 relative group cursor-pointer"
             onMouseEnter={() => setHoveredSection(section.id)}
             onMouseLeave={() => setHoveredSection(null)}
             onClick={() => handleScrollTo(section.id)}
-            role="button"
+            aria-current={isActive ? "location" : undefined}
             aria-label={`Rolar para seção ${section.label}`}
             id={`indicator-${section.id}`}
           >
@@ -157,7 +149,7 @@ export const SectionIndicator: React.FC = () => {
                 className="w-[7px] h-[7px] rounded-full border z-10"
               />
             </div>
-          </div>
+          </button>
         );
       })}
     </div>

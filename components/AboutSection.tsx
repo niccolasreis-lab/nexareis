@@ -9,7 +9,7 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="sobre" className="py-28 bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
+    <section id="sobre" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
       <div className="absolute inset-0 grid-lines opacity-[0.02] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -32,7 +32,7 @@ export const AboutSection: React.FC = () => {
                 A Nexa Reis nasceu de uma constatação simples: <strong>a tecnologia não pode criar fricção, ela deve eliminar.</strong> Enquanto outras consultorias vendem conceitos futuristas complexos, nós vamos aos estabelecimentos físicos observar o fluxo de atendimento, as conversas de balcão e os gargalos de expedição.
               </p>
               <p>
-                Nossos desenvolvedores e designers de produto atuam de perto na rotina física para desenhar softwares limpos que operários de todos os níveis usem sem hesitação. O resultado são taxas de aceitação interna elevadíssimas e otimização imediata da velocidade dos negócios.
+                Buscamos entender a rotina da equipe antes de desenvolver. Assim, cada solução pode ser planejada para organizar informações e simplificar as tarefas do dia a dia.
               </p>
             </div>
 
@@ -53,8 +53,8 @@ export const AboutSection: React.FC = () => {
                   <Cpu className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-display font-bold text-sm uppercase text-[#050505] tracking-tight mb-1">Velocidade Extrema</h4>
-                  <p className="font-sans text-xs text-[#666662] leading-relaxed">Código sem bibliotecas redundantes, garantindo respostas em milissegundos.</p>
+                  <h4 className="font-display font-bold text-sm uppercase text-[#050505] tracking-tight mb-1">Desempenho</h4>
+                  <p className="font-sans text-xs text-[#666662] leading-relaxed">Escolhas técnicas orientadas ao uso e ao desempenho esperado em cada projeto.</p>
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ export const AboutSection: React.FC = () => {
               
               <div className="flex items-center gap-2 mb-6">
                 <Terminal className="w-4 h-4 text-brand-blue" />
-                <span className="font-mono text-xs uppercase tracking-widest text-[#888] font-bold">Nexa Technology Hub</span>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#555550] font-bold">Nexa Technology Hub</span>
               </div>
 
               <h3 className="font-display text-lg font-bold text-[#050505] mb-4 uppercase tracking-tight">
@@ -76,7 +76,7 @@ export const AboutSection: React.FC = () => {
               </h3>
               
               <p className="font-sans text-xs sm:text-sm text-[#666662] leading-relaxed mb-8">
-                Desenvolvemos sob uma base sólida de engenharia para que sua empresa desfrute de estabilidade técnica vitalícia sem sustos de escalabilidade.
+                Selecionamos as tecnologias conforme as necessidades do projeto. Manutenção, capacidade e evolução são avaliadas ao longo do uso.
               </p>
 
               {/* Stack items capsules */}
@@ -92,8 +92,8 @@ export const AboutSection: React.FC = () => {
               </div>
 
               <div className="mt-8 pt-6 border-t border-[#EBEBE6] flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Aplicações 100% Homologadas</span>
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <span className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Validação conforme o escopo do projeto</span>
               </div>
             </div>
           </div>

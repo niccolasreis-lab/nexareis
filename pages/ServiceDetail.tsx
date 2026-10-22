@@ -14,10 +14,8 @@ export const ServiceDetail: React.FC = () => {
   if (!service) {
     return (
       <div className="container section-py" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h2 className="section-title">Serviço não encontrado</h2>
-        <Link to="/">
-          <Button variant="outline">Voltar para Home</Button>
-        </Link>
+        <h2 className="font-display text-3xl sm:text-5xl font-bold mb-6">Serviço não encontrado</h2>
+        <Link to="/" className="text-brand-cyan underline">Voltar para a página inicial</Link>
       </div>
     );
   }
@@ -25,13 +23,13 @@ export const ServiceDetail: React.FC = () => {
   const Icon = service.icon;
 
   return (
-    <div className="bg-navy" style={{ minHeight: '100vh', paddingTop: '8rem' }}>
-      <div className="container">
-        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gray-400)', marginBottom: '2rem' }}>
+    <div className="bg-dark-bg px-6 pb-24" style={{ minHeight: '100vh', paddingTop: '8rem' }}>
+      <div className="max-w-7xl mx-auto">
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gray-light)', marginBottom: '2rem' }}>
           <ArrowLeft size={16} /> Voltar para Home
         </Link>
 
-        <div className="contact-grid">
+        <div className="grid lg:grid-cols-2 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -39,17 +37,17 @@ export const ServiceDetail: React.FC = () => {
             <div className="card-icon-box" style={{ width: '4rem', height: '4rem' }}>
               <Icon size={32} />
             </div>
-            <h1 className="section-title" style={{ marginTop: '1.5rem' }}>{service.title}</h1>
+            <h1 className="font-display text-3xl sm:text-5xl font-bold mb-6" style={{ marginTop: '1.5rem' }}>{service.title}</h1>
             <p className="section-desc" style={{ textAlign: 'left', marginLeft: 0 }}>
               {service.description}
             </p>
 
             <div style={{ marginTop: '3rem' }}>
-              <h3 style={{ color: 'white', marginBottom: '1.5rem' }}>O que está incluído:</h3>
+              <h3 style={{ color: 'white', marginBottom: '1.5rem' }}>O que podemos planejar:</h3>
               <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {['Consultoria especializada', 'Implementação ágil', 'Suporte técnico 24/7', 'Escalabilidade garantida'].map(item => (
-                  <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-gray-300)' }}>
-                    <CheckCircle2 size={18} style={{ color: 'var(--color-cyan)' }} />
+                {['Consultoria especializada', 'Implementação ágil', 'Suporte conforme contrato', 'Capacidade planejada para seu uso'].map(item => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-gray-light)' }}>
+                    <CheckCircle2 size={18} style={{ color: 'var(--color-brand-cyan)' }} />
                     {item}
                   </li>
                 ))}
@@ -60,15 +58,13 @@ export const ServiceDetail: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="form-card"
+            className="p-6 sm:p-10 border border-white/15 rounded-3xl"
           >
             <h3 style={{ color: 'white', marginBottom: '1.5rem', textAlign: 'center' }}>Solicite um orçamento para este serviço</h3>
-            <p style={{ color: 'var(--color-gray-400)', fontSize: '0.875rem', marginBottom: '2rem', textAlign: 'center' }}>
+            <p style={{ color: 'var(--color-gray-light)', fontSize: '0.875rem', marginBottom: '2rem', textAlign: 'center' }}>
               Nossos especialistas analisarão seu caso e enviarão uma proposta personalizada para <strong>{service.title}</strong>.
             </p>
-            <Link to="/#contato">
-              <Button variant="lime" size="lg" className="w-full font-bold">Ir para formulário de contato</Button>
-            </Link>
+            <Link to="/#contato" className="inline-flex justify-center rounded-full px-6 py-4 bg-[#C5F467] text-dark-bg w-full font-bold text-center">Ir para formulário de contato</Link>
           </motion.div>
         </div>
       </div>

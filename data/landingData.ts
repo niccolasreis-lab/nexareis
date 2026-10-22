@@ -33,6 +33,7 @@ export interface SegmentInfo {
 export interface Metric {
   value: string;
   label: string;
+  evidence?: string;
 }
 
 export interface FAQItem {
@@ -41,13 +42,8 @@ export interface FAQItem {
 }
 
 // 12. METRICS AND RESULTS - Centralized metrics object for easy customization
-export const METRICS: Metric[] = [
-  { value: "[15+]", label: "Produtos em operação" },
-  { value: "[120+]", label: "Telas gerenciadas simultaneamente" },
-  { value: "[50k+]", label: "Atendimentos organizados por mês" },
-  { value: "[70%]", label: "Redução de tempo de espera em filas" },
-  { value: "[400h+]", label: "Horas de trabalho manual automatizadas" }
-];
+// Publish only with a dated, reviewable source. No evidence supplied for prior figures.
+export const METRICS: Metric[] = [];
 
 // 6. ECOSYSTEM OF PRODUCTS - Detailed features of ChamaAí Food, ChamaAí Gestão de Filas, and SignageFlow
 export const PRODUCTS: ProductDetail[] = [
@@ -67,7 +63,7 @@ export const PRODUCTS: ProductDetail[] = [
       "Redução drástica de perguntas e ruído no balcão de entrega",
       "Melhor fluxo de atendimento e expedição física",
       "Experiência profissional e organizada para entregadores e motoboys",
-      "Suporte a alto volume operacional sem atraso ou travamentos"
+      "Planejamento de capacidade conforme o volume de pedidos"
     ],
     segments: ["Restaurantes", "Docerias", "Padarias", "Supermercados", "Dark Kitchens"],
     tagColor: "border-[#00D4FF] text-[#00D4FF] bg-[#00D4FF]/10",
@@ -173,9 +169,9 @@ export const COMPARISON_ROWS = [
 // 8. CUSTOM SOLUTIONS SERVICES
 export const CUSTOM_SERVICES = [
   { title: "Sistemas Web", desc: "Plataformas de alta performance construídas sob medida para a sua operação comercial ou administrativa." },
-  { title: "Plataformas SaaS", desc: "Desenvolvimento de produtos de software por assinatura (Software as a Service) escaláveis e multi-inquilino." },
-  { title: "Dashboards Operacionais", desc: "Painéis de controle visuais em tempo real para tomada de decisões rápidas de gerentes e diretores." },
-  { title: "Integração de APIs", desc: "Conexão de sistemas legados, ERPs, CRMs e APIs terceiras em um fluxo contínuo de informação sem perdas." },
+  { title: "Sistemas on-line por assinatura", desc: "Plataformas acessadas pela internet, com recursos e acesso definidos para cada empresa." },
+  { title: "Painéis de indicadores", desc: "Painéis de controle visuais em tempo real para tomada de decisões rápidas de gerentes e diretores." },
+  { title: "Integração de sistemas", desc: "Conecte ferramentas de gestão, vendas e atendimento para compartilhar informações automaticamente." },
   { title: "Soluções para Telas e Totens", desc: "Aplicações otimizadas para hardware físico, como televisores, totens de autoatendimento e tablets." },
   { title: "Automação Operacional", desc: "Substituição de rotinas de preenchimento manual por fluxos de dados seguros, rápidos e monitorados." }
 ];
@@ -278,7 +274,7 @@ export const DIFFERENTIALS = [
   {
     num: "04",
     title: "Arquitetura Própria Escalável",
-    desc: "Por sermos donos e desenvolvedores da nossa stack, garantimos que os sistemas se mantenham rápidos mesmo com alto tráfego."
+    desc: "Planejamos a capacidade de cada sistema conforme o volume de uso esperado e avaliamos sua evolução com testes."
   },
   {
     num: "05",
@@ -295,7 +291,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: "Os produtos podem ser personalizados?",
-    answer: "Com certeza. Nossos sistemas SaaS permitem personalizar cores, logotipos, fontes e comportamentos de chamada (como sons, triagem de senhas e layout de visualização) para refletirem a marca de sua empresa."
+    answer: "Com certeza. Nossos sistemas on-line por assinatura (SaaS) permitem personalizar cores, logotipos, fontes e comportamentos de chamada (como sons, triagem de senhas e layout de visualização) para refletirem a marca de sua empresa."
   },
   {
     question: "É possível integrar com sistemas existentes?",
@@ -307,11 +303,11 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: "A Nexa Reis oferece acompanhamento de implantação?",
-    answer: "Sim. Entendemos que a transição digital exige cuidado. Acompanhamos a instalação física, configuração das telas, testes operacionais e treinamento básico de suas equipes para garantir uma operação sem sustos desde o primeiro dia."
+    answer: "Sim. Entendemos que a transição digital exige cuidado. Acompanhamos a instalação física, configuração das telas, testes operacionais e treinamento básico de suas equipes para apoiar a equipe na adoção do sistema."
   },
   {
     question: "Existe cobrança de mensalidade?",
-    answer: "Para nossos produtos SaaS (ChamaAí e SignageFlow), trabalhamos com planos mensais recorrentes flexíveis com base no número de telas, operadores ou senhas chamadas. Para desenvolvimento de sistemas sob medida, o modelo de orçamento é estabelecido em escopo fechado ou contratos de evolução de produto."
+    answer: "Para nossos sistemas on-line por assinatura (SaaS) (ChamaAí e SignageFlow), trabalhamos com planos mensais recorrentes flexíveis com base no número de telas, operadores ou senhas chamadas. Para desenvolvimento de sistemas sob medida, o modelo de orçamento é estabelecido em escopo fechado ou contratos de evolução de produto."
   },
   {
     question: "Os produtos atendem a várias unidades ou franquias?",
@@ -323,7 +319,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: "Como funciona o suporte pós-implantação?",
-    answer: "Oferecemos suporte técnico estruturado com canais de comunicação diretos no WhatsApp e e-mail. Nossos planos de suporte garantem SLAs rápidos para que sua operação de atendimento ou exibição promocional nunca pare de funcionar."
+    answer: "Oferecemos suporte técnico estruturado com canais de comunicação diretos no WhatsApp e e-mail. Os canais, horários e prazos de atendimento são definidos na proposta e no contrato de cada projeto."
   },
   {
     question: "A Nexa Reis atende empresas de quais segmentos?",

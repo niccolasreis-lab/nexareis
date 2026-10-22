@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { METRICS } from '../data/landingData';
 
 export const MetricsGrid: React.FC = () => {
+  const verifiedMetrics = METRICS.filter(metric => metric.evidence?.trim());
+  if (!verifiedMetrics.length) return null;
   return (
     <section className="py-24 bg-[#0a0a0a] border-t border-white/5 relative overflow-hidden">
       {/* Background soft lighting */}
@@ -22,7 +24,7 @@ export const MetricsGrid: React.FC = () => {
 
         {/* Dynamic Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {METRICS.map((metric, idx) => (
+          {verifiedMetrics.map((metric, idx) => (
             <motion.div
               key={metric.label}
               initial={{ opacity: 0, scale: 0.95 }}

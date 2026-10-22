@@ -1,3 +1,4 @@
+import { scrollToSection } from '../lib/navigation';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CUSTOM_SERVICES } from '../data/landingData';
@@ -9,13 +10,7 @@ export const CustomSolutions: React.FC = () => {
   const icons = [Code, Server, Layout, Database, Smartphone, Terminal];
 
   const handleScrollToForm = () => {
-    const element = document.getElementById('contato');
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
+    scrollToSection('contato');
   };
 
   return (
