@@ -30,3 +30,11 @@
 - Dependências sinalizadas no npm audit: atualização do React Router 6 para 7.18.4, Vite para 6.4.5 e source-map-js para 1.2.2. Migração justificada por advisories; revisar a mudança de major no PR.
 
 Nenhum dado de resultado foi substituído por estimativa. Depoimento existente marcado aprovado no repositório foi preservado; não foi obtida nova autorização independente de uso nesta sessão.
+
+## Continuação — perfil e currículo (22/10/2026)
+
+- **Implementado na branch:** cards dos quatro produtos empresariais, narrativa de experiência com responsabilidades descritas de forma conservadora, retrato visível, links de contato e currículo A4 imprimível.
+- **Ainda pendente:** evidência de participação individual nos produtos, stack pessoal e capturas de sistemas reais. Não atribuir autoria individual até validação.
+- **Formato PDF:** disponível via opção de imprimir/salvar como PDF no navegador, ainda sem arquivo PDF permanente hospedado. Confirmar se é necessário um download de PDF estático versionado.
+- **QR para currículo físico:** publicar e validar rota definitiva antes de imprimir o QR. Testar leitura em celular e prova de impressão.
+- **Validação:** revisar CI e preview da nova branch; não presumir que testes locais ou READY validem comportamento em produção.
