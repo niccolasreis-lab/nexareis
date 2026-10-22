@@ -90,3 +90,9 @@ Revisão posterior fixa Node em `24.x` para evitar mudança automática de major
 O responsável forneceu `1000850421.jpg` (1147 × 1536 px; 332.791 bytes). O arquivo foi copiado integralmente para `public/images/team/nicolas-reis.jpg`. SHA-256 de ambos: `156700620823710a8ddbacfed84c66cd64236aa2321fede9f4434b4705dec54a`. Não foram aplicados retoques, recortes nem remoção de marcas. O layout mantém a proporção, com alt e dimensões explícitas.
 
 Typecheck, 29 testes, build e 28 verificações de navegador passaram novamente. Em cada uma das seis larguras, o teste do perfil aguarda a imagem visível ser decodificada e confere sua largura natural. Capturas em 390 e 1440 px revisadas visualmente. Chunk do perfil após a foto: 6,21 kB (1,99 kB gzip); imagem mantida sem recompressão conforme o arquivo enviado. CI e preview da atualização devem ser conferidos no novo SHA. Produção não alterada.
+
+## Revisão da apresentação: marca d’água
+
+A fotografia permanece com o mesmo hash do upload. Agora é decoração de fundo restrita à introdução, com opacidade 10% abaixo de 1024 px e 18% no desktop, máscara de degradê e proporção preservada. Não recebe cliques nem aparece na árvore acessível; por isso o alt foi alterado para vazio. O teste de imagem nas seis larguras confere decode, largura natural, aria-hidden e pointer-events. A navegação de interesses fica abaixo da apresentação para não cobrir o rosto. Validar o head atualizado no CI/preview antes de aprovação.
+
+Validação da marca d’água: typecheck, 29 testes unitários, build e 28 verificações de navegador passaram. Capturas de 390 e 1440 px revisadas; sem rolagem horizontal nas seis larguras.

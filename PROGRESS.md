@@ -44,3 +44,9 @@ Consulte QA_REPORT.md para evidências e PENDENCIAS.md para limitações. Esta e
 Retrato enviado pelo responsável incluído em `public/images/team/nicolas-reis.jpg`, sem alterações no arquivo. Apresentação compacta no celular e maior no desktop, com dimensões explícitas para evitar deslocamentos durante o carregamento. A identidade visual e os caminhos para recrutadores e empresas foram preservados.
 
 Validação da inclusão: typecheck, 29 testes, build e 28 verificações de navegador passaram; retrato carregou nas seis larguras e foi inspecionado em 390 e 1440 px.
+
+## Foto como marca d’água — 22/10/2026
+
+Por solicitação do responsável, retrato passou a compor o fundo apenas da apresentação pessoal. Arquivo original mantido; opacidade de 10% no celular e 18% no desktop, com máscara de degradê nas bordas. Imagem decorativa com alt vazio, aria-hidden e pointer-events desabilitados. Caminhos de interesse abaixo da apresentação para deixar o rosto visível e manter a leitura. Sem alteração de produção.
+
+Validação da marca d’água: typecheck, 29 testes unitários, build e 28 verificações de navegador passaram. Capturas de 390 e 1440 px revisadas; sem rolagem horizontal nas seis larguras.

@@ -30,10 +30,13 @@ try {
       await page.goto(base + path);
       await page.locator('h1').waitFor();
       if (path === '/nicolas-reis') {
-        const portrait = page.locator('img[alt="Retrato de Nícolas Reis"]:visible');
+        const portrait = page.locator('[data-profile-watermark] img');
         await portrait.waitFor();
         await portrait.evaluate(async img => { await img.decode(); });
         assert.equal(await portrait.evaluate(img => img.naturalWidth), 1147);
+        assert.equal(await portrait.getAttribute('alt'), '');
+        assert.equal(await page.locator('[data-profile-watermark]').getAttribute('aria-hidden'), 'true');
+        assert.equal(await page.locator('[data-profile-watermark]').evaluate(el => getComputedStyle(el).pointerEvents), 'none');
       }
       // Render deferred sections before verifying the complete document.
       if (path === '/') {

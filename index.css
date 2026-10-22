@@ -165,3 +165,13 @@ section[id] { scroll-margin-top: 96px; }
 
 .light-surface .text-gray-sec { color: #595955; }
 .light-surface input, .light-surface select, .light-surface textarea { color-scheme: light; }
+
+/* Portrait is decorative only within the profile introduction. */
+.profile-watermark {
+  opacity: 0.10;
+  mask-image: linear-gradient(to right, transparent, black 55%), linear-gradient(to bottom, black 65%, transparent);
+  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 55%), linear-gradient(to bottom, black 65%, transparent);
+  -webkit-mask-composite: source-in;
+}
+@media (min-width: 1024px) { .profile-watermark { opacity: 0.18; } }

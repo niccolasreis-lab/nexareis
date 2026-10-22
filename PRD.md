@@ -14,7 +14,7 @@ Profissionalizar a apresentação comercial preservando a identidade, os quatro 
 | Contato | Validação, timeout, confirmação legível, concorrência bloqueada, dados preservados e alternativa WhatsApp | Cliente testado com servidor simulado; entrega real pendente |
 | Antispam e idempotência | Validação e limites no servidor; impedir duplicação após confirmação incerta | Pendente no ambiente n8n; bloqueia homologação integral |
 | Credibilidade | Nenhuma métrica sem evidência, sem garantias absolutas | Números removidos; publicação futura exige evidência e revisão |
-| Perfil | Nome, localização, experiência e formação conforme prompt | Página em `/nicolas-reis` com retrato enviado pelo responsável em 22/10/2026 |
+| Perfil | Nome, localização, experiência e formação conforme prompt | Página em `/nicolas-reis` com fotografia enviada pelo responsável como marca d’água no topo |
 | Projetos pessoais | Problema, público, funções, tecnologia comprovada, capturas reais, autoria e status | Fichas definitivas dependem de confirmação; links corporativos preservados |
 | Interesses | Caminhos para recrutador e empresa | Implementado na landing e no perfil |
 | Interface | Identidade preservada, seis larguras, foco visível e movimento reduzido | Testes automatizados de navegador e revisão visual |
