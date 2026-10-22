@@ -31,3 +31,10 @@ Branch: `audit/nexa-professional-2026-10-22`.
 - Somente então: QR Code definitivo e testes de leitura, antes de integrar ao currículo.
 
 Consulte QA_REPORT.md para evidências e PENDENCIAS.md para limitações. Esta etapa não representa homologação completa do produto.
+
+## Revisão remota
+
+- PR em rascunho: https://github.com/niccolasreis-lab/nexareis/pull/2
+- Primeiro commit de revisão: `5c8f34a4569227076fc35f6f73d1b845555aa5bd`. GitHub Actions concluiu `verify` com sucesso (run `39817439793`), incluindo navegador e artefatos. Preview `dpl_5BjfL2E8QZNZiqtXZKPEzReMxgaz` READY, mesmo SHA; `/nicolas-reis` retornou HTTP 200 com title e canonical próprios.
+- Log remoto alertou que `>=22.18.0` permitiria mudança automática de major do Node; fixado em `24.x`, mesma major usada nos testes e no CI.
+- Conferir estado final de CI e preview no head atual do PR. Produção segue no SHA baseline.

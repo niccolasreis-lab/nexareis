@@ -78,3 +78,9 @@ Final: chunk principal 296,28 kB (85,74 kB gzip), react-vendor 49,88 kB (17,62 k
 ## Plano de publicação e rollback
 
 Após resolver bloqueios e obter aprovação: confirmar SHA e checks do PR; realizar merge deliberado; verificar build Vercel e alias por SHA; testar URL pública, rotas diretas, mobile e contato controlado com confirmação no destino. Em regressão, restaurar o deployment de produção anterior registrado acima e verificar aliases novamente. Não executar rollback ou promoção automaticamente.
+
+## Verificação remota registrada
+
+Primeiro commit de revisão: `5c8f34a4569227076fc35f6f73d1b845555aa5bd`. Job `verify` do GitHub Actions concluiu com sucesso no run `39817439793` (instalação, typecheck, testes, build, navegador e upload dos artefatos). Preview Vercel `dpl_5BjfL2E8QZNZiqtXZKPEzReMxgaz` ficou READY com o mesmo SHA. Fetch autenticado de `/nicolas-reis` retornou HTTP 200 e metadados específicos no HTML, comprovando o rewrite nessa versão.
+
+Revisão posterior fixa Node em `24.x` para evitar mudança automática de major sinalizada pelo log da Vercel. Instalação limpa, typecheck, 29 testes e build passaram novamente, com os mesmos hashes dos bundles. Conferir CI e deployment do head atualizado antes de aprovar o PR.
