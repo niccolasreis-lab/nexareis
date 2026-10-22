@@ -157,6 +157,22 @@ try {
     assert.equal(await page.getByRole('link', { name:'GitHub de Nícolas Reis' }).getAttribute('href'), 'https://github.com/niccolasreis-lab');
     assert.equal(await page.getByRole('link', { name:'Contato pelo WhatsApp', exact: true }).getAttribute('href'), 'https://wa.me/5511937105501');
   });
+  await check('A4 curriculum route has contact, courses and print-only layout', async () => {
+    await page.goto(base + '/curriculo');
+    await page.getByRole('heading', { name: 'Nícolas Reis', exact: true }).waitFor();
+    await page.getByText('Testemunha de Jeová').waitFor();
+    await page.getByText('Manutenção de Microcomputadores').waitFor();
+    await page.locator('.cv-print-layout img').evaluate(async img => { await img.decode(); });
+    assert.equal(await page.locator('.cv-print-layout img').evaluate(img => img.naturalWidth), 1147);
+    const raw = await (await fetch(base + '/curriculo')).text();
+    assert.ok(raw.includes('Currículo de Nícolas Reis'));
+    await page.emulateMedia({ media: 'print' });
+    assert.equal(await page.locator('header.fixed').evaluate(el => getComputedStyle(el).display), 'none');
+    const pdf = await page.pdf({ path: 'qa/nicolas-curriculo-a4.pdf', format: 'A4', printBackground: true });
+    assert.ok(pdf.length > 5000);
+    await page.emulateMedia({ media: 'screen' });
+  });
+
   assert.deepEqual(runtimeErrors, []);
   console.log(`${results.length} browser checks passed; all contact POSTs intercepted.`);
 } catch (error) {
