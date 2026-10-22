@@ -70,7 +70,7 @@ Final: chunk principal 296,28 kB (85,74 kB gzip), react-vendor 49,88 kB (17,62 k
 
 - Sem execuções do n8n ou prova de entrega real ao destinatário. Contrato atual confirma aceitação pela API, não leitura.
 - Sem idempotência no receptor ou proteção antispam comprovada. Limites de comprimento no navegador não substituem o servidor.
-- Foto original e informações de autoria/status/stack/capturas dos projetos pessoais ainda não fornecidas.
+- Informações de autoria/status/stack/capturas dos projetos pessoais ainda não fornecidas. Fotografia recebida e integrada na atualização abaixo.
 - Sem testes físicos de Android/iOS, leitor de tela ou leitura de QR Code.
 - Conteúdo ainda client-side; apenas os metadados estão no HTML estático. Rota desconhecida pode ser soft 404 pelo fallback SPA.
 - CI e preview remotos devem ser conferidos no SHA da branch depois do PR. A configuração de domínio e produção permanece intocada.
@@ -84,3 +84,9 @@ Após resolver bloqueios e obter aprovação: confirmar SHA e checks do PR; real
 Primeiro commit de revisão: `5c8f34a4569227076fc35f6f73d1b845555aa5bd`. Job `verify` do GitHub Actions concluiu com sucesso no run `39817439793` (instalação, typecheck, testes, build, navegador e upload dos artefatos). Preview Vercel `dpl_5BjfL2E8QZNZiqtXZKPEzReMxgaz` ficou READY com o mesmo SHA. Fetch autenticado de `/nicolas-reis` retornou HTTP 200 e metadados específicos no HTML, comprovando o rewrite nessa versão.
 
 Revisão posterior fixa Node em `24.x` para evitar mudança automática de major sinalizada pelo log da Vercel. Instalação limpa, typecheck, 29 testes e build passaram novamente, com os mesmos hashes dos bundles. Conferir CI e deployment do head atualizado antes de aprovar o PR.
+
+## Fotografia integrada — 22/10/2026
+
+O responsável forneceu `1000850421.jpg` (1147 × 1536 px; 332.791 bytes). O arquivo foi copiado integralmente para `public/images/team/nicolas-reis.jpg`. SHA-256 de ambos: `156700620823710a8ddbacfed84c66cd64236aa2321fede9f4434b4705dec54a`. Não foram aplicados retoques, recortes nem remoção de marcas. O layout mantém a proporção, com alt e dimensões explícitas.
+
+Typecheck, 29 testes, build e 28 verificações de navegador passaram novamente. Em cada uma das seis larguras, o teste do perfil aguarda a imagem visível ser decodificada e confere sua largura natural. Capturas em 390 e 1440 px revisadas visualmente. Chunk do perfil após a foto: 6,21 kB (1,99 kB gzip); imagem mantida sem recompressão conforme o arquivo enviado. CI e preview da atualização devem ser conferidos no novo SHA. Produção não alterada.

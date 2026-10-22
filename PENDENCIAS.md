@@ -8,7 +8,7 @@
 | P1 | Antispam no servidor | Webhook público chamado diretamente pelo navegador. Não há rate limit, desafio ou política de abuso comprovados nos exports. Validar limites de campos, rate limit persistente e política de origem no servidor; CORS sozinho não impede spam. |
 | P1 | Idempotência de ponta a ponta | Bloqueio simultâneo no cliente existe. Timeout após aceite pode causar duplicação em nova tentativa manual. Implementar chave de idempotência e armazenamento no receptor antes de mudar contrato do frontend. |
 | P1 | Preview e CI remotos | Conferir checks e deployment da branch com SHA exato. Validar reescritas de metadados em Vercel; preview local não comprova configuração remota. |
-| P2 | Fotografia original | Não encontrada no repositório. Responsável deve fornecer original antes do bloco definitivo. Página textual não usa retrato artificial. |
+| Resolvido | Fotografia do perfil | Arquivo recebido do responsável em 22/10/2026 e incluído sem edição; proporções e conteúdo preservados. |
 | P2 | Fichas pessoais dos projetos | Confirmar participação efetiva, tecnologias, estado atual e capturas reais de ChamaAí Food, ChamaAí Filas, SignageFlow e CestaEsperta. Links corporativos existentes não comprovam autoria individual nem homologação completa. |
 | P2 | Leitores de tela, contraste completo e aparelhos | Teclado, labels e foco testados no navegador; ainda falta avaliação assistiva manual completa, Android e iOS físicos. |
 | P2 | Core Web Vitals e conteúdo pré-renderizado | Bundle medido; sem métricas de campo, Lighthouse ou redes lentas. Metadados estáticos entregues; conteúdo da página permanece React client-side. Avaliar SSG/SSR separadamente. |

@@ -14,7 +14,7 @@ Profissionalizar a apresentação comercial preservando a identidade, os quatro 
 | Contato | Validação, timeout, confirmação legível, concorrência bloqueada, dados preservados e alternativa WhatsApp | Cliente testado com servidor simulado; entrega real pendente |
 | Antispam e idempotência | Validação e limites no servidor; impedir duplicação após confirmação incerta | Pendente no ambiente n8n; bloqueia homologação integral |
 | Credibilidade | Nenhuma métrica sem evidência, sem garantias absolutas | Números removidos; publicação futura exige evidência e revisão |
-| Perfil | Nome, localização, experiência e formação conforme prompt | Página textual em `/nicolas-reis`; falta foto original |
+| Perfil | Nome, localização, experiência e formação conforme prompt | Página em `/nicolas-reis` com retrato enviado pelo responsável em 22/10/2026 |
 | Projetos pessoais | Problema, público, funções, tecnologia comprovada, capturas reais, autoria e status | Fichas definitivas dependem de confirmação; links corporativos preservados |
 | Interesses | Caminhos para recrutador e empresa | Implementado na landing e no perfil |
 | Interface | Identidade preservada, seis larguras, foco visível e movimento reduzido | Testes automatizados de navegador e revisão visual |
@@ -27,7 +27,7 @@ Profissionalizar a apresentação comercial preservando a identidade, os quatro 
 
 Fonte: prompt do responsável de 22/10/2026. Nome Nícolas Reis; Administração e Tecnologia da Informação; São Paulo – SP; telefone (11) 93710-5501; Instagram @nicolasreis.tech. Mercantil Santa Paula desde janeiro/2018 e progressão de cargos exatamente informada. Anhanguera: ADS, 2º semestre cursando. Informática CETEF/2015 e Manutenção de Microcomputadores Seven Computadores/2015.
 
-Não foram atribuídas competências, responsabilidades ou tecnologias de projetos pessoais sem confirmação. Não foi criada fotografia sintética nem espaço com foto fictícia.
+Não foram atribuídas competências, responsabilidades ou tecnologias de projetos pessoais sem confirmação. A fotografia enviada foi copiada sem alterações de pixels ou remoção de marcas, mantendo proporções e fisionomia.
 
 ## Projeto visual aplicado
 

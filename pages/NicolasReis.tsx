@@ -15,6 +15,7 @@ export const NicolasReis: React.FC = () => (
       <Link to="/" className="text-brand-cyan inline-block mb-10 underline underline-offset-4">Conhecer a Nexa Reis</Link>
       <div className="grid lg:grid-cols-12 gap-12 items-start">
         <header className="lg:col-span-7">
+          <img src="/images/team/nicolas-reis.jpg" alt="Retrato de Nícolas Reis" width={1147} height={1536} fetchPriority="high" decoding="async" className="block w-28 sm:w-36 h-auto rounded-2xl border border-white/15 mb-6 lg:hidden" />
           <p className="text-gray-light mb-4">Administração e Tecnologia da Informação</p>
           <h1 className="font-display text-5xl sm:text-7xl font-bold tracking-tight mb-6">Nícolas Reis</h1>
           <p className="flex items-center gap-2 text-gray-light mb-8"><MapPin size={18} aria-hidden="true" /> São Paulo – SP</p>
@@ -24,10 +25,13 @@ export const NicolasReis: React.FC = () => (
             <p>Tenho interesse em unir minha experiência com processos administrativos ao desenvolvimento de soluções tecnológicas que tornem o trabalho das empresas mais organizado e eficiente.</p>
           </div>
         </header>
-        <nav aria-label="Escolha seu interesse" className="lg:col-span-5 border border-white/15 rounded-3xl p-6 sm:p-8 space-y-6">
+        <aside className="lg:col-span-5 space-y-8">
+          <img src="/images/team/nicolas-reis.jpg" alt="Retrato de Nícolas Reis" width={1147} height={1536} fetchPriority="high" decoding="async" className="hidden lg:block w-full max-w-sm mx-auto h-auto rounded-3xl border border-white/15" />
+        <nav aria-label="Escolha seu interesse" className="border border-white/15 rounded-3xl p-6 sm:p-8 space-y-6">
           <div><h2 className="font-display text-xl font-semibold mb-3">Sou recrutador</h2><p className="text-gray-light mb-4">Conheça minha trajetória e formação.</p><a className="text-brand-cyan underline underline-offset-4" href="#experiencia">Ver experiência profissional</a></div>
           <div className="border-t border-white/15 pt-6"><h2 className="font-display text-xl font-semibold mb-3">Preciso de uma solução para minha empresa</h2><p className="text-gray-light mb-4">Conheça os serviços e produtos da Nexa Reis.</p><Link className="text-brand-cyan underline underline-offset-4" to="/#solucoes">Conhecer soluções empresariais</Link></div>
         </nav>
+        </aside>
       </div>
     </div>
     <section id="experiencia" className="bg-white-soft text-dark-bg mt-20 py-16">

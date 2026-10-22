@@ -29,6 +29,12 @@ try {
     for (const path of ['/', '/nicolas-reis', '/servicos/automacao']) await check(`layout ${path} at ${width}px`, async () => {
       await page.goto(base + path);
       await page.locator('h1').waitFor();
+      if (path === '/nicolas-reis') {
+        const portrait = page.locator('img[alt="Retrato de Nícolas Reis"]:visible');
+        await portrait.waitFor();
+        await portrait.evaluate(async img => { await img.decode(); });
+        assert.equal(await portrait.evaluate(img => img.naturalWidth), 1147);
+      }
       // Render deferred sections before verifying the complete document.
       if (path === '/') {
         for (const section of await page.locator('main section').all()) { await section.scrollIntoViewIfNeeded(); await page.waitForTimeout(40); }

@@ -26,7 +26,7 @@ Branch: `audit/nexa-professional-2026-10-22`.
 - Conferir PR, CI e preview por SHA.
 - Revisar visual e texto com o responsável.
 - Completar evidência real do contato e proteção de abuso/idempotência no n8n.
-- Receber foto original e dados confirmados de cada projeto pessoal.
+- Completar os dados confirmados de cada projeto pessoal; fotografia já recebida e integrada.
 - Após aprovação explícita: publicar commit aprovado, conferir alias/SHA, smoke test e plano de rollback.
 - Somente então: QR Code definitivo e testes de leitura, antes de integrar ao currículo.
 
@@ -38,3 +38,9 @@ Consulte QA_REPORT.md para evidências e PENDENCIAS.md para limitações. Esta e
 - Primeiro commit de revisão: `5c8f34a4569227076fc35f6f73d1b845555aa5bd`. GitHub Actions concluiu `verify` com sucesso (run `39817439793`), incluindo navegador e artefatos. Preview `dpl_5BjfL2E8QZNZiqtXZKPEzReMxgaz` READY, mesmo SHA; `/nicolas-reis` retornou HTTP 200 com title e canonical próprios.
 - Log remoto alertou que `>=22.18.0` permitiria mudança automática de major do Node; fixado em `24.x`, mesma major usada nos testes e no CI.
 - Conferir estado final de CI e preview no head atual do PR. Produção segue no SHA baseline.
+
+## Foto recebida — 22/10/2026
+
+Retrato enviado pelo responsável incluído em `public/images/team/nicolas-reis.jpg`, sem alterações no arquivo. Apresentação compacta no celular e maior no desktop, com dimensões explícitas para evitar deslocamentos durante o carregamento. A identidade visual e os caminhos para recrutadores e empresas foram preservados.
+
+Validação da inclusão: typecheck, 29 testes, build e 28 verificações de navegador passaram; retrato carregou nas seis larguras e foi inspecionado em 390 e 1440 px.
