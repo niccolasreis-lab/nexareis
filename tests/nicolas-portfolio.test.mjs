@@ -26,10 +26,12 @@ test('resume route exposes honest A4 print-to-PDF functionality', () => {
   assert.match(css, /\.app-root > header, \.app-root > footer/);
 });
 
-test('company projects are not falsely presented as personal authorship', () => {
+test('profile presents the founder and the four-section navigation', () => {
   const page = read('pages/NicolasReis.tsx');
-  assert.match(page, /produtos e soluções apresentados pela Nexa Reis/i);
-  assert.match(page, /participação específica em cada projeto/);
+  assert.match(page, /Fundei a Nexa Reis e criei os projetos/);
+  assert.match(page, /Conheça meu portfólio profissional/);
+  assert.match(page, /Projetos, sistemas desenvolvidos e experiência em administração e tecnologia/);
+  for (const name of ['Experiência', 'Projetos', 'Formação', 'Contato']) assert.ok(page.includes(name), name);
+  assert.ok(!page.includes('Visualizar currículo para impressão'));
   assert.match(page, /aria-labelledby="projetos-heading"/);
-  assert.match(page, /Visualizar currículo para impressão/);
 });
