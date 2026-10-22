@@ -1,8 +1,35 @@
 {
   "rewrites": [
     {
+      "source": "/nicolas-reis",
+      "destination": "/nicolas-reis/index.html"
+    },
+    {
+      "source": "/servicos/automacao",
+      "destination": "/servicos/automacao/index.html"
+    },
+    {
+      "source": "/servicos/sistemas",
+      "destination": "/servicos/sistemas/index.html"
+    },
+    {
+      "source": "/servicos/integracao",
+      "destination": "/servicos/integracao/index.html"
+    },
+    {
+      "source": "/servicos/nexa-solutions",
+      "destination": "/servicos/nexa-solutions/index.html"
+    },
+    {
+      "source": "/servicos/nexa-data",
+      "destination": "/servicos/nexa-data/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "trailingSlash": false,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build"
 }

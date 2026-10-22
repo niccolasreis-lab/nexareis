@@ -1,9 +1,14 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { Header } from './components/Header';
+import { scrollToSection } from './lib/navigation';
 import { Footer } from './components/Footer';
+import { RouteMetadata } from './components/RouteMetadata';
+import { Link } from 'react-router-dom';
 import { Home } from './pages/Home';
+
+const NicolasReis = React.lazy(() => import('./pages/NicolasReis').then(({ NicolasReis }) => ({ default: NicolasReis })));
 
 const ServiceDetail = React.lazy(() =>
   import('./pages/ServiceDetail').then(({ ServiceDetail }) => ({ default: ServiceDetail })),
@@ -21,10 +26,7 @@ function ScrollToTop() {
       const timer = setTimeout(() => {
         const element = document.getElementById(targetId);
         if (element) {
-          const headerOffset = 80;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          scrollToSection(targetId);
         }
       }, 100);
       return () => clearTimeout(timer);
@@ -93,6 +95,8 @@ function AnimatedRoutes() {
             </Suspense>
           }
         />
+        <Route path="/nicolas-reis" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando perfil…</p>}><NicolasReis /></Suspense>} />
+        <Route path="*" element={<div className="max-w-7xl mx-auto px-6 pt-40 pb-24"><h1 className="font-display text-3xl mb-6">Página não encontrada</h1><Link to="/" className="text-brand-cyan underline">Voltar para a página inicial</Link></div>} />
       </Routes>
     </AnimatePresence>
   );
@@ -102,7 +106,7 @@ function DeferredCustomCursor() {
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
-    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timeoutId = window.setTimeout(() => setShouldLoad(true), 600);
     return () => window.clearTimeout(timeoutId);
   }, []);
@@ -116,17 +120,21 @@ function DeferredCustomCursor() {
 
 function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <BrowserRouter>
       <ScrollToTop />
+      <RouteMetadata />
       <DeferredCustomCursor />
       <div className="app-root">
+        <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
         <Header />
-        <main>
+        <main id="main-content" tabIndex={-1}>
           <AnimatedRoutes />
         </main>
         <Footer />
       </div>
     </BrowserRouter>
+    </MotionConfig>
   );
 }
 

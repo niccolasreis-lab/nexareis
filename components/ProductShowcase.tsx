@@ -1,3 +1,4 @@
+import { scrollToSection } from '../lib/navigation';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PRODUCTS, ProductDetail } from '../data/landingData';
@@ -22,7 +23,7 @@ export const ProductShowcase: React.FC = () => {
             {/* Smart TV Header */}
             <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-brand-cyan animate-pulse" />
+                <div className="w-3 h-3 rounded-full bg-brand-cyan" />
                 <span className="font-display font-bold text-sm tracking-wider text-white uppercase">PAINEL DE EXPEDIÇÃO — CHAMAÍ FOOD</span>
               </div>
               <div className="flex items-center gap-3">
@@ -45,7 +46,7 @@ export const ProductShowcase: React.FC = () => {
                       <div className="font-mono text-sm font-bold text-white">#1214</div>
                       <div className="text-[10px] text-gray-sec">Pizza Muçarela (Grande)</div>
                     </div>
-                    <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest animate-pulse">Cozinhando</span>
+                    <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest">Cozinhando</span>
                   </div>
                   <div className="p-3 bg-white/[0.02] border border-white/5 rounded-lg flex justify-between items-center">
                     <div>
@@ -128,12 +129,12 @@ export const ProductShowcase: React.FC = () => {
               </div>
               
               <div className="flex flex-col gap-1.5">
-                <button className="bg-[#C5F467] hover:bg-[#b2e052] text-[#050505] font-display font-bold text-[10px] px-3 py-1.5 rounded-full transition-colors flex items-center gap-1">
+                <span className="bg-[#C5F467] hover:bg-[#b2e052] text-[#050505] font-display font-bold text-[10px] px-3 py-1.5 rounded-full transition-colors flex items-center gap-1">
                   CHAMAR PRÓXIMO <ArrowRight className="w-3 h-3" />
-                </button>
-                <button className="bg-white/5 hover:bg-white/10 text-white font-display text-[9px] px-3 py-1 rounded-full transition-colors border border-white/10">
+                </span>
+                <span className="bg-white/5 hover:bg-white/10 text-white font-display text-[9px] px-3 py-1 rounded-full transition-colors border border-white/10">
                   RECHAMAR SENHA
-                </button>
+                </span>
               </div>
             </div>
 
@@ -187,9 +188,9 @@ export const ProductShowcase: React.FC = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-[#FF6B35]/10 text-[#FF6B35] hover:bg-[#FF6B35]/20 font-display text-[9px] font-bold py-1 px-2.5 rounded-full transition-all mt-3 border border-[#FF6B35]/30">
+                <span className="w-full bg-[#FF6B35]/10 text-[#FF6B35] hover:bg-[#FF6B35]/20 font-display text-[9px] font-bold py-1 px-2.5 rounded-full transition-all mt-3 border border-[#FF6B35]/30">
                   PUBLICAR EM 24 TELAS
-                </button>
+                </span>
               </div>
 
               {/* Screens Status Map */}
@@ -284,7 +285,7 @@ export const ProductShowcase: React.FC = () => {
         mensagem: 'Tenho interesse no CestaEsperta para catálogo, pedidos e logística.',
       },
     }));
-    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToSection('contato');
   };
 
   return (
@@ -299,21 +300,23 @@ export const ProductShowcase: React.FC = () => {
         {/* Section Header */}
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-brand-cyan font-semibold block mb-4">
-            Nosso Portfólio SaaS
+            Nossos produtos on-line
           </span>
           <h2 className="title-editorial text-white uppercase mb-6">
             Produtos criados para <br className="hidden sm:block" />
             resolver <span className="text-brand-cyan font-bold">operações reais.</span>
           </h2>
           <p className="font-sans text-gray-sec text-base sm:text-lg font-light leading-relaxed">
-            Construímos plataformas completas de automação que ligam estabelecimentos físicos à eficiência da nuvem. Sistemas prontos, testados e de rápida implantação.
+            Conheça soluções para organizar pedidos, atendimento e conteúdos em telas. As necessidades de implantação são avaliadas para cada operação.
           </p>
         </div>
 
         {/* Product selector buttons (Clean asymmetric grid) */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16 bg-white/[0.02] border border-white/10 p-2 rounded-full max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-4 mb-16 bg-white/[0.02] border border-white/10 p-2 rounded-full max-w-2xl mx-auto">
           {PRODUCTS.map((prod) => (
             <button
+              type="button"
+              aria-pressed={activeTab === prod.id}
               key={prod.id}
               onClick={() => setActiveTab(prod.id)}
               className={`w-full sm:w-auto px-6 py-3 rounded-full text-xs sm:text-sm font-sans tracking-wide transition-all duration-300 font-medium cursor-pointer ${
@@ -381,15 +384,11 @@ export const ProductShowcase: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
-                    <Button variant="lime" size="md" className="w-full font-bold">
+                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="inline-flex justify-center items-center gap-2 w-full sm:w-auto rounded-full px-7 py-3 text-sm font-bold bg-[#C5F467] text-[#050505] hover:bg-[#b2e052]">
                       Conhecer o {activeProduct.name.split(' ')[0]} <ExternalLink className="w-4 h-4 ml-1" />
-                    </Button>
                   </a>
-                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
-                    <Button variant="outline" size="md" className="w-full">
+                  <a href={activeProduct.url} target="_blank" rel="noreferrer" className="inline-flex justify-center items-center gap-2 w-full sm:w-auto rounded-full px-7 py-3 text-sm border border-white/20 text-white hover:border-white">
                       Abrir demonstração
-                    </Button>
                   </a>
                 </>
               )}
@@ -405,6 +404,7 @@ export const ProductShowcase: React.FC = () => {
             
             {/* HTML interactive representation rendering */}
             {renderInteractiveMockup(activeProduct.id)}
+            <p className="absolute -bottom-10 left-0 text-xs text-gray-light">Prévia ilustrativa da interface, com dados de exemplo.</p>
 
           </div>
 

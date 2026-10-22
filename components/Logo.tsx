@@ -8,6 +8,8 @@ interface LogoProps {
 }
 
 export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant = 'header' }) => {
+  const gradientId = React.useId();
+  const glowId = React.useId();
   const isFooter = variant === 'footer';
   const isHero = variant === 'hero';
 
@@ -34,12 +36,12 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           )}
         >
           <defs>
-            <linearGradient id="nexaBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#00F0FF" />
               <stop offset="50%" stopColor="#00A2FF" />
               <stop offset="100%" stopColor="#0066FF" />
             </linearGradient>
-            <filter id="nexaGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
@@ -49,7 +51,7 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           <path 
             d="M 60 12 L 102 36 L 102 84 L 60 108 L 18 84 L 18 36 Z" 
             fill="none" 
-            stroke="url(#nexaBlueGrad)" 
+            stroke={`url(#${gradientId})`}
             strokeWidth="2.5" 
             strokeOpacity="0.4"
             strokeDasharray="400"
@@ -59,23 +61,23 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           <path 
             d="M 18 36 L 45 20 M 102 84 L 75 100" 
             fill="none" 
-            stroke="url(#nexaBlueGrad)" 
+            stroke={`url(#${gradientId})`}
             strokeWidth="2" 
             strokeOpacity="0.7"
           />
           
           {/* Micro-nodes on the hexagonal corners and paths */}
-          <circle cx="60" cy="12" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" filter="url(#nexaGlow)" />
+          <circle cx="60" cy="12" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" filter={`url(#${glowId})`} />
           <circle cx="102" cy="36" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" />
           <circle cx="18" cy="84" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" />
           
           {/* Stylized double-line circuit 'N' */}
-          <g filter="url(#nexaGlow)">
+          <g filter={`url(#${glowId})`}>
             {/* Main N shape */}
             <path 
               d="M 38 82 L 38 38 L 82 82 L 82 38" 
               fill="none" 
-              stroke="url(#nexaBlueGrad)" 
+              stroke={`url(#${gradientId})`}
               strokeWidth="6.5" 
               strokeLinecap="round" 
               strokeLinejoin="round" 
@@ -91,9 +93,9 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           </g>
 
           {/* Internal branching circuit nodes */}
-          <path d="M 58 36 L 58 56" fill="none" stroke="url(#nexaBlueGrad)" strokeWidth="2" />
-          <path d="M 66 36 L 66 48 L 74 48 L 74 58" fill="none" stroke="url(#nexaBlueGrad)" strokeWidth="2" />
-          <path d="M 46 84 L 46 72 M 54 84 L 54 78" fill="none" stroke="url(#nexaBlueGrad)" strokeWidth="2" />
+          <path d="M 58 36 L 58 56" fill="none" stroke={`url(#${gradientId})`} strokeWidth="2" />
+          <path d="M 66 36 L 66 48 L 74 48 L 74 58" fill="none" stroke={`url(#${gradientId})`} strokeWidth="2" />
+          <path d="M 46 84 L 46 72 M 54 84 L 54 78" fill="none" stroke={`url(#${gradientId})`} strokeWidth="2" />
           
           <circle cx="58" cy="56" r="2.5" fill="#00F0FF" />
           <circle cx="74" cy="58" r="2.5" fill="#00F0FF" />

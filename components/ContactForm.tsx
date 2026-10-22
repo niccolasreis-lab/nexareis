@@ -110,6 +110,8 @@ export const ContactForm: React.FC = () => {
     if (!form.mensagem.trim()) newErrors.mensagem = "Escreva uma breve mensagem sobre seu projeto.";
 
     setErrors(newErrors);
+    const firstError = Object.keys(newErrors)[0];
+    if (firstError) document.getElementById(firstError)?.focus();
     return Object.keys(newErrors).length === 0;
   };
 
@@ -151,7 +153,7 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contato" className="py-28 bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
+    <section id="contato" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
       <div className="absolute inset-0 grid-lines opacity-[0.02] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -167,7 +169,7 @@ export const ContactForm: React.FC = () => {
               sua operação <span className="text-brand-blue font-bold">hoje.</span>
             </h2>
             <p className="font-sans text-sm sm:text-base text-[#666662] leading-relaxed mb-10 font-light">
-              Nossa equipe de engenheiros e designers de produto está pronta para entender seus processos manuais e desenhar as soluções sob medida que economizam tempo e aumentam seus lucros. Preencha o formulário e responderemos em até 24 horas úteis.
+              Conte quais tarefas deseja organizar ou automatizar. Vamos avaliar as necessidades da sua empresa e conversar sobre uma solução adequada.
             </p>
 
             {/* Direct contact badges */}
@@ -212,7 +214,7 @@ export const ContactForm: React.FC = () => {
 
           {/* Right Column: Lead Capture Form Block */}
           <div className="lg:col-span-7 w-full">
-            <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] border border-[#EBEBE6] shadow-sm relative overflow-hidden">
+            <div className="bg-white p-5 sm:p-12 rounded-[2.5rem] border border-[#EBEBE6] shadow-sm relative overflow-hidden">
               
               <AnimatePresence mode="wait">
                 {!submitSuccess ? (
@@ -223,6 +225,7 @@ export const ContactForm: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="space-y-6 text-left"
+                    aria-busy={isSubmitting}
                     noValidate
                   >
                     <h3 className="font-display text-lg font-bold text-[#050505] uppercase tracking-tight mb-6">
@@ -239,7 +242,10 @@ export const ContactForm: React.FC = () => {
                           <input 
                             type="text" 
                             id="nome"
-                            name="nome"
+                            aria-invalid={Boolean(errors.nome)}
+                            aria-describedby={errors.nome ? "error-nome" : undefined}
+                            required
+                            name="nome" autoComplete="name" maxLength={120}
                             value={form.nome}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
@@ -248,7 +254,7 @@ export const ContactForm: React.FC = () => {
                             placeholder="Ex: João da Silva"
                           />
                         </div>
-                        {errors.nome && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.nome}</span>}
+                        {errors.nome && <span id="error-nome" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.nome}</span>}
                       </div>
 
                       <div className="flex flex-col gap-1.5">
@@ -259,7 +265,10 @@ export const ContactForm: React.FC = () => {
                           <input 
                             type="text" 
                             id="empresa"
-                            name="empresa"
+                            aria-invalid={Boolean(errors.empresa)}
+                            aria-describedby={errors.empresa ? "error-empresa" : undefined}
+                            required
+                            name="empresa" autoComplete="organization" maxLength={160}
                             value={form.empresa}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
@@ -268,7 +277,7 @@ export const ContactForm: React.FC = () => {
                             placeholder="Ex: Minha Empresa Ltda"
                           />
                         </div>
-                        {errors.empresa && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.empresa}</span>}
+                        {errors.empresa && <span id="error-empresa" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.empresa}</span>}
                       </div>
                     </div>
 
@@ -280,8 +289,11 @@ export const ContactForm: React.FC = () => {
                         </label>
                         <div className="relative">
                           <input 
-                            type="email" 
+                            type="email" autoComplete="email"
                             id="email"
+                            aria-invalid={Boolean(errors.email)}
+                            aria-describedby={errors.email ? "error-email" : undefined}
+                            required
                             name="email"
                             value={form.email}
                             onChange={handleInputChange}
@@ -291,7 +303,7 @@ export const ContactForm: React.FC = () => {
                             placeholder="Ex: joao@empresa.com"
                           />
                         </div>
-                        {errors.email && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.email}</span>}
+                        {errors.email && <span id="error-email" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.email}</span>}
                       </div>
 
                       <div className="flex flex-col gap-1.5">
@@ -300,8 +312,11 @@ export const ContactForm: React.FC = () => {
                         </label>
                         <div className="relative">
                           <input 
-                            type="tel" 
+                            type="tel" autoComplete="tel-national"
                             id="whatsapp"
+                            aria-invalid={Boolean(errors.whatsapp)}
+                            aria-describedby={errors.whatsapp ? "error-whatsapp" : undefined}
+                            required
                             name="whatsapp"
                             value={form.whatsapp}
                             onChange={handlePhoneChange}
@@ -311,7 +326,7 @@ export const ContactForm: React.FC = () => {
                             placeholder="(11) 99999-9999"
                           />
                         </div>
-                        {errors.whatsapp && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.whatsapp}</span>}
+                        {errors.whatsapp && <span id="error-whatsapp" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.whatsapp}</span>}
                       </div>
                     </div>
 
@@ -323,6 +338,9 @@ export const ContactForm: React.FC = () => {
                         </label>
                         <select 
                           id="segmento"
+                            aria-invalid={Boolean(errors.segmento)}
+                            aria-describedby={errors.segmento ? "error-segmento" : undefined}
+                            required
                           name="segmento"
                           value={form.segmento}
                           onChange={handleInputChange}
@@ -337,7 +355,7 @@ export const ContactForm: React.FC = () => {
                           <option value="varejo">Varejo / Franquias</option>
                           <option value="outros">Outros Processos Manuais</option>
                         </select>
-                        {errors.segmento && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.segmento}</span>}
+                        {errors.segmento && <span id="error-segmento" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.segmento}</span>}
                       </div>
 
                       <div className="flex flex-col gap-1.5">
@@ -346,6 +364,9 @@ export const ContactForm: React.FC = () => {
                         </label>
                         <select 
                           id="necessidade"
+                            aria-invalid={Boolean(errors.necessidade)}
+                            aria-describedby={errors.necessidade ? "error-necessidade" : undefined}
+                            required
                           name="necessidade"
                           value={form.necessidade}
                           onChange={handleInputChange}
@@ -361,7 +382,7 @@ export const ContactForm: React.FC = () => {
                           <option value="sob-medida">Sistema Customizado Sob Medida</option>
                           <option value="outros">Outras dúvidas ou parcerias</option>
                         </select>
-                        {errors.necessidade && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.necessidade}</span>}
+                        {errors.necessidade && <span id="error-necessidade" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.necessidade}</span>}
                       </div>
                     </div>
 
@@ -372,7 +393,10 @@ export const ContactForm: React.FC = () => {
                       </label>
                       <textarea 
                         id="mensagem"
-                        name="mensagem"
+                            aria-invalid={Boolean(errors.mensagem)}
+                            aria-describedby={errors.mensagem ? "error-mensagem" : undefined}
+                            required
+                        name="mensagem" maxLength={4000}
                         rows={4}
                         value={form.mensagem}
                         onChange={handleInputChange}
@@ -381,7 +405,7 @@ export const ContactForm: React.FC = () => {
                         }`}
                         placeholder="Conte-nos brevemente sobre os gargalos do seu processo operacional atual..."
                       />
-                      {errors.mensagem && <span className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.mensagem}</span>}
+                      {errors.mensagem && <span id="error-mensagem" className="text-[10px] text-red-500 font-sans mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.mensagem}</span>}
                     </div>
 
                     {/* Submission button with loader */}
@@ -395,11 +419,11 @@ export const ContactForm: React.FC = () => {
                       {isSubmitting ? (
                         <span className="flex items-center gap-2">
                           <RefreshCw className="w-4 h-4 animate-spin text-brand-cyan" />
-                          Enviando proposta...
+                          Enviando mensagem...
                         </span>
                       ) : (
                         <span className="flex items-center gap-2">
-                          Enviar Proposta Operacional <Send className="w-4 h-4" />
+                          Enviar mensagem <Send className="w-4 h-4" />
                         </span>
                       )}
                     </Button>
@@ -421,7 +445,7 @@ export const ContactForm: React.FC = () => {
                   </motion.form>
                 ) : (
                   <motion.div 
-                    key="success"
+                    key="success" role="status"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
@@ -433,10 +457,10 @@ export const ContactForm: React.FC = () => {
                     
                     <div className="max-w-md">
                       <h3 className="font-display text-2xl font-black text-[#050505] uppercase tracking-tight mb-2">
-                        Mensagem Recebida!
+                        Envio confirmado
                       </h3>
                       <p className="font-sans text-sm text-gray-sec leading-relaxed">
-                        Agradecemos o seu contato. Nossa equipe de engenharia e modelagem operacional já foi notificada e entrará em contato com você via e-mail ou WhatsApp em até 24 horas úteis.
+                        O serviço de contato confirmou a aceitação da mensagem. O retorno será feito pelo e-mail ou WhatsApp informado.
                       </p>
                     </div>
 

@@ -52,12 +52,7 @@ export const PRODUCT_HIGHLIGHTS: ServiceItem[] = [
   },
 ];
 
-export const STATS: StatItem[] = [
-  { value: 500, suffix: '+', label: 'Processos Automatizados' },
-  { value: 98, suffix: '%', label: 'Satisfação dos Clientes' },
-  { value: 70, suffix: '%', label: 'Redução de Custos' },
-  { value: 24, suffix: '/7', label: 'Sistemas Ativos' },
-];
+export const STATS: StatItem[] = [];
 
 export const CONTACT_INFO = {
   name: 'Nexa Reis Automation',

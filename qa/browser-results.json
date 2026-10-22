@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-22T16:49:33.295Z",
+  "base": "http://127.0.0.1:4173",
+  "engine": "Chromium",
+  "realContactSent": false,
+  "results": [
+    {
+      "name": "layout / at 320px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 320px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 320px",
+      "status": "pass"
+    },
+    {
+      "name": "layout / at 360px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 360px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 360px",
+      "status": "pass"
+    },
+    {
+      "name": "layout / at 390px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 390px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 390px",
+      "status": "pass"
+    },
+    {
+      "name": "layout / at 768px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 768px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 768px",
+      "status": "pass"
+    },
+    {
+      "name": "layout / at 1024px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 1024px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 1024px",
+      "status": "pass"
+    },
+    {
+      "name": "layout / at 1440px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /nicolas-reis at 1440px",
+      "status": "pass"
+    },
+    {
+      "name": "layout /servicos/automacao at 1440px",
+      "status": "pass"
+    },
+    {
+      "name": "desktop anchors target the correct sections",
+      "status": "pass"
+    },
+    {
+      "name": "sidebar supports keyboard activation",
+      "status": "pass"
+    },
+    {
+      "name": "mobile menu focus, Escape and cross-route navigation",
+      "status": "pass"
+    },
+    {
+      "name": "direct routes, refresh and per-route SEO",
+      "status": "pass"
+    },
+    {
+      "name": "footer returns from profile to landing anchor",
+      "status": "pass"
+    },
+    {
+      "name": "all products select correctly and CestaEsperta fills contact intent",
+      "status": "pass"
+    },
+    {
+      "name": "contact validation prevents network and focuses invalid field",
+      "status": "pass"
+    },
+    {
+      "name": "negative acknowledgement preserves all fields and offers WhatsApp",
+      "status": "pass"
+    },
+    {
+      "name": "one request during pending and success only after positive acknowledgement",
+      "status": "pass"
+    },
+    {
+      "name": "reduced motion, skip link and verified contact destinations",
+      "status": "pass"
+    }
+  ]
+}

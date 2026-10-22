@@ -1,9 +1,12 @@
 import React from 'react';
 import { Logo } from './Logo';
 import { Mail, Phone, MapPin, ArrowUpRight, Github, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { scrollToSection } from '../lib/navigation';
 import { CONTACT_INFO } from '../constants';
 
 export const Footer: React.FC = () => {
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
   const quickLinks = {
@@ -15,12 +18,13 @@ export const Footer: React.FC = () => {
     ],
     servicos: [
       { label: "Sistemas Web Customizados", href: "#solucoes" },
-      { label: "Plataformas SaaS Escaláveis", href: "#solucoes" },
-      { label: "Dashboards Operacionais", href: "#solucoes" },
-      { label: "Integrações de APIs", href: "#solucoes" }
+      { label: "Sistemas on-line por assinatura", href: "#solucoes" },
+      { label: "Painéis de indicadores", href: "#solucoes" },
+      { label: "Integrações entre sistemas", href: "#solucoes" }
     ],
     institucional: [
       { label: "Início", href: "#home" },
+      { label: "Nícolas Reis", href: "/nicolas-reis" },
       { label: "Sobre Nós", href: "#sobre" },
       { label: "Processo de Trabalho", href: "#processo" },
       { label: "Dúvidas Frequentes", href: "#faq" }
@@ -28,16 +32,10 @@ export const Footer: React.FC = () => {
   };
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
+    if (href.startsWith('#') && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
       e.preventDefault();
-      const targetId = href.replace('#', '');
-      const element = document.getElementById(targetId);
-      if (element) {
-        window.scrollTo({
-          top: element.offsetTop - 80,
-          behavior: 'smooth'
-        });
-      }
+      navigate('/' + href);
+      if (window.location.pathname === '/') scrollToSection(href.slice(1));
     }
   };
 
@@ -52,14 +50,14 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col items-start text-left">
             <Logo variant="header" showText={true} className="mb-6" />
             <p className="font-sans text-xs sm:text-sm text-gray-sec leading-relaxed mb-6 max-w-sm">
-              Nexa Reis — Tecnologia de ponta projetada, homologada e integrada diretamente na operação física de estabelecimentos comerciais presenciais.
+              Sistemas, sites e automações para organizar processos e apoiar a rotina das empresas.
             </p>
             {/* Social handles */}
             <div className="flex gap-4">
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
+              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
                 <Github className="w-4 h-4" />
               </a>
-              <a href={CONTACT_INFO.social.whatsapp} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
+              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
                 <Phone className="w-4 h-4" />
               </a>
             </div>
@@ -72,7 +70,7 @@ export const Footer: React.FC = () => {
               {quickLinks.produtos.map((link) => (
                 <li key={link.label}>
                   <a 
-                    href={link.href} 
+                    href={link.href.startsWith("#") ? "/" + link.href : link.href}
                     target={link.href.startsWith('#') ? undefined : "_blank"}
                     rel={link.href.startsWith('#') ? undefined : "noreferrer"}
                     onClick={(e) => handleScrollTo(e, link.href)}
@@ -92,7 +90,7 @@ export const Footer: React.FC = () => {
               {quickLinks.servicos.map((link) => (
                 <li key={link.label}>
                   <a 
-                    href={link.href} 
+                    href={link.href.startsWith("#") ? "/" + link.href : link.href}
                     onClick={(e) => handleScrollTo(e, link.href)} 
                     className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
                   >
@@ -109,7 +107,7 @@ export const Footer: React.FC = () => {
               {quickLinks.institucional.map((link) => (
                 <li key={link.label}>
                   <a 
-                    href={link.href} 
+                    href={link.href.startsWith("#") ? "/" + link.href : link.href}
                     onClick={(e) => handleScrollTo(e, link.href)} 
                     className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
                   >

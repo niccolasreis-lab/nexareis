@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://www.nexareis.com.br",
+    "status": 200,
+    "finalUrl": "https://www.nexareis.com.br/"
+  },
+  {
+    "url": "https://github.com/niccolasreis-lab",
+    "status": 200,
+    "finalUrl": "https://github.com/niccolasreis-lab"
+  },
+  {
+    "url": "https://www.instagram.com/nicolasreis.tech/",
+    "status": 200,
+    "finalUrl": "https://www.instagram.com/nicolasreis.tech/"
+  },
+  {
+    "url": "https://chamaaifood.nexareis.com.br/pilot",
+    "status": 200,
+    "finalUrl": "https://chamaaifood.nexareis.com.br/pilot"
+  },
+  {
+    "url": "https://chamaai.nexareis.com.br",
+    "status": 200,
+    "finalUrl": "https://chamaai.nexareis.com.br/"
+  },
+  {
+    "url": "https://signageflow.nexareis.com.br",
+    "status": 200,
+    "finalUrl": "https://signageflow.nexareis.com.br/"
+  }
+]

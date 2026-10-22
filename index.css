@@ -151,3 +151,17 @@ html {
   }
 }
 
+
+/* Shared accessibility and mobile safeguards. */
+:focus-visible { outline: 3px solid #0066ff; outline-offset: 5px; }
+section[id] { scroll-margin-top: 96px; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 100; padding: 12px; background: #fff; color: #050505; transform: translateY(-160%); }
+.skip-link:focus { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .custom-cursor-active, .custom-cursor-active * { cursor: auto !important; }
+}
+
+.light-surface .text-gray-sec { color: #595955; }
+.light-surface input, .light-surface select, .light-surface textarea { color-scheme: light; }

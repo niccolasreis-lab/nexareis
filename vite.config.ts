@@ -1,20 +1,25 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { routeMetadata } from './lib/routeMetadata';
 import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
+export default defineConfig(() => {
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
       },
-      plugins: [tailwindcss(), react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
+      plugins: [tailwindcss(), react(), {
+        name: 'preview-route-metadata',
+        configurePreviewServer(server) {
+          server.middlewares.use((req, _res, next) => {
+            const path = (req.url || '/').split('?')[0].replace(/\/$/, '') || '/';
+            if (path !== '/' && path in routeMetadata) req.url = path + '/index.html';
+            next();
+          });
+        },
+      }],
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),

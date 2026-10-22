@@ -4,7 +4,7 @@ import { PROCESS_STEPS } from '../data/landingData';
 
 export const DevelopmentProcess: React.FC = () => {
   return (
-    <section id="processo" className="py-28 bg-[#F5F5F2] text-[#050505] overflow-hidden border-t border-[#EBEBE6]">
+    <section id="processo" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] overflow-hidden border-t border-[#EBEBE6]">
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-left">
         
         {/* Section Header */}
@@ -43,7 +43,7 @@ export const DevelopmentProcess: React.FC = () => {
                       {step.number}
                     </div>
                     {/* Pulsing small node inside bubble */}
-                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-brand-blue rounded-full border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-brand-blue rounded-full border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
 
                   {/* Step Description Card */}
