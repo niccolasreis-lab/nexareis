@@ -5,6 +5,10 @@
       "destination": "/nicolas-reis/index.html"
     },
     {
+      "source": "/curriculo",
+      "destination": "/curriculo/index.html"
+    },
+    {
       "source": "/servicos/automacao",
       "destination": "/servicos/automacao/index.html"
     },

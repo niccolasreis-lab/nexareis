@@ -157,6 +157,54 @@ try {
     assert.equal(await page.getByRole('link', { name:'GitHub de Nícolas Reis' }).getAttribute('href'), 'https://github.com/niccolasreis-lab');
     assert.equal(await page.getByRole('link', { name:'Contato pelo WhatsApp', exact: true }).getAttribute('href'), 'https://wa.me/5511937105501');
   });
+  await check('personal portfolio hero and four quick links', async () => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(base + '/nicolas-reis');
+    await page.getByRole('heading', { level: 1, name: 'Conheça meu portfólio profissional' }).waitFor();
+    await page.getByText('Fundador da Nexa Reis', { exact: false }).first().waitFor();
+    const navigation = page.getByRole('navigation', { name: 'Navegação do portfólio profissional' });
+    for (const id of ['experiencia', 'projetos', 'formacao', 'contato-profissional']) {
+      const link = navigation.locator('a[href="#' + id + '"]');
+      assert.equal(await link.count(), 1, id);
+      assert.equal(await page.locator('#' + id).count(), 1, id + ' target');
+    }
+    assert.equal(await page.getByText('Visualizar currículo para impressão').count(), 0);
+    await navigation.locator('a[href="#projetos"]').click();
+    assert.equal(new URL(page.url()).hash, '#projetos');
+  });
+  await check('slow selected-section animation finishes and honors reduced motion', async () => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(base + '/nicolas-reis');
+    const navigation = page.getByRole('navigation', { name: 'Navegação do portfólio profissional' });
+    await navigation.locator('a[href="#projetos"]').click();
+    assert.equal(new URL(page.url()).hash, '#projetos');
+    assert.equal(await page.locator('#projetos').getAttribute('data-portfolio-selected'), 'true');
+    const keyframes = await page.locator('#projetos').evaluate(el => getComputedStyle(el).animationName);
+    assert.ok(keyframes.includes('portfolio-arrival'), keyframes);
+    await page.waitForFunction(() => document.querySelector('#projetos')?.getAttribute('data-portfolio-selected') !== 'true', null, { timeout: 5000 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(base + '/nicolas-reis');
+    await navigation.locator('a[href="#formacao"]').click();
+    assert.equal(new URL(page.url()).hash, '#formacao');
+    assert.notEqual(await page.locator('#formacao').getAttribute('data-portfolio-selected'), 'true');
+  });
+  await check('A4 curriculum route has contact, courses and print-only layout', async () => {
+    await page.goto(base + '/curriculo');
+    await page.getByRole('heading', { name: 'Nícolas Reis', exact: true }).waitFor();
+    await page.getByText('Testemunha de Jeová').waitFor();
+    await page.getByText('Manutenção de Microcomputadores').waitFor();
+    await page.locator('.cv-print-layout img').evaluate(async img => { await img.decode(); });
+    assert.equal(await page.locator('.cv-print-layout img').evaluate(img => img.naturalWidth), 1147);
+    const raw = await (await fetch(base + '/curriculo')).text();
+    assert.ok(raw.includes('Currículo de Nícolas Reis'));
+    await page.emulateMedia({ media: 'print' });
+    assert.equal(await page.locator('header.fixed').evaluate(el => getComputedStyle(el).display), 'none');
+    const pdf = await page.pdf({ path: 'qa/nicolas-curriculo-a4.pdf', format: 'A4', printBackground: true });
+    assert.ok(pdf.length > 5000);
+    await page.emulateMedia({ media: 'screen' });
+  });
+
   assert.deepEqual(runtimeErrors, []);
   console.log(`${results.length} browser checks passed; all contact POSTs intercepted.`);
 } catch (error) {

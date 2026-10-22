@@ -50,3 +50,30 @@ Validação da inclusão: typecheck, 29 testes, build e 28 verificações de nav
 Por solicitação do responsável, retrato passou a compor o fundo apenas da apresentação pessoal. Arquivo original mantido; opacidade de 10% no celular e 18% no desktop, com máscara de degradê nas bordas. Imagem decorativa com alt vazio, aria-hidden e pointer-events desabilitados. Caminhos de interesse abaixo da apresentação para deixar o rosto visível e manter a leitura. Sem alteração de produção.
 
 Validação da marca d’água: typecheck, 29 testes unitários, build e 28 verificações de navegador passaram. Capturas de 390 e 1440 px revisadas; sem rolagem horizontal nas seis larguras.
+
+## Continuação — portfólio e currículo para impressão (22/10/2026)
+
+- Branch `feat/nicolas-portfolio-curriculo-20261022` criada a partir do commit publicado `c9c11f893ffabc77319e0ad540e84bed9b9763a1`.
+- Perfil pessoal: fotografia original em destaque além da marca-d'água, trajetória com descrições e links dos quatro produtos corporativos, sem atribuição individual não confirmada.
+- Dados pessoais consolidados em `data/nicolasProfile.ts` para reutilização consistente.
+- Rota `/curriculo`: versão A4 com foto, informações profissionais, cursos, indicação de Testemunha de Jeová e link JW.ORG no início. Comando do navegador para imprimir ou salvar como PDF; não é um PDF estático hospedado.
+- Metadados e rewrite da rota adicionados; testes de regressão e verificação de PDF no navegador incluídos.
+- Aguardam conferência de CI/preview e validação visual. Não houve merge ou deploy em produção nesta etapa.
+
+## Confirmação do fundador e atualização visual — 22/10/2026
+
+- O responsável confirmou ser o **fundador da Nexa Reis e criador dos projetos exibidos**.
+- Hero da rota `/nicolas-reis` alinhado ao conceito do QR Code: “Conheça meu portfólio profissional”, subtítulo e identificação “Nícolas Reis — Administração e Tecnologia”.
+- Adicionados quatro atalhos visuais internos: **Experiência, Projetos, Formação e Contato**, com âncoras para as seções.
+- Removido o botão “Visualizar currículo para impressão” do perfil; rota `/curriculo` continua disponível separadamente.
+- Endereço recomendado para o QR Code: `https://www.nexareis.com.br/nicolas-reis` (caminho no domínio oficial, sem novo subdomínio).
+- Atualizados testes automatizados para refletir a autoria confirmada e a navegação.
+- Não houve merge nem alteração em produção nesta revisão.
+
+## Microinterações slow no portfólio — 22/10/2026
+
+- Adicionados efeitos de entrada escalonada aos quatro cards de navegação em `/nicolas-reis`.
+- Cada seção usa um efeito suave coerente com a ação: experiência (deslocamento vertical), projetos (fade e escala), formação (lateral), contato (fade vertical). Durações entre 0,82 e 1,0 segundo.
+- Ao clicar em um atalho, a navegação mantém a âncora HTML e exibe um brilho discreto de chegada, que desaparece ao longo de 1,75 segundo. O estado selecionado é removido após 2 segundos.
+- As animações respeitam `prefers-reduced-motion`: entrada instantânea e sem brilho quando essa preferência está ativa.
+- Testes unitários e de browser incluem estados animado, finalizado e reduzido; resultados precisam ser confirmados no CI do SHA atualizado antes de merge.
