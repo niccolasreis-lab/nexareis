@@ -73,6 +73,9 @@ try {
     await page.waitForFunction(() => document.querySelector('meta[name="robots"]')?.getAttribute('content') === 'noindex,follow');
     await page.getByRole('link', { name: 'Voltar para a página inicial', exact: true }).click();
     await page.waitForFunction(() => location.pathname === '/' && document.querySelector('meta[name="robots"]')?.getAttribute('content') === 'index,follow');
+    await page.goto(base + '/servicos/servico-inexistente-auditoria');
+    await page.getByRole('heading', { level:1, name:'Serviço não encontrado', exact:true }).waitFor();
+    await page.waitForFunction(() => document.querySelector('meta[name="robots"]')?.getAttribute('content') === 'noindex,follow');
   });
   await check('mobile menu isolates the page, cycles focus and restores it on Escape', async () => {
     await page.setViewportSize({ width: 390, height: 844 }); await profile();

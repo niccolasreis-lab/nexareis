@@ -32,7 +32,7 @@ Formulários e exports n8n mantêm os contratos anteriores: mesmos endpoints e a
 
 ## Contraste e módulos existentes
 
-A análise foi estendida à página comercial. Rótulos do indicador lateral receberam uma superfície escura própria; o azul de texto em superfícies claras e o bloco azul de apresentação foram ajustados para contraste. As entradas de rota, hero, manifesto, soluções e metodologia também respeitam movimento reduzido, evitando medir ou exibir conteúdo durante uma opacidade transitória. O menu comercial recebeu texto secundário mais claro sobre seu fundo translúcido. As mensagens de validação usam vermelho com contraste suficiente nas superfícies claras. A análise também cobre formulário inválido e prévia indisponível. O indicador lateral ganhou semântica de navegação. Nenhuma regra Axe foi desabilitada.
+A análise foi estendida à página comercial. Rótulos do indicador lateral receberam uma superfície escura própria; o azul de texto em superfícies claras e o bloco azul de apresentação foram ajustados para contraste. As entradas de rota, detalhes de serviços, hero, manifesto, soluções e metodologia também respeitam movimento reduzido, evitando medir ou exibir conteúdo durante uma opacidade transitória. O menu comercial recebeu texto secundário mais claro sobre seu fundo translúcido. As mensagens de validação usam vermelho com contraste suficiente nas superfícies claras. A análise também cobre formulário inválido e prévia indisponível. O indicador lateral ganhou semântica de navegação. Nenhuma regra Axe foi desabilitada.
 
 ## Movimento
 

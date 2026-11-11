@@ -3,10 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { SERVICES, PRODUCT_HIGHLIGHTS } from '../constants';
 import { Button } from '../components/Button';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export const ServiceDetail: React.FC = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
+  const reduceMotion = useReducedMotion();
   
   // Busca o serviço tanto em SERVICES quanto em PRODUCT_HIGHLIGHTS
   const service = [...SERVICES, ...PRODUCT_HIGHLIGHTS].find(s => s.id === serviceId);
@@ -14,7 +15,7 @@ export const ServiceDetail: React.FC = () => {
   if (!service) {
     return (
       <div className="container section-py" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h2 className="font-display text-3xl sm:text-5xl font-bold mb-6">Serviço não encontrado</h2>
+        <h1 className="font-display text-3xl sm:text-5xl font-bold mb-6">Serviço não encontrado</h1>
         <Link to="/" className="text-brand-cyan underline">Voltar para a página inicial</Link>
       </div>
     );
@@ -31,7 +32,7 @@ export const ServiceDetail: React.FC = () => {
 
         <div className="grid lg:grid-cols-2 gap-12">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={reduceMotion ? false : { opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
             <div className="card-icon-box" style={{ width: '4rem', height: '4rem' }}>
@@ -56,7 +57,7 @@ export const ServiceDetail: React.FC = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="p-6 sm:p-10 border border-white/15 rounded-3xl"
           >
