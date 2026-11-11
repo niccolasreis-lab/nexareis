@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, GraduationCap, Github, Instagram, MapPin, MessageCircle, Phone, ShoppingBasket, UsersRound } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, GraduationCap, Github, Instagram, MapPin, MessageCircle, Phone, ShoppingBasket, UsersRound, ImageOff } from 'lucide-react';
 import { PRODUCTS } from '../data/landingData';
 import { nicolasProfile } from '../data/nicolasProfile';
 import '../styles/portfolio.css';
@@ -41,8 +41,37 @@ const competencies = [
   { icon: Code2, title: 'Tecnologia', description: 'Sistemas para empresas' },
 ];
 
+function ProjectPreview({ id, name }: { id: string; name: string }) {
+  const preview = projectPreviews[id];
+  const [failed, setFailed] = useState(false);
+  return (
+    <figure className="portfolio-project-preview">
+      <div className="portfolio-preview-frame">
+        {preview ? (
+          failed ? (
+            <div className="portfolio-preview-fallback" role="img" aria-label={'Prévia de ' + name + ' indisponível'}>
+              <ImageOff size={27} aria-hidden="true" /><strong>{name}</strong><span>Prévia indisponível</span><small>O link do projeto continua disponível.</small>
+            </div>
+          ) : (
+            <img src={preview.image} alt={preview.alt} width={960} height={659} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+          )
+        ) : (
+          <div className="portfolio-catalog-illustration" aria-hidden="true">
+            <div className="portfolio-catalog-heading"><ShoppingBasket size={22} /><strong>CestaEsperta</strong></div>
+            <div className="portfolio-catalog-items"><span /><span /><span /></div>
+            <div className="portfolio-catalog-steps"><span>Catálogo</span><span>Pedido</span><span>Entrega</span></div>
+          </div>
+        )}
+      </div>
+      <figcaption>{preview ? (failed ? 'Imagem não carregada' : preview.caption) : 'Representação ilustrativa'}</figcaption>
+    </figure>
+  );
+}
+
 export const NicolasReis: React.FC = () => {
   const reduceMotion = useReducedMotion();
+  const navigate = useNavigate();
+  const [portraitFallback, setPortraitFallback] = useState(false);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,6 +79,13 @@ export const NicolasReis: React.FC = () => {
     const timeout = window.setTimeout(() => setSelectedSection(null), 2000);
     return () => clearTimeout(timeout);
   }, [selectedSection]);
+
+  const handleAnchor = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    setSelectedSection(reduceMotion ? null : id);
+    navigate('#' + id);
+  };
 
   const selection = (id: string) => selectedSection === id && !reduceMotion ? 'true' : undefined;
 
@@ -59,9 +95,9 @@ export const NicolasReis: React.FC = () => {
         <motion.section
           className="portfolio-hero"
           aria-labelledby="nicolas-heading"
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0.96, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="portfolio-hero-copy">
             <p className="portfolio-introduction">Olá, eu sou o</p>
@@ -73,14 +109,17 @@ export const NicolasReis: React.FC = () => {
               <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="portfolio-button portfolio-button-green">
                 Entrar em contato <ArrowUpRight size={18} aria-hidden="true" />
               </a>
-              <a href="#projetos" className="portfolio-text-link">Ver meus projetos <ArrowDown size={16} aria-hidden="true" /></a>
+              <a href="#projetos" onClick={event => handleAnchor(event, 'projetos')} className="portfolio-text-link">Ver meus projetos <ArrowDown size={16} aria-hidden="true" /></a>
             </div>
             <p className="portfolio-location"><MapPin size={15} aria-hidden="true" /> {nicolasProfile.city}</p>
           </div>
           <figure className="portfolio-portrait">
             <div className="portfolio-sun" aria-hidden="true" />
             <span className="portfolio-spark" aria-hidden="true">✳</span>
-            <img data-profile-portrait src={nicolasProfile.portrait} alt="Retrato profissional de Nícolas Reis" width={1147} height={1536} decoding="async" fetchPriority="high" />
+            <picture>
+              {!portraitFallback && <source type="image/webp" srcSet="/images/team/nicolas-reis-400.webp 400w, /images/team/nicolas-reis-800.webp 800w, /images/team/nicolas-reis-1147.webp 1147w" sizes="(max-width: 767px) 40vw, (max-width: 1100px) 35vw, 400px" />}
+              <img data-profile-portrait src={nicolasProfile.portrait} alt="Retrato profissional de Nícolas Reis" width={1147} height={1536} decoding="async" fetchPriority="high" onError={() => { if (!portraitFallback) setPortraitFallback(true); }} />
+            </picture>
             <figcaption><span className="portfolio-caption-mark" aria-hidden="true">N.</span><span>Da operação<br /><strong>à tecnologia.</strong></span></figcaption>
           </figure>
         </motion.section>
@@ -108,7 +147,7 @@ export const NicolasReis: React.FC = () => {
               href={'#' + id}
               data-portfolio-card={id}
               data-portfolio-active={selection(id)}
-              onClick={() => setSelectedSection(reduceMotion ? null : id)}
+              onClick={event => handleAnchor(event, id)}
               whileHover={reduceMotion ? undefined : { y: -2 }}
               whileTap={reduceMotion ? undefined : { scale: 0.985 }}
               transition={{ duration: 0.3 }}
@@ -128,22 +167,14 @@ export const NicolasReis: React.FC = () => {
           <p className="portfolio-section-description">Fundei a Nexa Reis e criei os projetos apresentados abaixo. Soluções pensadas para o atendimento, a organização e a rotina das empresas.</p>
           <div className="portfolio-project-grid">
             {featuredProducts.map(product => {
-              const preview = projectPreviews[product.id];
               const hasDemo = product.url.startsWith('https://');
               return (
-                <article key={product.id} className="portfolio-project" data-portfolio-project={product.id}>
-                  <figure className="portfolio-project-preview">
-                    {preview ? (
-                      <img src={preview.image} alt={preview.alt} width={960} height={660} loading="lazy" decoding="async" />
-                    ) : (
-                      <div className="portfolio-catalog-illustration" aria-hidden="true">
-                        <div className="portfolio-catalog-heading"><ShoppingBasket size={22} /><strong>CestaEsperta</strong></div>
-                        <div className="portfolio-catalog-items"><span /><span /><span /></div>
-                        <div className="portfolio-catalog-steps"><span>Catálogo</span><span>Pedido</span><span>Entrega</span></div>
-                      </div>
-                    )}
-                    <figcaption>{preview?.caption ?? 'Representação ilustrativa'}</figcaption>
-                  </figure>
+                <motion.article key={product.id}
+                  initial={reduceMotion ? false : { opacity: 0.96, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.12 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }} className="portfolio-project" data-portfolio-project={product.id}>
+                  <ProjectPreview id={product.id} name={product.name} />
                   <div className="portfolio-project-content">
                     <p className="portfolio-project-category">{product.category}</p>
                     <h3>{product.name}</h3>
@@ -154,7 +185,7 @@ export const NicolasReis: React.FC = () => {
                       <Link to="/#contato" className="portfolio-project-link">Solicitar informações <ArrowUpRight size={19} aria-hidden="true" /></Link>
                     )}
                   </div>
-                </article>
+                </motion.article>
               );
             })}
           </div>

@@ -2,9 +2,20 @@ export function scrollBehavior(): ScrollBehavior {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
-export function scrollToSection(id: string): boolean {
+export function scrollToSection(id: string, options: { focus?: boolean } = {}): boolean {
   const element = document.getElementById(id);
   if (!element) return false;
-  window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - 96, behavior: scrollBehavior() });
+  if (options.focus) {
+    if (!element.hasAttribute('tabindex')) {
+      element.setAttribute('tabindex', '-1');
+      element.addEventListener('blur', () => element.removeAttribute('tabindex'), { once: true });
+    }
+    element.focus({ preventScroll: true });
+  }
+  // Layout offsets ignore the temporary translation used by page entrance animations.
+  let top = 0;
+  for (let node: HTMLElement | null = element; node; node = node.offsetParent as HTMLElement | null) top += node.offsetTop;
+  window.scrollTo({ top: Math.max(0, top - 96), behavior: scrollBehavior() });
   return true;
 }
+

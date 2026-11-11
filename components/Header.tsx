@@ -5,7 +5,6 @@ import { Button } from './Button';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { scrollToSection } from '../lib/navigation';
 import { NAV_ITEMS } from '../constants';
 
 export const Header: React.FC = () => {
@@ -18,6 +17,8 @@ export const Header: React.FC = () => {
   const menuPanelRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
+  const activeId = location.pathname === '/' ? activeSection : null;
+
   const navItems = NAV_ITEMS.map((item) => ({
     ...item,
     id: item.href.replace('#', ''),
@@ -27,7 +28,7 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Simple active section detection based on scroll position
+      if (location.pathname !== '/') return;
       const scrollPos = window.scrollY + 200;
       for (const item of navItems) {
         const el = document.getElementById(item.id);
@@ -41,13 +42,17 @@ export const Header: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
     const previousOverflow = document.body.style.overflow;
+    const background = [document.getElementById('main-content'), document.querySelector('footer')].filter((el): el is HTMLElement => el instanceof HTMLElement);
+    const previousInert = background.map(el => el.inert);
+    background.forEach(el => { el.inert = true; });
     document.body.style.overflow = 'hidden';
     const focusFrame = requestAnimationFrame(() => {
       menuPanelRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
@@ -77,6 +82,7 @@ export const Header: React.FC = () => {
     return () => {
       cancelAnimationFrame(focusFrame);
       document.body.style.overflow = previousOverflow;
+      background.forEach((el, index) => { el.inert = previousInert[index]; });
       document.removeEventListener('keydown', handleKeyDown);
       desktop.removeEventListener('change', closeOnDesktop);
       if (menuButtonRef.current?.getClientRects().length) {
@@ -85,21 +91,18 @@ export const Header: React.FC = () => {
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => { setMobileMenuOpen(false); }, [location.pathname, location.hash]);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     setMobileMenuOpen(false);
-    if (location.pathname !== '/') navigate('/' + href);
-    else {
-      navigate('/' + href);
-      scrollToSection(href.slice(1));
-    }
+    navigate('/' + href);
   };
 
   const handleCTA = () => {
     setMobileMenuOpen(false);
     navigate('/#contato');
-    if (location.pathname === '/') scrollToSection('contato');
   };
 
   return (
@@ -125,16 +128,17 @@ export const Header: React.FC = () => {
               key={item.label}
               href={"/" + item.href}
               onClick={(e) => handleNavClick(e, item.href)}
+              aria-current={activeId === item.id ? 'location' : undefined}
               className={`relative font-sans text-sm tracking-wide transition-colors duration-300 ${
-                activeSection === item.id 
+                activeId === item.id
                   ? 'text-white font-medium' 
                   : 'text-gray-sec hover:text-white'
               }`}
             >
               {item.label}
-              {activeSection === item.id && (
+              {activeId === item.id && (
                 <motion.span 
-                  layoutId="activeIndicator"
+                  layoutId={reduceMotion ? undefined : 'activeIndicator'}
                   className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-brand-cyan rounded-full"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
@@ -183,7 +187,7 @@ export const Header: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.2 }}
-            className="fixed inset-0 z-50 bg-dark-bg flex flex-col items-center overflow-y-auto px-8 pt-28 pb-8 lg:hidden"
+            className="fixed inset-0 z-50 bg-dark-bg flex flex-col items-center overflow-y-auto overscroll-contain px-8 pt-28 pb-8 lg:hidden"
           >
             <nav aria-label="Navegação móvel" className="my-auto flex w-full flex-col gap-5 items-center text-center">
               {navItems.map((item, index) => (
@@ -195,7 +199,7 @@ export const Header: React.FC = () => {
                   transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.05 }}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`font-display text-2xl tracking-wide transition-all ${
-                    activeSection === item.id 
+                    activeId === item.id
                       ? 'text-brand-cyan font-bold scale-105' 
                       : 'text-gray-light hover:text-white'
                   }`}

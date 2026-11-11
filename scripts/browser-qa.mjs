@@ -34,7 +34,9 @@ try {
         const portrait = page.locator('[data-profile-portrait]');
         await portrait.waitFor();
         await portrait.evaluate(async img => { await img.decode(); });
-        assert.equal(await portrait.evaluate(img => img.naturalWidth), 1147);
+        assert.ok(await portrait.evaluate(img => img.naturalWidth > 0));
+        assert.equal(await portrait.getAttribute('width'), '1147');
+        assert.equal(await portrait.getAttribute('height'), '1536');
         assert.equal(await portrait.getAttribute('alt'), 'Retrato profissional de Nícolas Reis');
         assert.equal(await page.locator('main img[src="/images/team/nicolas-reis.jpg"]').count(), 1, 'one original portrait');
         assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), 'light');

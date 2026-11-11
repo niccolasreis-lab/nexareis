@@ -45,10 +45,10 @@ export const Footer: React.FC = () => {
       
       {/* Footer Grid */}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
+        <div data-footer-grid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
           
           {/* Logo Column */}
-          <div className="lg:col-span-4 flex flex-col items-start text-left">
+          <div data-footer-group="brand" className="lg:col-span-4 flex flex-col items-start text-left">
             <Logo variant="header" showText={true} className="mb-6" />
             <p className="font-sans text-xs sm:text-sm text-gray-sec leading-relaxed mb-6 max-w-sm">
               Sistemas, sites e automações para organizar processos e apoiar a rotina das empresas.
@@ -65,8 +65,8 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Navigation links Columns */}
-          <div className="lg:col-span-2 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h4>
+          <div data-footer-group="products" className="lg:col-span-2 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h2>
             <ul className="space-y-3.5">
               {quickLinks.produtos.map((link) => (
                 <li key={link.label}>
@@ -85,8 +85,8 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h4>
+          <div data-footer-group="links" className="lg:col-span-3 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h2>
             <ul className="space-y-3.5">
               {quickLinks.servicos.map((link) => (
                 <li key={link.label}>
@@ -102,8 +102,8 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h4>
+          <div data-footer-group="links" className="lg:col-span-3 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h2>
             <ul className="space-y-3.5">
               {quickLinks.institucional.map((link) => (
                 <li key={link.label}>
@@ -122,7 +122,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 18. GIANT LETTERING STAMP - Grandioso NEXA REIS em Display font with massive letter spacing */}
-        <div className="py-12 select-none border-b border-white/5 pointer-events-none">
+        <div data-footer-wordmark aria-hidden="true" className="py-12 select-none border-b border-white/5 pointer-events-none">
           <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-white/[0.04] uppercase pr-[-0.25em]">
             NEXA REIS
           </div>

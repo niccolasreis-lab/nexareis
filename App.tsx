@@ -21,20 +21,32 @@ const CustomCursor = React.lazy(() =>
 
 // Componente para garantir que a página sempre role para o topo ao mudar de rota
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-  React.useEffect(() => {
-    if (hash) {
-      const targetId = hash.replace('#', '');
-      const timer = setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          scrollToSection(targetId);
-        }
-      }, 100);
-      return () => clearTimeout(timer);
+  const { pathname, hash, key } = useLocation();
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
     }
-    window.scrollTo(0, 0);
-  }, [pathname, hash]);
+    let targetId = hash.slice(1);
+    try { targetId = decodeURIComponent(targetId); } catch { /* Keep malformed fragments harmless. */ }
+    let frame = 0;
+    let scheduled = false;
+    let observer: MutationObserver | null = null;
+    const resolveTarget = () => {
+      if (!document.getElementById(targetId)) return false;
+      if (scheduled) return true;
+      scheduled = true;
+      observer?.disconnect();
+      // Let menu cleanup and React commit finish before transferring focus.
+      frame = requestAnimationFrame(() => scrollToSection(targetId, { focus: true }));
+      return true;
+    };
+    if (!resolveTarget()) {
+      observer = new MutationObserver(resolveTarget);
+      observer.observe(document.getElementById('main-content') ?? document.body, { childList: true, subtree: true });
+    }
+    return () => { observer?.disconnect(); cancelAnimationFrame(frame); };
+  }, [pathname, hash, key]);
   return null;
 }
 
@@ -106,15 +118,18 @@ function AnimatedRoutes() {
 }
 
 function DeferredCustomCursor() {
+  const { pathname } = useLocation();
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
+    setShouldLoad(false);
+    if (pathname === '/nicolas-reis') return;
     if (!window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timeoutId = window.setTimeout(() => setShouldLoad(true), 600);
     return () => window.clearTimeout(timeoutId);
-  }, []);
+  }, [pathname]);
 
-  return shouldLoad ? (
+  return pathname !== '/nicolas-reis' && shouldLoad ? (
     <Suspense fallback={null}>
       <CustomCursor />
     </Suspense>
@@ -142,3 +157,4 @@ function App() {
 }
 
 export default App;
+
