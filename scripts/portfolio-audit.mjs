@@ -134,6 +134,9 @@ try {
       assert.ok(failedImageRequests > 0, 'the failure must be exercised without the memory image cache');
       assert.equal(await card.locator('a').getAttribute('href'), 'https://chamaaifood.nexareis.com.br/pilot');
       assert.equal(await card.locator('img').count(), 0);
+      const result = await new AxeBuilder({ page: faultPage }).include('[data-portfolio-project="chamaai-food"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+      accessibility.push({ path:'/nicolas-reis', viewport:390, state:'image-failure', violations:result.violations, incomplete:result.incomplete, passes:result.passes.length });
+      assert.deepEqual(result.violations, []);
       await faultPage.screenshot({ path: 'qa/project-preview-fallback.png', fullPage: true });
     } finally { await isolated.close(); }
   });
@@ -173,6 +176,13 @@ try {
       }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
       accessibility.push({ path, viewport: 1440, violations: result.violations, incomplete: result.incomplete, passes: result.passes.length });
+      if (path === '/') {
+        await page.getByRole('button', { name:'Enviar mensagem', exact:true }).click();
+        await page.waitForFunction(() => document.getElementById('nome')?.getAttribute('aria-invalid') === 'true');
+        const invalid = await new AxeBuilder({ page }).include('#contato').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+        accessibility.push({ path:'/', viewport:1440, state:'invalid-contact', violations:invalid.violations, incomplete:invalid.incomplete, passes:invalid.passes.length });
+      }
+
     }
     await page.setViewportSize({ width: 390, height: 844 }); await profile();
     for (const menuOpen of [false, true]) {
