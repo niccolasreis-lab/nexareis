@@ -25,6 +25,11 @@ try{
  });
  page=await context.newPage();
  const runtimeErrors=[];page.on('pageerror',e=>runtimeErrors.push(e.message));
+ await check('anchor remains aligned after a deferred section finishes loading',async()=>{
+  await page.route('**/assets/ProductComparison-*.js',async route=>{await new Promise(r=>setTimeout(r,700));await route.continue();});
+  await page.goto(base+'/#solucoes');await page.getByText('Uma base tecnológica.',{exact:false}).waitFor();await page.waitForFunction(()=>Math.abs(document.getElementById('solucoes').getBoundingClientRect().top-96)<2);
+  await page.unroute('**/assets/ProductComparison-*.js');
+ });
  await check('wizard validates, moves keyboard focus and preserves selections when going back',async()=>{
   await page.goto(base+'/orcamento');await page.getByRole('button',{name:'Continuar',exact:true}).click();await page.getByRole('alert').getByText('Escolha uma opção para continuar.').waitFor();
   await page.getByRole('radio',{name:'Loja, franquia ou varejo',exact:true}).check();await page.getByRole('button',{name:'Continuar',exact:true}).click();

@@ -36,20 +36,40 @@ function ScrollToTop() {
     let frame = 0;
     let scheduled = false;
     let observer: MutationObserver | null = null;
+    let resize: ResizeObserver | null = null;
+    let followFrame = 0;
+    const stopFollowing = () => { resize?.disconnect(); cancelAnimationFrame(followFrame); };
+    const inputEvents = ['wheel', 'touchstart', 'pointerdown', 'keydown'] as const;
+    const followLayout = () => {
+      const main = document.getElementById('main-content');
+      if (!main) return;
+      let previousHeight = main.getBoundingClientRect().height;
+      // Deferred sections can change the target's offset after the first scroll.
+      // Follow those layout changes only until the visitor starts interacting.
+      resize = new ResizeObserver(() => {
+        const height = main.getBoundingClientRect().height;
+        if (height === previousHeight) return;
+        previousHeight = height;
+        cancelAnimationFrame(followFrame);
+        followFrame = requestAnimationFrame(() => scrollToSection(targetId, { behavior: 'auto' }));
+      });
+      resize.observe(main);
+      inputEvents.forEach(type => window.addEventListener(type, stopFollowing, { passive: true, once: true }));
+    };
     const resolveTarget = () => {
       if (!document.getElementById(targetId)) return false;
       if (scheduled) return true;
       scheduled = true;
       observer?.disconnect();
       // Let menu cleanup and React commit finish before transferring focus.
-      frame = requestAnimationFrame(() => scrollToSection(targetId, { focus: true }));
+      frame = requestAnimationFrame(() => { scrollToSection(targetId, { focus: true }); followLayout(); });
       return true;
     };
     if (!resolveTarget()) {
       observer = new MutationObserver(resolveTarget);
       observer.observe(document.getElementById('main-content') ?? document.body, { childList: true, subtree: true });
     }
-    return () => { observer?.disconnect(); cancelAnimationFrame(frame); };
+    return () => { observer?.disconnect(); cancelAnimationFrame(frame); stopFollowing(); inputEvents.forEach(type => window.removeEventListener(type, stopFollowing)); };
   }, [pathname, hash, key]);
   return null;
 }
