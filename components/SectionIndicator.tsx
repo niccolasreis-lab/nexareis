@@ -73,6 +73,7 @@ export const SectionIndicator: React.FC = () => {
   return (
     <div 
       id="side-section-indicator"
+      role="navigation"
       className="fixed right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-end gap-6 select-none pointer-events-auto"
       aria-label="Navegação lateral de seções"
     >

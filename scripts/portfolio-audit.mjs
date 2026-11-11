@@ -172,13 +172,13 @@ try {
         await page.waitForTimeout(1000);
       }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-      accessibility.push({ path, viewport: 1440, violations: result.violations, incomplete: result.incomplete.map(x => ({ id:x.id, nodes:x.nodes.length })), passes: result.passes.length });
+      accessibility.push({ path, viewport: 1440, violations: result.violations, incomplete: result.incomplete, passes: result.passes.length });
     }
     await page.setViewportSize({ width: 390, height: 844 }); await profile();
     for (const menuOpen of [false, true]) {
       if (menuOpen) await page.getByRole('button', { name: 'Abrir menu' }).click();
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-      accessibility.push({ path: '/nicolas-reis', viewport: 390, menuOpen, violations: result.violations, incomplete: result.incomplete.map(x => ({ id:x.id, nodes:x.nodes.length })), passes: result.passes.length });
+      accessibility.push({ path: '/nicolas-reis', viewport: 390, menuOpen, violations: result.violations, incomplete: result.incomplete, passes: result.passes.length });
     }
     await page.keyboard.press('Escape');
     await writeFile('qa/accessibility-audit.json', JSON.stringify(accessibility, null, 2));

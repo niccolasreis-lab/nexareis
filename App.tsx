@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion';
 import { Header } from './components/Header';
 import { scrollToSection } from './lib/navigation';
 import { Footer } from './components/Footer';
@@ -75,6 +75,7 @@ const pageVariants = {
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const reduceMotion = useReducedMotion();
 
   return (
     <AnimatePresence mode="wait">
@@ -84,9 +85,9 @@ function AnimatedRoutes() {
           element={
             <motion.div
               variants={pageVariants}
-              initial="initial"
+              initial={reduceMotion ? false : "initial"}
               animate="animate"
-              exit="exit"
+              exit={reduceMotion ? undefined : "exit"}
               className="w-full"
             >
               <Home />
@@ -99,9 +100,9 @@ function AnimatedRoutes() {
             <Suspense fallback={null}>
               <motion.div
                 variants={pageVariants}
-                initial="initial"
+                initial={reduceMotion ? false : "initial"}
                 animate="animate"
-                exit="exit"
+                exit={reduceMotion ? undefined : "exit"}
                 className="w-full"
               >
                 <ServiceDetail />

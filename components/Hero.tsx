@@ -217,7 +217,7 @@ export const Hero: React.FC = () => {
                   <Laptop className="w-3 h-3" /> SignageFlow
                 </span>
                 <span className="text-[7px] sm:text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1 py-0.5 rounded flex items-center gap-1">
-                  <RefreshCw className="w-2.5 h-2.5 animate-spin" /> Sincronizado
+                  <RefreshCw className="w-2.5 h-2.5" /> Sincronizado
                 </span>
               </div>
               

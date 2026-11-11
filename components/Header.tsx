@@ -132,7 +132,7 @@ export const Header: React.FC = () => {
               className={`relative font-sans text-sm tracking-wide transition-colors duration-300 ${
                 activeId === item.id
                   ? 'text-white font-medium' 
-                  : 'text-gray-sec hover:text-white'
+                  : 'text-gray-light hover:text-white'
               }`}
             >
               {item.label}
