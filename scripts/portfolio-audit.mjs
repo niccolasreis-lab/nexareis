@@ -185,6 +185,8 @@ try {
     await page.locator('header a[href="/#home"]').first().click();
     await page.waitForFunction(() => document.documentElement.dataset.pageSurface === 'commercial');
     assert.equal(await page.locator('meta[name="theme-color"]').getAttribute('content'), '#050505');
+    // Observe the rendered state after the route's CSS transition settles.
+    await page.waitForFunction(() => getComputedStyle(document.body).backgroundColor === 'rgb(5, 5, 5)');
     assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(5, 5, 5)');
   });
   await check('mobile navigation and footer keep 44px targets without clipping the name', async () => {
