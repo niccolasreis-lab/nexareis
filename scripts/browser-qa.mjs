@@ -195,6 +195,13 @@ try {
       ['signageflow', 'https://signageflow.nexareis.com.br'],
       ['cesta-esperta', '/#contato'],
     ]) assert.equal(await page.locator('[data-portfolio-project="' + id + '"] a').getAttribute('href'), href);
+    // Capture the complete design only after the below-the-fold lazy images decode.
+    await page.evaluate(() => document.fonts.ready);
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.evaluate(() => scrollTo(0, 0));
+      await page.screenshot({ path: `qa/nicolas-${width}.png`, fullPage: true });
+    }
   });
   await check('portfolio colors and keyboard navigation stay scoped to the personal route', async () => {
     await page.goto(base + '/nicolas-reis');
