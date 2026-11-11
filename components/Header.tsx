@@ -104,7 +104,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-    <header className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+    <header data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined} className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
       mobileMenuOpen
         ? 'py-4 bg-dark-bg border-b border-dark-border'
         : isScrolled
@@ -178,6 +178,7 @@ export const Header: React.FC = () => {
           <motion.div 
             ref={menuPanelRef}
             id="mobile-navigation"
+            data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -225,3 +226,4 @@ export const Header: React.FC = () => {
     </>
   );
 };
+

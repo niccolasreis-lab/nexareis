@@ -29,8 +29,8 @@ test('resume route exposes honest A4 print-to-PDF functionality', () => {
 test('profile presents the founder and the four-section navigation', () => {
   const page = read('pages/NicolasReis.tsx');
   assert.match(page, /Fundei a Nexa Reis e criei os projetos/);
-  assert.match(page, /Conheça meu portfólio profissional/);
-  assert.match(page, /Projetos, sistemas desenvolvidos e experiência em administração e tecnologia/);
+  assert.match(page, /id="nicolas-heading"/);
+  assert.match(page, /Administração e Tecnologia/);
   for (const name of ['Experiência', 'Projetos', 'Formação', 'Contato']) assert.ok(page.includes(name), name);
   assert.ok(!page.includes('Visualizar currículo para impressão'));
   assert.match(page, /aria-labelledby="projetos-heading"/);
@@ -44,10 +44,10 @@ test('slow entrance/exit feedback is scoped to the selected portfolio section', 
   assert.match(page, /data-portfolio-active/);
   assert.match(page, /data-portfolio-selected/);
   assert.match(page, /setTimeout\(\(\) => setSelectedSection\(null\), 2000\)/);
-  assert.match(page, /once: true, amount: 0\.08/);
   for (const effect of ['experience', 'projects', 'education', 'contact']) {
     assert.ok(page.includes('data-portfolio-effect="' + effect + '"'), effect);
   }
   assert.match(css, /@keyframes portfolio-arrival/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
+

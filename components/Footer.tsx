@@ -1,12 +1,13 @@
 import React from 'react';
 import { Logo } from './Logo';
 import { Mail, Phone, MapPin, ArrowUpRight, Github, Heart } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { scrollToSection } from '../lib/navigation';
 import { CONTACT_INFO } from '../constants';
 
 export const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const currentYear = new Date().getFullYear();
 
   const quickLinks = {
@@ -40,7 +41,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+    <footer data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'green' : undefined} className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
       
       {/* Footer Grid */}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -144,3 +145,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
