@@ -1,6 +1,6 @@
 import { scrollToSection } from '../lib/navigation';
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 interface SectionItem {
   id: string;
@@ -20,6 +20,7 @@ const SECTIONS: SectionItem[] = [
 ];
 
 export const SectionIndicator: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   const [activeSection, setActiveSection] = useState<string>('home');
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
@@ -101,13 +102,13 @@ export const SectionIndicator: React.FC = () => {
             <AnimatePresence>
               {(isHovered || isActive) && (
                 <motion.div
-                  initial={{ opacity: 0, x: 10, filter: 'blur(4px)' }}
+                  initial={reduceMotion ? false : { opacity: 0, x: 6 }}
                   animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, x: 10, filter: 'blur(4px)' }}
-                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-center gap-2 pr-2"
+                  exit={{ opacity: 0, x: reduceMotion ? 0 : 6 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex items-center gap-2 rounded-full bg-[#050505] px-3 py-1.5"
                 >
-                  <span className="font-mono text-[9px] text-brand-cyan/50 tracking-wider">
+                  <span className="font-mono text-[9px] text-brand-cyan tracking-wider">
                     {section.num}
                   </span>
                   <span className={`font-sans text-xs tracking-[0.15em] uppercase font-medium ${
@@ -155,3 +156,4 @@ export const SectionIndicator: React.FC = () => {
     </div>
   );
 };
+

@@ -121,13 +121,6 @@ export const Footer: React.FC = () => {
 
         </div>
 
-        {/* 18. GIANT LETTERING STAMP - Grandioso NEXA REIS em Display font with massive letter spacing */}
-        <div data-footer-wordmark aria-hidden="true" className="py-12 select-none border-b border-white/5 pointer-events-none">
-          <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-white/[0.04] uppercase pr-[-0.25em]">
-            NEXA REIS
-          </div>
-        </div>
-
         {/* Copyright & Legal */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-sec gap-4">
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">

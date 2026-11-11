@@ -164,6 +164,7 @@ section[id] { scroll-margin-top: 96px; }
 }
 
 .light-surface .text-gray-sec { color: #595955; }
+.light-surface .text-brand-blue { color: var(--color-accent-dark); }
 .light-surface input, .light-surface select, .light-surface textarea { color-scheme: light; }
 
 /* Portrait is decorative only within the profile introduction. */

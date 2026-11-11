@@ -18,7 +18,7 @@ As evidências executáveis ficam em `qa/browser-results.json`, `qa/portfolio-au
 | Leitura | Categorias, legendas e alguns apoios tinham 10–11 px; quatro cartões deixavam as capturas pequenas no desktop. | Apoios principais com 12 px, descrições com 14 px e dois cartões por linha no desktop. | Inspeção visual e Axe nas rotas públicas. |
 | Imagens | Retrato original de 333 KB era enviado também para telas pequenas. | Versões WebP de 400, 800 e 1147 px, mantendo o JPEG original e a proporção. | Recurso escolhido, tamanho e retorno ao JPEG se WebP falhar. |
 | Falhas de mídia | Uma captura não carregada deixava apenas a imagem quebrada. | Estado de prévia indisponível com nome e acesso ao projeto preservado. | Falha de rede simulada, sem alterar o link. |
-| Semântica | Logo decorativo e marca gigante duplicavam informação; rodapé usava cabeçalhos de nível 4. | SVG/wordmark decorativos ocultos da leitura assistiva e títulos de grupos em nível 2. | Acessibilidade automatizada sem excluir elementos da análise. |
+| Semântica | Logo decorativo e marca gigante duplicavam informação; rodapé usava cabeçalhos de nível 4. | SVG decorativo oculto da leitura assistiva, wordmark redundante removido e títulos de grupos em nível 2. | Acessibilidade automatizada sem excluir elementos da análise. |
 | Movimento | Feedback da seção tinha brilho amplo e longa duração; cursor personalizado não combinava com a superfície clara. | Entrada de 8 px em 550 ms, feedback de seção de 720 ms, cartões suaves e cursor nativo na rota pessoal. | Hover limitado a 1,025; movimento reduzido sem animações em execução. |
 | Dependências | Scan reportou uma vulnerabilidade alta no Zod instalado. | Zod fixado em 4.6.6 e lockfile atualizado; Axe adicionado apenas como ferramenta de desenvolvimento. | `npm audit`: zero vulnerabilidades reportadas após a atualização. |
 
@@ -26,9 +26,13 @@ As evidências executáveis ficam em `qa/browser-results.json`, `qa/portfolio-au
 
 O alerta [GHSA-mrhx-c7xc-m3w5](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) afeta Zod anterior a 4.6.6. Não foram encontrados imports de Zod no código da aplicação; a correção é preventiva da dependência instalada, sem evidência de exploração neste projeto.
 
-Não foram encontrados usos de `eval`, `innerHTML` ou `dangerouslySetInnerHTML` nos componentes e bibliotecas revisados. O feedback de gestores usa armazenamento local do navegador; sua aprovação local não comprova autorização de um depoimento ou um backend administrativo. O conteúdo existente foi preservado.
+Não foram encontrados usos de `eval`, `innerHTML` ou `dangerouslySetInnerHTML` nos componentes e bibliotecas revisados. A edição e a prévia administrativa dos depoimentos usam armazenamento local apenas no build de desenvolvimento (`import.meta.env.DEV`). Em produção, o componente usa os itens aprovados no repositório. Essa aprovação no código não comprova uma nova autorização de uso de depoimento; o conteúdo existente foi preservado.
 
 Formulários e exports n8n mantêm os contratos anteriores: mesmos endpoints e aliases, timeout de 15 segundos, uma requisição por vez, confirmação legível `ok: true`, preservação dos campos em falha e ausência de retry automático. As suítes interceptam ou bloqueiam POSTs e não enviam mensagens reais. Nenhuma credencial foi adicionada.
+
+## Contraste e módulos existentes
+
+A análise foi estendida à página comercial. Rótulos do indicador lateral receberam uma superfície escura própria; o azul de texto em superfícies claras e o bloco azul de apresentação foram ajustados para contraste. As entradas do hero, soluções e metodologia também respeitam movimento reduzido, evitando medir ou exibir conteúdo durante uma opacidade transitória. Nenhuma regra Axe foi desabilitada.
 
 ## Movimento
 

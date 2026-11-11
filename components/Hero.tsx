@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
           
           {/* Animated top label with pulsing micro-indicator */}
           <motion.div 
-            initial={{ opacity: 0, y: 15 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6"
@@ -50,7 +50,7 @@ export const Hero: React.FC = () => {
 
           {/* Scale monumental Display Title */}
           <motion.h1 
-            initial={{ opacity: 0, y: 25 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="title-huge text-white mb-6 uppercase"
@@ -64,7 +64,7 @@ export const Hero: React.FC = () => {
 
           {/* Subtitle */}
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="font-sans text-lg lg:text-xl text-gray-light max-w-xl mb-10 leading-relaxed font-light"
@@ -74,7 +74,7 @@ export const Hero: React.FC = () => {
 
           {/* Actions */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-12"
@@ -90,7 +90,7 @@ export const Hero: React.FC = () => {
 
           {/* Micro-information tags */}
           <motion.div 
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="grid grid-cols-2 gap-x-8 gap-y-4 pt-8 border-t border-white/5 w-full max-w-lg"
@@ -126,7 +126,7 @@ export const Hero: React.FC = () => {
 
           {/* 1. SMART TV MOCKUP - CHAMAÍ FOOD (Delivery Screen) */}
           <motion.div 
-            initial={{ opacity: 0, x: 50, y: -40 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 50, y: -40 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="absolute top-4 left-6 sm:left-12 w-[240px] sm:w-[320px] bg-[#101010] border-[5px] border-[#1f1f1f] rounded-lg shadow-2xl shadow-black/80 z-20 hover:scale-105 transition-transform duration-500"
@@ -169,7 +169,7 @@ export const Hero: React.FC = () => {
 
           {/* 2. FLAT MONITOR MOCKUP - CHAMAÍ (Queue Management Panel) */}
           <motion.div 
-            initial={{ opacity: 0, x: -50, y: 30 }}
+            initial={reduceMotion ? false : { opacity: 0, x: -50, y: 30 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="absolute bottom-16 left-2 sm:left-4 w-[220px] sm:w-[280px] bg-[#0c0c0c] border-[4px] border-[#252525] rounded-md shadow-2xl shadow-black/80 z-30 hover:scale-105 transition-transform duration-500"
@@ -202,7 +202,7 @@ export const Hero: React.FC = () => {
 
           {/* 3. PREMIUM LAPTOP MOCKUP - SIGNAGEFLOW (Digital Signage Platform) */}
           <motion.div 
-            initial={{ opacity: 0, y: 60 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="absolute bottom-4 right-2 sm:right-6 w-[250px] sm:w-[310px] bg-[#161616] border-[3px] border-[#2c2c2c] rounded-lg shadow-2xl shadow-black/80 z-40 hover:scale-105 transition-transform duration-500"
@@ -291,3 +291,4 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+

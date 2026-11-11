@@ -67,6 +67,13 @@ try {
     await aligned('produtos');
     await page.waitForFunction(() => document.querySelector('header a[href="/#produtos"]')?.getAttribute('aria-current') === 'location');
   });
+  await check('unknown route stays noindex and returns to the public home correctly', async () => {
+    await page.goto(base + '/rota-inexistente-auditoria');
+    await page.getByRole('heading', { name: 'Página não encontrada', exact: true }).waitFor();
+    await page.waitForFunction(() => document.querySelector('meta[name="robots"]')?.getAttribute('content') === 'noindex,follow');
+    await page.getByRole('link', { name: 'Voltar para a página inicial', exact: true }).click();
+    await page.waitForFunction(() => location.pathname === '/' && document.querySelector('meta[name="robots"]')?.getAttribute('content') === 'index,follow');
+  });
   await check('mobile menu isolates the page, cycles focus and restores it on Escape', async () => {
     await page.setViewportSize({ width: 390, height: 844 }); await profile();
     const trigger = page.getByRole('button', { name: 'Abrir menu' });
@@ -111,16 +118,24 @@ try {
     } finally { await page.unroute(pattern); }
   });
   await check('a missing project preview has a useful fallback and preserves its destination', async () => {
-    const pattern = '**/images/portfolio/chamaai-food.webp';
-    await page.route(pattern, route => route.abort());
+    const isolated = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    let failedImageRequests = 0;
+    await isolated.route('**/*', route => {
+      if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
+      if (new URL(route.request().url()).pathname === '/images/portfolio/chamaai-food.webp') { failedImageRequests++; return route.abort(); }
+      return route.continue();
+    });
     try {
-      await profile('#projetos');
-      const card = page.locator('[data-portfolio-project="chamaai-food"]');
+      const faultPage = await isolated.newPage();
+      await faultPage.goto(base + '/nicolas-reis#projetos');
+      const card = faultPage.locator('[data-portfolio-project="chamaai-food"]');
       await card.scrollIntoViewIfNeeded();
       await card.getByText('Prévia indisponível', { exact: true }).waitFor();
+      assert.ok(failedImageRequests > 0, 'the failure must be exercised without the memory image cache');
       assert.equal(await card.locator('a').getAttribute('href'), 'https://chamaaifood.nexareis.com.br/pilot');
       assert.equal(await card.locator('img').count(), 0);
-    } finally { await page.unroute(pattern); }
+      await faultPage.screenshot({ path: 'qa/project-preview-fallback.png', fullPage: true });
+    } finally { await isolated.close(); }
   });
   await check('subtle hover responds and reduced motion removes image transforms', async () => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -149,7 +164,13 @@ try {
     for (const path of paths) {
       await page.setViewportSize({ width: 1440, height: 900 });
       await page.goto(base + path); await page.locator('h1').waitFor();
-      if (path === '/') for (const section of await page.locator('main section').all()) await section.scrollIntoViewIfNeeded();
+      if (path === '/') {
+        // Visit the complete document so deferred sections and once-only reveals are rendered.
+        for (let y = 0; y < await page.evaluate(() => document.documentElement.scrollHeight); y += 600) {
+          await page.evaluate(y => scrollTo(0, y), y); await page.waitForTimeout(80);
+        }
+        await page.waitForTimeout(1000);
+      }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
       accessibility.push({ path, viewport: 1440, violations: result.violations, incomplete: result.incomplete.map(x => ({ id:x.id, nodes:x.nodes.length })), passes: result.passes.length });
     }
