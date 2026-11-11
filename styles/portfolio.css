@@ -144,8 +144,9 @@ html[data-page-surface='portfolio'] ::-webkit-scrollbar-thumb { background-color
 }
 header[data-portfolio-theme='light'] { border-bottom-color: #e2e0d0; }
 header[data-portfolio-theme='light'] button { color: #083e31; }
-header[data-portfolio-theme='light'] button:not([aria-controls]) { background: #083e31; color: #fff7e7; border-color: #083e31; }
-header[data-portfolio-theme='light'] button:not([aria-controls]) svg { color: #f5bc39; }
+header[data-portfolio-theme='light'] button:not([aria-controls]), #mobile-navigation[data-portfolio-theme='light'] button { background: #083e31; color: #fff7e7; border-color: #083e31; }
+header[data-portfolio-theme='light'] button:not([aria-controls]):enabled:hover, #mobile-navigation[data-portfolio-theme='light'] button:enabled:hover { background: #145440; }
+header[data-portfolio-theme='light'] button:not([aria-controls]) svg, #mobile-navigation[data-portfolio-theme='light'] button svg { color: #f5bc39; }
 [data-portfolio-theme='light'] :focus-visible { outline-color: #083e31; }
 footer[data-portfolio-theme='green'] { background: #083e31; --color-gray-sec: #cad9ce; --color-brand-cyan: #f5bc39; }
 @media (max-width: 1100px) {

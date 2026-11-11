@@ -240,6 +240,7 @@ try {
       await demoPage.waitForFunction(() => document.activeElement?.getAttribute('href') === '/#home');
       assert.ok(await demoPage.locator('#mobile-navigation nav a').first().evaluate(el => Number(getComputedStyle(el).opacity) >= 0.95));
       await demoPage.waitForTimeout(250);
+      assert.equal(await demoPage.locator('#mobile-navigation button').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(8, 62, 49)');
       await demoPage.screenshot({ path: 'qa/nicolas-menu-390.png', fullPage: false });
       await toggle.click();
       await toggle.click();

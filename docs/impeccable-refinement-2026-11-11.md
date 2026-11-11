@@ -41,6 +41,7 @@ As notas expressam julgamento qualitativo deste escopo, não uma medição unive
 - Links do menu, botões compartilhados, ícones sociais e links do rodapé móvel possuem alvos de pelo menos 44 px onde ajustados.
 - O nome mantém seu destaque e a composição, com espaçamento menos comprimido e escala ajustada para caber desde 320 px. Apoios de experiência e catálogo recebem 12 px; títulos usam balanceamento e descrições usam distribuição de texto quando suportada.
 - O botão herda o foco visível existente. O shimmer redundante foi retirado. Cabeçalho e links usam transições de propriedades explícitas.
+- A ação do menu pessoal usa o mesmo verde e amarelo do perfil; o botão comercial mantém sua identidade nas outras rotas.
 
 A referência aprovada continua sendo a autoridade: círculo amarelo, enquadramento da foto, cabeçalhos e rótulos existentes são preservados. Regras genéricas não autorizam alterar conteúdo ou a direção visual por conta própria.
 
