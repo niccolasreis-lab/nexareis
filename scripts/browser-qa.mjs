@@ -6,11 +6,12 @@ const base = process.env.NEXA_QA_URL || 'http://127.0.0.1:4173';
 const server = process.env.NEXA_QA_URL ? null : spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--host', '127.0.0.1', '--port', '4173', '--strictPort'], { stdio: 'pipe' });
 const results = [];
 let browser;
+let page;
 async function check(name, fn) { await fn(); results.push({ name, status: 'pass' }); console.log('PASS', name); }
 try {
   for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
   browser = await chromium.launch({ headless: true, executablePath: process.env.NEXA_CHROMIUM_EXECUTABLE || undefined, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   const runtimeErrors = [];
   page.on('pageerror', error => runtimeErrors.push(error.message));
   await mkdir('qa', { recursive: true });
@@ -44,7 +45,11 @@ try {
         await page.locator('#feedback-gestores').scrollIntoViewIfNeeded();
         await page.waitForTimeout(500);
       }
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, 'horizontal overflow');
+      const overflow = await page.evaluate(() => ({
+        width: innerWidth, scrollWidth: document.documentElement.scrollWidth,
+        elements: [...document.querySelectorAll('main *')].map(el => ({tag:el.tagName, class:el.className?.baseVal ?? el.className, left:el.getBoundingClientRect().left, right:el.getBoundingClientRect().right})).filter(el => el.left < -1 || el.right > innerWidth + 1).slice(0, 12),
+      }));
+      assert.ok(overflow.scrollWidth <= overflow.width + 1, 'horizontal overflow: ' + JSON.stringify(overflow));
       const duplicates = await page.evaluate(() => { const ids = [...document.querySelectorAll('[id]')].map(x => x.id).filter(Boolean); return ids.filter((x, i) => ids.indexOf(x) !== i); });
       assert.deepEqual(duplicates, [], 'duplicate IDs');
       if ([390,1440].includes(width) && path !== '/servicos/automacao') { await page.evaluate(() => scrollTo(0,0)); await page.screenshot({ path: `qa/${path === '/' ? 'home' : 'nicolas'}-${width}.png`, fullPage: true }); }
@@ -244,7 +249,9 @@ try {
   assert.deepEqual(runtimeErrors, []);
   console.log(`${results.length} browser checks passed; all contact POSTs intercepted.`);
 } catch (error) {
-  results.push({status:'fail', error: String(error)}); console.error(error); process.exitCode = 1;
+  results.push({status:'fail', error: String(error)}); console.error(error);
+  if (page && !page.isClosed()) await page.screenshot({ path: 'qa/failure.png', fullPage: true }).catch(() => {});
+  process.exitCode = 1;
 } finally {
   await writeFile('qa/browser-results.json', JSON.stringify({ date: new Date().toISOString(), base, engine: 'Chromium', realContactSent: false, results }, null, 2));
   await browser?.close(); server?.kill();

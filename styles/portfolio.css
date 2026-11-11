@@ -12,6 +12,7 @@
   padding: 128px 0 72px;
 }
 .portfolio-page * { box-sizing: border-box; }
+.portfolio-hero > *, .portfolio-connect > *, .portfolio-split-section > *, .portfolio-competencies li { min-width: 0; }
 .portfolio-shell { width: min(1200px, calc(100% - 80px)); margin-inline: auto; }
 .portfolio-page h1, .portfolio-page h2, .portfolio-page h3 { font-family: var(--font-display); }
 .portfolio-page a { text-underline-offset: 5px; }
