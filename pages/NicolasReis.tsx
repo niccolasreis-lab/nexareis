@@ -192,7 +192,7 @@ export const NicolasReis: React.FC = () => {
         </section>
 
         <section id="contato-profissional" className="portfolio-contact" aria-labelledby="contato-profissional-heading" data-portfolio-effect="contact" data-portfolio-selected={selection('contato-profissional')}>
-          <div><p className="portfolio-contact-note">Oportunidades e projetos</p><h2 id="contato-profissional-heading">Uma boa ideia começa<br />com uma conversa.</h2><p>Quer conhecer minha trajetória ou conversar sobre um projeto? Estou por aqui.</p></div>
+          <div><p className="portfolio-contact-note">Oportunidades e projetos</p><h2 id="contato-profissional-heading">Uma boa ideia começa<br /> com uma conversa.</h2><p>Quer conhecer minha trajetória ou conversar sobre um projeto? Estou por aqui.</p></div>
           <div className="portfolio-contact-actions">
             <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="portfolio-button portfolio-button-yellow">Vamos conversar <ArrowUpRight size={20} aria-hidden="true" /></a>
             <div className="portfolio-social-links"><a href={nicolasProfile.instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} aria-hidden="true" />Instagram</a><a href={nicolasProfile.github} target="_blank" rel="noopener noreferrer"><Github size={18} aria-hidden="true" />GitHub</a></div>

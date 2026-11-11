@@ -35,7 +35,7 @@
 .portfolio-location { display: flex; align-items: center; gap: 6px; color: var(--portfolio-muted); font-size: 12px; margin-top: 26px; }
 .portfolio-portrait { position: relative; isolation: isolate; justify-self: center; width: min(100%, 400px); margin: 4px 18px 25px 0; }
 .portfolio-sun { position: absolute; z-index: -1; background: var(--portfolio-yellow); width: 112%; aspect-ratio: 1; border-radius: 50%; top: 22px; left: -2%; }
-.portfolio-sun::after { content: ''; position: absolute; inset: -13px; border: 1px solid #be8f24; border-radius: 50%; border-left-color: transparent; transform: rotate(-25deg); }
+.portfolio-sun::after { content: ''; position: absolute; inset: -13px; border: 1px solid #be8f24; border-radius: 50%; border-left-color: transparent; }
 .portfolio-portrait img { display: block; width: 100%; height: auto; border-radius: 46% 46% 25px 25px; border: 6px solid var(--portfolio-cream); }
 .portfolio-spark { position: absolute; z-index: 1; left: -45px; top: 23px; font-size: 67px; line-height: 1; transform: rotate(12deg); }
 .portfolio-portrait figcaption { position: absolute; right: -24px; bottom: -22px; display: flex; align-items: center; gap: 12px; padding: 15px 22px 15px 13px; border-radius: 14px; background: var(--portfolio-paper); box-shadow: 0 8px 24px #083e3110; font-size: 13px; line-height: 1.5; transform: rotate(-4deg); border: 1px solid #e7e1d0; }
@@ -197,6 +197,11 @@ footer[data-portfolio-theme='green'] { background: #083e31; --color-gray-sec: #c
   .portfolio-contact h2 { font-size: 29px; }
   .portfolio-contact h2 br { display: none; }
   .portfolio-contact-actions { width: 100%; }
+}
+@media (max-width: 359px) {
+  .portfolio-competencies ul { grid-template-columns: 1fr; gap: 16px; }
+  .portfolio-competencies li { flex-direction: row; align-items: center; gap: 13px; }
+  .portfolio-competencies small { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .portfolio-page *, .portfolio-page *::before, .portfolio-page *::after { transition: none !important; animation: none !important; }
