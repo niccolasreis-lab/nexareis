@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "scope": "project",
+  "installedAt": "2026-11-11",
+  "skills": {
+    "impeccable": {
+      "source": "https://github.com/pbakaus/impeccable",
+      "commit": "b4bff1626c344067788c2679f048a20057c7cc5a",
+      "version": "4.8.2",
+      "engineVersion": "0.1.22",
+      "sourceDirectory": ".agents/skills/impeccable",
+      "skillSha256": "c6921e830b7a565ebbe9aabe11516d34092062cd7fa2b442f030134857bf86a8"
+    },
+    "web-design-guidelines": {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "version": "1.0.0",
+      "sourceDirectory": "skills/web-design-guidelines",
+      "skillSha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+    }
+  }
+}

@@ -55,11 +55,11 @@ export const Footer: React.FC = () => {
             </p>
             {/* Social handles */}
             <div className="flex gap-4">
-              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
-                <Github className="w-4 h-4" />
+              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+                <Github className="w-4 h-4" aria-hidden="true" />
               </a>
-              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
-                <Phone className="w-4 h-4" />
+              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+                <Phone className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
           </div>

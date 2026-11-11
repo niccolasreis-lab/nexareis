@@ -107,7 +107,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-    <header data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined} className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+    <header data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined} className={`fixed top-0 left-0 right-0 z-[60] transition-colors duration-200 ${
       mobileMenuOpen
         ? 'py-4 bg-dark-bg border-b border-dark-border'
         : isScrolled
@@ -164,13 +164,13 @@ export const Header: React.FC = () => {
         <button 
           ref={menuButtonRef}
           type="button"
-          className="lg:hidden p-3 z-50 text-white hover:text-brand-cyan transition-colors"
+          className="lg:hidden p-3 z-50 text-white hover:text-brand-cyan transition-colors touch-manipulation"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
         </button>
       </div>
     </header>
@@ -183,37 +183,35 @@ export const Header: React.FC = () => {
             ref={menuPanelRef}
             id="mobile-navigation"
             data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            initial={reduceMotion ? false : { opacity: 0.98 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0.98 }}
+            transition={{ duration: reduceMotion ? 0 : 0.12 }}
             className="fixed inset-0 z-50 bg-dark-bg flex flex-col items-center overflow-y-auto overscroll-contain px-8 pt-28 pb-8 lg:hidden"
           >
-            <nav aria-label="Navegação móvel" className="my-auto flex w-full flex-col gap-5 items-center text-center">
-              {navItems.map((item, index) => (
-                <motion.a 
+            <motion.nav aria-label="Navegação móvel" data-mobile-menu-content
+              initial={reduceMotion ? false : { y: -6 }}
+              animate={{ y: 0 }}
+              exit={{ y: -4 }}
+              transition={{ duration: reduceMotion ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="my-auto flex w-full flex-col gap-3 items-center text-center">
+              {navItems.map((item) => (
+                <a
                   key={item.label}
                   href={"/" + item.href}
-                  initial={reduceMotion ? false : { opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.05 }}
+                  aria-current={activeId === item.id ? 'location' : undefined}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`font-display text-2xl tracking-wide transition-all ${
+                  className={`flex min-h-11 w-full max-w-xs items-center justify-center touch-manipulation font-display text-2xl tracking-wide transition-colors duration-150 ${
                     activeId === item.id
-                      ? 'text-brand-cyan font-bold scale-105' 
+                      ? 'text-brand-cyan font-bold'
                       : 'text-gray-light hover:text-white'
                   }`}
                 >
                   {item.label}
-                </motion.a>
+                </a>
               ))}
               
-              <motion.div 
-                initial={reduceMotion ? false : { opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : navItems.length * 0.05 }}
-                className="mt-4 w-full max-w-xs"
-              >
+              <div className="mt-4 w-full max-w-xs">
                 <Button 
                   variant="lime" 
                   size="md"
@@ -222,8 +220,8 @@ export const Header: React.FC = () => {
                 >
                   Falar sobre um projeto <ArrowUpRight className="w-4 h-4" />
                 </Button>
-              </motion.div>
-            </nav>
+              </div>
+            </motion.nav>
           </motion.div>
         )}
       </AnimatePresence>, document.body)}

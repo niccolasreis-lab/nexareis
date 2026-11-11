@@ -169,11 +169,7 @@ export const NicolasReis: React.FC = () => {
             {featuredProducts.map(product => {
               const hasDemo = product.url.startsWith('https://');
               return (
-                <motion.article key={product.id}
-                  initial={reduceMotion ? false : { opacity: 0.96, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.12 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }} className="portfolio-project" data-portfolio-project={product.id}>
+                <article key={product.id} className="portfolio-project" data-portfolio-project={product.id}>
                   <ProjectPreview id={product.id} name={product.name} />
                   <div className="portfolio-project-content">
                     <p className="portfolio-project-category">{product.category}</p>
@@ -185,7 +181,7 @@ export const NicolasReis: React.FC = () => {
                       <Link to="/#contato" className="portfolio-project-link">Solicitar informações <ArrowUpRight size={19} aria-hidden="true" /></Link>
                     )}
                   </div>
-                </motion.article>
+                </article>
               );
             })}
           </div>

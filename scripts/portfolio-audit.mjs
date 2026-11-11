@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 import { spawn } from 'node:child_process';
-import { mkdir, writeFile, stat } from 'node:fs/promises';
+import { mkdir, writeFile, stat, rename } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const base = process.env.NEXA_AUDIT_URL || 'http://127.0.0.1:4174';
 const server = process.env.NEXA_AUDIT_URL ? null : spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--host', '127.0.0.1', '--port', '4174', '--strictPort'], { stdio: 'pipe' });
@@ -163,6 +163,98 @@ try {
     await page.addStyleTag({ content: '.portfolio-page { zoom: 1.25; }' });
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'larger text must not introduce horizontal overflow');
     await profile();
+  });
+  await check('portfolio browser colors and readable selection reset on commercial navigation', async () => {
+    await page.setViewportSize({ width: 1440, height: 900 }); await profile();
+    await page.waitForFunction(() => document.documentElement.dataset.pageSurface === 'portfolio');
+    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute('content'), '#fff7e7');
+    const colors = await page.locator('.portfolio-summary').evaluate(el => {
+      const selected = getComputedStyle(el, '::selection');
+      return { foreground: selected.color, background: selected.backgroundColor };
+    });
+    const luminance = color => {
+      const [r, g, b] = color.match(/[\d.]+/g).slice(0, 3).map(v => {
+        const s = Number(v) / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+      });
+      return r * 0.2126 + g * 0.7152 + b * 0.0722;
+    };
+    const a = luminance(colors.foreground), b = luminance(colors.background);
+    const contrast = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    assert.ok(contrast >= 4.5, `selected text contrast is ${contrast}`);
+    measurements.selectedTextContrast = contrast;
+    await page.locator('header a[href="/#home"]').first().click();
+    await page.waitForFunction(() => document.documentElement.dataset.pageSurface === 'commercial');
+    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute('content'), '#050505');
+    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(5, 5, 5)');
+  });
+  await check('mobile navigation and footer keep 44px targets without clipping the name', async () => {
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 }); await profile();
+      await page.evaluate(() => document.fonts.ready);
+      assert.ok(await page.locator('#nicolas-heading').evaluate(el => {
+        const range = document.createRange(); range.selectNodeContents(el);
+        return range.getBoundingClientRect().right <= el.getBoundingClientRect().right + 1;
+      }), `the complete name should fit its column at ${width}px`);
+      const undersized = await page.locator('footer a').evaluateAll(links => links.filter(el => {
+        const box = el.getBoundingClientRect(); return box.height < 43.5 || box.width < 43.5;
+      }).map(el => el.textContent || el.getAttribute('aria-label')));
+      assert.deepEqual(undersized, []);
+      await page.getByRole('button', { name: 'Abrir menu' }).click();
+      const menuSizes = await page.locator('#mobile-navigation nav a').evaluateAll(links => links.map(el => {
+        const box = el.getBoundingClientRect(); return { width: box.width, height: box.height };
+      }));
+      assert.equal(menuSizes.length, 7);
+      assert.ok(menuSizes.every(box => box.width >= 44 && box.height >= 44));
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => !document.getElementById('mobile-navigation'));
+    }
+  });
+  await check('shared buttons respond briefly and stay still with reduced motion', async () => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'no-preference' }); await profile();
+    const button = page.locator('header').getByRole('button', { name: 'Falar sobre um projeto' });
+    assert.ok((await button.boundingBox()).height >= 44);
+    await button.hover(); await page.waitForTimeout(250);
+    const scale = await button.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    assert.ok(scale > 1 && scale <= 1.03);
+    await page.emulateMedia({ reducedMotion: 'reduce' }); await profile();
+    await button.hover(); await page.waitForTimeout(250);
+    assert.equal(await button.evaluate(el => getComputedStyle(el).transform), 'none');
+  });
+  await check('normal-motion mobile menu can be interrupted and records a real preview', async () => {
+    const demo = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference', recordVideo: { dir: 'qa/motion', size: { width: 390, height: 844 } } });
+    await demo.route('**/*', route => {
+      if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
+      return route.continue();
+    });
+    const demoPage = await demo.newPage();
+    demoPage.on('pageerror', error => runtimeErrors.push(error.message));
+    const video = demoPage.video();
+    try {
+      await demoPage.goto(base + '/nicolas-reis');
+      await demoPage.locator('[data-profile-portrait]').evaluate(async img => { await img.decode(); });
+      await demoPage.evaluate(() => document.fonts.ready);
+      await demoPage.waitForTimeout(650);
+      const toggle = demoPage.locator('button[aria-controls="mobile-navigation"]');
+      await toggle.click();
+      await demoPage.waitForFunction(() => document.activeElement?.getAttribute('href') === '/#home');
+      assert.ok(await demoPage.locator('#mobile-navigation nav a').first().evaluate(el => Number(getComputedStyle(el).opacity) >= 0.95));
+      await demoPage.waitForTimeout(250);
+      await demoPage.screenshot({ path: 'qa/nicolas-menu-390.png', fullPage: false });
+      await toggle.click();
+      await toggle.click();
+      await demoPage.waitForFunction(() => document.getElementById('main-content').inert && document.querySelector('button[aria-controls="mobile-navigation"]')?.getAttribute('aria-expanded') === 'true');
+      await demoPage.keyboard.press('Escape');
+      await demoPage.waitForFunction(() => !document.getElementById('mobile-navigation') && !document.getElementById('main-content').inert);
+      await demoPage.getByRole('link', { name: 'Ver meus projetos' }).click();
+      await demoPage.waitForFunction(() => document.activeElement?.id === 'projetos' && Math.abs(document.getElementById('projetos').getBoundingClientRect().top - 96) < 2);
+      await demoPage.locator('[data-portfolio-project="chamaai-food"] img').evaluate(async img => { await img.decode(); });
+      await demoPage.waitForTimeout(700);
+      assert.ok(await demoPage.locator('[data-portfolio-project="chamaai-food"]').isVisible());
+    } finally {
+      await demo.close();
+      if (video) await rename(await video.path(), 'qa/portfolio-motion-mobile.webm');
+    }
   });
   await check('automated accessibility across all public routes and mobile menu', async () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });

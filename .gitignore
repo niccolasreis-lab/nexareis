@@ -36,3 +36,5 @@ dist-ssr
 
 # Reproducible visual QA artifacts are uploaded by CI, not versioned.
 qa/*.png
+
+.agents/skills/impeccable/scripts/bin/
