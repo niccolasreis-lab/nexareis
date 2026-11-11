@@ -180,6 +180,7 @@ try {
   await check('portfolio visuals preserve product destinations and load the captured previews', async () => {
     await page.goto(base + '/nicolas-reis');
     const projects = page.locator('[data-portfolio-project]');
+    await projects.first().waitFor();
     assert.equal(await projects.count(), 4);
     for (const image of await projects.locator('img').all()) {
       await image.scrollIntoViewIfNeeded();
