@@ -7,6 +7,10 @@ import { Footer } from './components/Footer';
 import { RouteMetadata } from './components/RouteMetadata';
 import { Link } from 'react-router-dom';
 import { Home } from './pages/Home';
+import { InterestTracking } from './components/InterestTracking';
+const Quote = React.lazy(() => import('./pages/Quote').then(({ Quote }) => ({ default: Quote })));
+const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail').then(({ ProjectDetail }) => ({ default: ProjectDetail })));
+const Metrics = React.lazy(() => import('./pages/Metrics').then(({ Metrics }) => ({ default: Metrics })));
 
 const NicolasCurriculo = React.lazy(() => import('./pages/NicolasCurriculo').then(({ NicolasCurriculo }) => ({ default: NicolasCurriculo })));
 
@@ -110,6 +114,9 @@ function AnimatedRoutes() {
             </Suspense>
           }
         />
+        <Route path="/orcamento" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando orçamento…</p>}><Quote /></Suspense>} />
+        <Route path="/projetos/:projectId" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando projeto…</p>}><ProjectDetail /></Suspense>} />
+        <Route path="/metricas" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando métricas…</p>}><Metrics /></Suspense>} />
         <Route path="/curriculo" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando currículo…</p>}><NicolasCurriculo /></Suspense>} />
         <Route path="/nicolas-reis" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando perfil…</p>}><NicolasReis /></Suspense>} />
         <Route path="*" element={<div className="max-w-7xl mx-auto px-6 pt-40 pb-24"><h1 className="font-display text-3xl mb-6">Página não encontrada</h1><Link to="/" className="text-brand-cyan underline">Voltar para a página inicial</Link></div>} />
@@ -143,6 +150,7 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <RouteMetadata />
+      <InterestTracking />
       <DeferredCustomCursor />
       <div className="app-root">
         <a className="skip-link" href="#main-content">Pular para o conteúdo</a>

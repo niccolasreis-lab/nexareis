@@ -18,10 +18,12 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
+      - run: python3 -m unittest discover -s services/growth -p 'test_*.py'
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: npm run test:audit
+      - run: npm run test:growth
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

@@ -175,6 +175,7 @@ export const NicolasReis: React.FC = () => {
                     <p className="portfolio-project-category">{product.category}</p>
                     <h3>{product.name}</h3>
                     <p className="portfolio-project-description">{product.description}</p>
+                    <Link to={'/projetos/' + product.id} className="portfolio-text-link" style={{ minHeight: 44, display: 'inline-flex', marginBlock: '0.5rem' }}>Ver detalhes do projeto <ArrowUpRight size={17} aria-hidden="true" /></Link>
                     {hasDemo ? (
                       <a href={product.url} target="_blank" rel="noopener noreferrer" className="portfolio-project-link" aria-label={'Conhecer projeto: ' + product.name}>Conhecer projeto <ArrowUpRight size={19} aria-hidden="true" /></a>
                     ) : (

@@ -33,6 +33,7 @@ try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   // Block every external mutation: the audit never sends a real lead or webhook.
   await context.route('**/*', async route => {
+    if (new URL(route.request().url()).pathname === '/api/events') return route.fulfill({ status: 204 });
     if (route.request().method() === 'POST') { blockedPosts++; return route.abort('blockedbyclient'); }
     return route.continue();
   });
@@ -124,7 +125,8 @@ try {
     const isolated = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     let failedImageRequests = 0;
     await isolated.route('**/*', route => {
-      if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
+      if (new URL(route.request().url()).pathname === '/api/events') return route.fulfill({ status: 204 });
+    if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
       if (new URL(route.request().url()).pathname === '/images/portfolio/chamaai-food.webp') { failedImageRequests++; return route.abort(); }
       return route.continue();
     });
@@ -226,7 +228,8 @@ try {
   await check('normal-motion mobile menu can be interrupted and records a real preview', async () => {
     const demo = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference', recordVideo: { dir: 'qa/motion', size: { width: 390, height: 844 } } });
     await demo.route('**/*', route => {
-      if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
+      if (new URL(route.request().url()).pathname === '/api/events') return route.fulfill({ status: 204 });
+    if (route.request().method() === 'POST') { blockedPosts++; return route.abort(); }
       return route.continue();
     });
     const demoPage = await demo.newPage();

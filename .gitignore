@@ -38,3 +38,7 @@ dist-ssr
 qa/*.png
 
 .agents/skills/impeccable/scripts/bin/
+
+# Receiver runtime data and Python bytecode
+__pycache__/
+*.sqlite3*

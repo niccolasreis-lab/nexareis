@@ -3,6 +3,8 @@ export const CONTACT_TIMEOUT_MS = 15_000;
 export const CONTACT_SUBMIT_ERROR =
   'Não foi possível confirmar o envio. Seus dados foram mantidos. Você também pode entrar em contato pelo WhatsApp.';
 
+export type ContactReceipt = { registered: true; receipt: string };
+
 /** One request at a time; only a readable server acknowledgement confirms delivery. */
 export class ContactSubmission {
   private activeController: AbortController | null = null;
@@ -15,7 +17,7 @@ export class ContactSubmission {
     this.activeController?.abort();
   }
 
-  async submit(url: string, payload: Record<string, string>): Promise<void> {
+  async submit(url: string, payload: Record<string, string>, requestKey?: string): Promise<ContactReceipt | void> {
     if (this.isPending) {
       throw new Error('A contact submission is already in progress.');
     }
@@ -33,7 +35,7 @@ export class ContactSubmission {
     try {
       const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: requestKey ? { 'Content-Type': 'application/json', 'Idempotency-Key': requestKey } : { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
@@ -55,6 +57,10 @@ export class ContactSubmission {
         throw new Error('The server did not confirm the contact submission.');
       }
       checkDeadline();
+      if ('registered' in acknowledgement && acknowledgement.registered === true) {
+        if (!('receipt' in acknowledgement) || typeof acknowledgement.receipt !== 'string' || !/^NR-[A-F0-9]{16}$/.test(acknowledgement.receipt)) throw new Error('Invalid contact receipt.');
+        return { registered: true, receipt: acknowledgement.receipt };
+      }
     } finally {
       clearTimeout(timeout);
       // Release any unread response body after a rejection.
@@ -63,3 +69,4 @@ export class ContactSubmission {
     }
   }
 }
+

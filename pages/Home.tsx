@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/growth.css';
+import { ArrowRight } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { Manifesto } from '../components/Manifesto';
 import { ProductShowcase } from '../components/ProductShowcase';
@@ -39,6 +41,8 @@ export const Home: React.FC = () => {
       {/* 3. Portfólio de Produtos - ChamaAí Food, ChamaAí Filas & SignageFlow dynamic tabs */}
       <ProductShowcase />
 
+      <div className="growth-shell"><section className="growth-invitation" aria-labelledby="quote-invitation-heading"><div><h2 id="quote-invitation-heading">Qual solução combina com sua operação?</h2><p>Escolha seu tipo de negócio e a tarefa que quer organizar. Eu preparo um ponto de partida para a nossa conversa.</p></div><Link to="/orcamento" className="growth-button">Preparar meu orçamento <ArrowRight size={17} aria-hidden="true" /></Link></section></div>
+
       {/* 4. Tabela de Comparação Visual */}
       <DeferredSection minHeight="32rem">
         <Suspense fallback={null}>
@@ -76,3 +80,4 @@ export const Home: React.FC = () => {
     </>
   );
 };
+

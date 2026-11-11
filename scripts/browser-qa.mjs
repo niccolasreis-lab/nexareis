@@ -19,12 +19,13 @@ try {
   let posts = 0;
   let acknowledgement = { ok: false };
   let pauseResponse = false;
-  await page.route('**/webhook/**', async route => {
+  await page.route(/(?:\/webhook\/|\/api\/contact)/, async route => {
     if (route.request().method() !== 'POST') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' } });
     posts++;
     if (pauseResponse) await new Promise(r => setTimeout(r, 1000));
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(acknowledgement), headers: { 'Access-Control-Allow-Origin': '*' } });
   });
+  await page.route('**/api/events', route => route.fulfill({ status: 204 }));
   for (const width of [320, 360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/nicolas-reis', '/servicos/automacao']) await check(`layout ${path} at ${width}px`, async () => {
