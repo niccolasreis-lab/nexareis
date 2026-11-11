@@ -137,7 +137,7 @@ try {
       await card.scrollIntoViewIfNeeded();
       await card.getByText('Prévia indisponível', { exact: true }).waitFor();
       assert.ok(failedImageRequests > 0, 'the failure must be exercised without the memory image cache');
-      assert.equal(await card.locator('a').getAttribute('href'), 'https://chamaaifood.nexareis.com.br/pilot');
+      assert.equal(await card.locator('a.portfolio-project-link').getAttribute('href'), 'https://chamaaifood.nexareis.com.br/pilot');
       assert.equal(await card.locator('img').count(), 0);
       const result = await new AxeBuilder({ page: faultPage }).include('[data-portfolio-project="chamaai-food"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
       accessibility.push({ path:'/nicolas-reis', viewport:390, state:'image-failure', violations:result.violations, incomplete:result.incomplete, passes:result.passes.length });

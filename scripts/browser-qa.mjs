@@ -197,7 +197,7 @@ try {
       ['chamaai-filas', 'https://chamaai.nexareis.com.br'],
       ['signageflow', 'https://signageflow.nexareis.com.br'],
       ['cesta-esperta', '/#contato'],
-    ]) assert.equal(await page.locator('[data-portfolio-project="' + id + '"] a').getAttribute('href'), href);
+    ]) assert.equal(await page.locator('[data-portfolio-project="' + id + '"] a.portfolio-project-link').getAttribute('href'), href);
     // Capture the complete design only after the below-the-fold lazy images decode.
     await page.evaluate(() => document.fonts.ready);
     for (const width of [390, 1440]) {

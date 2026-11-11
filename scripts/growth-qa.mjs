@@ -8,6 +8,7 @@ const server = spawn(process.execPath,['node_modules/vite/bin/vite.js','preview'
 const checks=[], accessibility=[], events=[], contacts=[];
 let browser,page;
 async function check(name,fn){try{await fn();checks.push({name,status:'pass'});console.log('PASS',name);}catch(e){checks.push({name,status:'fail',error:String(e)});console.error('FAIL',name,e);await page?.screenshot({path:`qa/growth-failure-${checks.length}.png`,fullPage:true}).catch(()=>{});}}
+async function capture(path){await page.evaluate(async()=>{scrollTo(0,0);await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});await page.screenshot({path,fullPage:true});}
 async function axe(name){const result=await new AxeBuilder({page}).include('main').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();accessibility.push({name,violations:result.violations});assert.deepEqual(result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],name);}
 try{
  await mkdir('qa',{recursive:true});
@@ -37,14 +38,14 @@ try{
   await page.getByRole('radio',{name:'Atualizar o conteúdo de TVs e telas',exact:false}).check();await page.getByRole('button',{name:'Continuar',exact:true}).click();
   await page.getByRole('heading',{name:'SignageFlow',exact:true}).waitFor();
   const whatsapp=await page.getByRole('link',{name:'Conversar pelo WhatsApp'}).getAttribute('href');assert.equal(new URL(whatsapp).hostname,'wa.me');assert.equal(new URL(whatsapp).pathname,'/5511937105501');assert.match(new URL(whatsapp).searchParams.get('text'),/Loja, franquia ou varejo/);
-  await axe('quote recommendation');await page.screenshot({path:'qa/orcamento-resultado-390.png',fullPage:true});
+  await axe('quote recommendation');await capture('qa/orcamento-resultado-390.png');
   await page.getByRole('button',{name:'Voltar',exact:true}).click();await page.getByRole('radio',{name:'Atualizar o conteúdo de TVs e telas',exact:false}).waitFor();assert.equal(await page.getByRole('radio',{name:'Atualizar o conteúdo de TVs e telas',exact:false}).isChecked(),true);
   await page.getByRole('button',{name:'Voltar',exact:true}).click();assert.equal(await page.getByRole('radio',{name:'Loja, franquia ou varejo',exact:true}).isChecked(),true);
  });
  await check('all five recommendations match the selected task and custom work stays honest',async()=>{
   for(const id of ['chamaai-food','chamaai-filas','signageflow','cesta-esperta','sob-medida']){
    await page.goto(base+'/orcamento?segmento=outros&necessidade='+id);await page.getByRole('button',{name:'Continuar',exact:true}).click();assert.equal(await page.locator(`input[value="${id}"]`).isChecked(),true);await page.getByRole('button',{name:'Continuar',exact:true}).click();
-   assert.equal(await page.locator('.quote-result h3').count(),1);assert.equal(await page.locator('.quote-result a[href^="/projetos/"]').count(),id==='sob-medida'?0:1);
+   await page.locator('.quote-result h3').waitFor();assert.equal(await page.locator('.quote-result h3').count(),1);assert.equal(await page.locator('.quote-result a[href^="/projetos/"]').count(),id==='sob-medida'?0:1);
   }
   await page.goto(base+'/orcamento?segmento=evil&necessidade=evil');assert.equal(await page.locator('.quote-options input:checked').count(),0);
  });
@@ -54,10 +55,10 @@ try{
   await page.locator('#nome').fill('Teste sintético QA');await page.locator('#empresa').fill('NexaReis QA');await page.locator('#email').fill('qa@example.invalid');await page.locator('#whatsapp').fill('11999999999');
   await page.locator('#contato button[type=submit]').click();await page.getByRole('alert').filter({hasText:'Não foi possível confirmar'}).waitFor();assert.equal(await page.locator('#nome').inputValue(),'Teste sintético QA');
   contactOk=true;await page.locator('#contato button[type=submit]').click();await page.getByRole('heading',{name:'Solicitação registrada'}).waitFor();await page.getByText('NR-0123456789ABCDEF',{exact:true}).waitFor();assert.equal(contacts.length,2);assert.equal(contacts[0].key,contacts[1].key);assert.deepEqual(contacts[0].body,contacts[1].body);
-  await axe('durable receipt');await page.screenshot({path:'qa/contato-protocolo-390.png',fullPage:true});
+  await axe('durable receipt');await capture('qa/contato-protocolo-390.png');
  });
  await check('existing contact intent preserves typed personal fields',async()=>{
-  await page.goto(base+'/#contato');await page.locator('#nome').fill('Contato preservado');await page.evaluate(()=>window.dispatchEvent(new CustomEvent('nexa:contact-intent',{detail:{necessidade:'cesta-esperta'}})));assert.equal(await page.locator('#nome').inputValue(),'Contato preservado');assert.equal(await page.locator('#necessidade').inputValue(),'cesta-esperta');
+  await page.goto(base+'/#contato');await page.reload();await page.locator('#nome').fill('Contato preservado');await page.evaluate(()=>window.dispatchEvent(new CustomEvent('nexa:contact-intent',{detail:{necessidade:'cesta-esperta'}})));assert.equal(await page.locator('#nome').inputValue(),'Contato preservado');assert.equal(await page.locator('#necessidade').inputValue(),'cesta-esperta');
  });
  await check('new pages fit 320, 390, 768 and 1440 px with no duplicate IDs',async()=>{
   for(const width of [320,390,768,1440]){
@@ -66,7 +67,7 @@ try{
     await page.goto(base+path);await page.locator('main h1').waitFor();await page.evaluate(()=>document.fonts.ready);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${path} ${width} horizontal overflow`);
     assert.deepEqual(await page.evaluate(()=>{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[]);
-    if(width===390 || width===1440)await page.screenshot({path:`qa/${path.slice(1).replaceAll('/','-')}-${width}.png`,fullPage:true});
+    await capture(`qa/${path.slice(1).replaceAll('/','-')}-${width}.png`);
     if(width===390)await axe(path);
    }
   }
@@ -80,7 +81,7 @@ try{
  });
  await check('private metrics reject invalid access and render empty/loaded data honestly',async()=>{
   await page.goto(base+'/metricas');await page.locator('#metrics-key').fill('wrong');await page.getByRole('button',{name:'Consultar métricas'}).click();await page.getByRole('alert').filter({hasText:'não foi reconhecida'}).waitFor();assert.equal(await page.locator('table').count(),0);
-  await page.locator('#metrics-key').fill('test-panel-key');await page.getByRole('button',{name:'Consultar métricas'}).click();await page.getByText('Ainda não há amostras neste ambiente.',{exact:false}).waitFor();await page.getByRole('combobox',{name:'Ambiente'}).selectOption('preview');await page.getByRole('cell',{name:'SignageFlow',exact:true}).waitFor();await page.getByText('Resultado incerto, revisar',{exact:true}).waitFor();await axe('metrics loaded');await page.screenshot({path:'qa/metricas-carregado-1440.png',fullPage:true});assert.equal(await page.evaluate(()=>sessionStorage.length),0);await page.reload();assert.equal(await page.locator('#metrics-key').inputValue(),'');
+  await page.locator('#metrics-key').fill('test-panel-key');await page.getByRole('button',{name:'Consultar métricas'}).click();await page.getByText('Ainda não há amostras neste ambiente.',{exact:false}).waitFor();await page.getByRole('combobox',{name:'Ambiente'}).selectOption('preview');await page.getByRole('cell',{name:'SignageFlow',exact:true}).waitFor();await page.getByText('Resultado incerto, revisar',{exact:true}).waitFor();await axe('metrics loaded');await capture('qa/metricas-carregado-1440.png');assert.equal(await page.evaluate(()=>sessionStorage.length),0);await page.reload();assert.equal(await page.locator('#metrics-key').inputValue(),'');
  });
  await check('measurement contains only allowlisted dimensions and respects Do Not Track',async()=>{
   assert.ok(events.some(e=>e.event==='quote_complete'));

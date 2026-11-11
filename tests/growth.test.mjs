@@ -1,3 +1,4 @@
+import api from '../api/growth.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { growthProxy } from '../server/growthProxy.ts';
@@ -56,4 +57,17 @@ test('each public case has its own metadata and CestaEsperta has no invented dem
   }
   assert.equal(projectCases['cesta-esperta'].demo,'');
   assert.equal(routeMetadata['/metricas'],undefined);
+});
+
+test('the Vercel entry point reads server env even when a platform context is passed',async t=>{
+  const old={url:process.env.NEXA_GROWTH_URL,token:process.env.NEXA_GROWTH_TOKEN};
+  process.env.NEXA_GROWTH_URL=env.NEXA_GROWTH_URL;process.env.NEXA_GROWTH_TOKEN=env.NEXA_GROWTH_TOKEN;
+  t.mock.method(globalThis,'fetch',async()=>Response.json({ok:true}));
+  try { assert.equal((await api.fetch(request(),{waitUntil(){}})).status,200); }
+  finally { if(old.url===undefined)delete process.env.NEXA_GROWTH_URL;else process.env.NEXA_GROWTH_URL=old.url;if(old.token===undefined)delete process.env.NEXA_GROWTH_TOKEN;else process.env.NEXA_GROWTH_TOKEN=old.token; }
+});
+test('bad upstream JSON and malformed endpoint fail as server errors',async t=>{
+  t.mock.method(globalThis,'fetch',async()=>new Response('<html>not an acknowledgement</html>'));
+  assert.equal((await growthProxy(request(),env)).status,503);
+  assert.equal((await growthProxy(request(),{...env,NEXA_GROWTH_URL:'invalid'})).status,503);
 });
