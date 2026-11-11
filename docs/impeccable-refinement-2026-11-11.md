@@ -39,7 +39,7 @@ As notas expressam julgamento qualitativo deste escopo, não uma medição unive
 
 - Seleção do texto pessoal usa verde sobre amarelo. Cor da barra do navegador, esquema nativo e scrollbar acompanham o perfil e voltam ao tema comercial ao navegar.
 - Links do menu, botões compartilhados, ícones sociais e links do rodapé móvel possuem alvos de pelo menos 44 px onde ajustados.
-- O nome mantém o tamanho e a composição, com espaçamento menos comprimido. Apoios de experiência e catálogo recebem 12 px; títulos usam balanceamento e descrições usam distribuição de texto quando suportada.
+- O nome mantém seu destaque e a composição, com espaçamento menos comprimido e escala ajustada para caber desde 320 px. Apoios de experiência e catálogo recebem 12 px; títulos usam balanceamento e descrições usam distribuição de texto quando suportada.
 - O botão herda o foco visível existente. O shimmer redundante foi retirado. Cabeçalho e links usam transições de propriedades explícitas.
 
 A referência aprovada continua sendo a autoridade: círculo amarelo, enquadramento da foto, cabeçalhos e rótulos existentes são preservados. Regras genéricas não autorizam alterar conteúdo ou a direção visual por conta própria.
@@ -55,3 +55,5 @@ Resultados e capturas pertencem ao commit da execução, disponível nos [checks
 ## Limites preservados
 
 A produção não é publicada por este refinamento. Entrega real de WhatsApp/n8n, antispam e idempotência do receptor, aparelhos físicos e leitores de tela continuam com os limites registrados na auditoria anterior. Gradientes e sobreposições da página comercial podem exigir avaliação manual de contraste. Não se altera o backend nem se presume que o scan visual o certifica.
+
+O utilitário nativo de armazenamento de relatórios retornou comando indisponível na distribuição instalada. Este documento preserva o relatório no projeto; essa limitação da ferramenta não afeta o site.

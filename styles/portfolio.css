@@ -166,7 +166,7 @@ footer[data-portfolio-theme='green'] { background: #083e31; --color-gray-sec: #c
   .portfolio-hero { grid-template-columns: minmax(0, 1fr) minmax(125px, .82fr); gap: 15px 16px; padding: 0 0 32px; }
   .portfolio-hero-copy { display: contents; }
   .portfolio-introduction { grid-column: 1 / -1; grid-row: 1; margin: 0; }
-  .portfolio-hero h1 { grid-column: 1; grid-row: 2; font-size: clamp(40px, 14.5vw, 72px); font-size: clamp(40px, 16cqw, 72px); margin: 0 0 3px -2px; }
+  .portfolio-hero h1 { grid-column: 1; grid-row: 2; font-size: clamp(36px, 12.5vw, 64px); font-size: clamp(36px, 14cqw, 64px); margin: 0 0 3px -2px; }
   .portfolio-role { grid-column: 1; grid-row: 3; }
   .portfolio-founder { grid-column: 1; grid-row: 4; }
   .portfolio-summary { grid-column: 1 / -1; grid-row: 5; }
