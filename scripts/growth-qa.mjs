@@ -55,6 +55,7 @@ try{
   await page.locator('#nome').fill('Teste sintético QA');await page.locator('#empresa').fill('NexaReis QA');await page.locator('#email').fill('qa@example.invalid');await page.locator('#whatsapp').fill('11999999999');
   await page.locator('#contato button[type=submit]').click();await page.getByRole('alert').filter({hasText:'Não foi possível confirmar'}).waitFor();assert.equal(await page.locator('#nome').inputValue(),'Teste sintético QA');
   contactOk=true;await page.locator('#contato button[type=submit]').click();await page.getByRole('heading',{name:'Solicitação registrada'}).waitFor();await page.getByText('NR-0123456789ABCDEF',{exact:true}).waitFor();assert.equal(contacts.length,2);assert.equal(contacts[0].key,contacts[1].key);assert.deepEqual(contacts[0].body,contacts[1].body);
+  await page.waitForFunction(()=>{const status=document.querySelector('#contato [role=status]');return status && Number(getComputedStyle(status).opacity)===1;});
   await axe('durable receipt');await capture('qa/contato-protocolo-390.png');await page.locator('#contato').screenshot({path:'qa/contato-confirmacao-390.png'});
  });
  await check('existing contact intent preserves typed personal fields',async()=>{

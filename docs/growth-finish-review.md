@@ -20,3 +20,5 @@ A verificação em navegador usa o build do PR. O acesso automatizado à prévia
 - `main` permaneceu em `b0f0ca5fe20095797e659d17386995e08e655e92`. A publicação pública não foi realizada nesta etapa.
 
 Os arquivos que definem o sistema existente foram preservados. O contrato de extensão e este registro documentam as adições; não foi criado um novo sistema visual global.
+
+A checagem de contraste da confirmação aguarda o término real da transição de opacidade, para examinar o estado renderizado estável. Uma execução posterior de documentação encontrou essa condição de corrida no teste; a espera observa a opacidade computada, sem temporizador fixo e sem alterar o formulário.
