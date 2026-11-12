@@ -17,6 +17,16 @@
       "version": "1.0.0",
       "sourceDirectory": "skills/web-design-guidelines",
       "skillSha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+    },
+    "website-builder": {
+      "source": "https://github.com/flowkit-labs/skills",
+      "commit": "ec2c807d4eb948de69f290c4561c570d9935dae4",
+      "installedAt": "2026-11-12",
+      "sourceDirectory": "website-builder",
+      "skillSha256": "c90754323d21debbfd067c9048766a6bee0711ddbd645bc7bba7a3e9835ca25a",
+      "license": "MIT",
+      "scope": "project",
+      "licensePath": ".agents/licenses/website-builder-MIT.txt"
     }
   }
 }
