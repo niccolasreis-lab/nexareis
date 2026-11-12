@@ -1,7 +1,7 @@
 FROM python:3.13-alpine
 RUN addgroup -g 10001 growth && adduser -D -u 10001 -G growth growth && mkdir /data && chown growth:growth /data
 WORKDIR /app
-COPY --chown=growth:growth receiver.py /app/receiver.py
+COPY --chown=growth:growth receiver.py admin.py /app/
 USER growth
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 EXPOSE 8080

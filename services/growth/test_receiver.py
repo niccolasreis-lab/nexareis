@@ -12,11 +12,19 @@ class InboxTests(unittest.TestCase):
         self.payload=dict(nome='Teste NexaReis',empresa='Auditoria',email='teste@example.com',whatsapp='11999999999',segmento='varejo',necessidade='chamaai-filas',mensagem='Teste sintético, sem atendimento necessário.')
     def tearDown(self): self.temp.cleanup()
     def test_concurrent_keys_and_retry_return_one_durable_receipt(self):
-        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-            results=list(pool.map(lambda i:self.inbox.contact(self.payload,'key-for-test-0000'+str(i),'test'),range(8)))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as pool:
+            results=list(pool.map(lambda i:self.inbox.contact(self.payload,'key-for-test-0000'+str(i),'test'),range(20)))
         self.assertEqual(len(set(r['receipt'] for r in results)),1)
-        with self.inbox.db() as db: self.assertEqual(db.execute('SELECT count(*) FROM leads').fetchone()[0],1)
+        with self.inbox.db() as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM leads').fetchone()[0],1)
+            self.assertEqual(db.execute('SELECT SUM(count) FROM limits').fetchone()[0],1)
         self.assertEqual(self.inbox.contact(self.payload,'key-for-test-00000','test'),results[0])
+    def test_rate_limit_counts_only_new_leads_and_still_allows_a_safe_retry(self):
+        first=self.inbox.contact(self.payload,'key-for-test-0000','test')
+        for i in range(1,5):self.inbox.contact({**self.payload,'mensagem':'Pedido diferente '+str(i)},'key-for-test-0000'+str(i),'test')
+        with self.assertRaises(Rejected) as error:self.inbox.contact({**self.payload,'mensagem':'Sexto pedido'},'key-for-test-00006','test')
+        self.assertEqual(error.exception.status,429)
+        self.assertEqual(self.inbox.contact(self.payload,'key-for-test-0000','test'),first)
     def test_same_key_different_contact_conflicts(self):
         self.inbox.contact(self.payload,'key-for-test-0000','test')
         with self.assertRaises(Rejected) as error:self.inbox.contact({**self.payload,'mensagem':'Outra solicitação'},'key-for-test-0000','test')

@@ -49,12 +49,13 @@ class Inbox:
         try: yield db
         finally: db.close()
 
-    def limit(self, bucket, maximum, seconds=60):
+    def limit(self, bucket, maximum, seconds=60, connection=None):
+        if connection is None:
+            with self.db() as db: return self.limit(bucket, maximum, seconds, connection=db)
         now = int(time.time())
         key = bucket + ':' + str(now // seconds)
-        with self.db() as db:
-            db.execute('INSERT INTO limits VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1', (key, now + seconds))
-            count = db.execute('SELECT count FROM limits WHERE bucket=?', (key,)).fetchone()[0]
+        connection.execute('INSERT INTO limits VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1', (key, now + seconds))
+        count = connection.execute('SELECT count FROM limits WHERE bucket=?', (key,)).fetchone()[0]
         if count > maximum: raise Rejected(429, 'rate_limited')
 
     def contact(self, raw, key, client):
@@ -82,16 +83,7 @@ class Inbox:
             if not row: row = db.execute('SELECT * FROM leads WHERE fingerprint=? AND created>? ORDER BY created DESC LIMIT 1', (fingerprint, now-600)).fetchone()
             if row:
                 db.commit(); return {'ok':True, 'registered':True, 'receipt':row['id']}
-            db.commit()
-        self.limit('contact:' + client, 5, 600)
-        with self.db() as db:
-            db.execute('BEGIN IMMEDIATE')
-            # Recheck under the write lock, including concurrent requests with different keys.
-            row = db.execute('SELECT * FROM leads WHERE request_key=? OR (fingerprint=? AND created>?) ORDER BY created DESC LIMIT 1', (key, fingerprint, now-600)).fetchone()
-            if row:
-                db.commit()
-                if row['fingerprint'] != fingerprint: raise Rejected(409, 'request_key_conflict')
-                return {'ok':True,'registered':True,'receipt':row['id']}
+            self.limit('contact:' + client, 5, 600, connection=db)
             receipt = 'NR-' + secrets.token_hex(8).upper()
             payload.update({'formulario':'Contato Comercial NexaReis','origem':'https://www.nexareis.com.br/', 'name':payload['nome'], 'businessName':payload['empresa'], 'phone':payload['whatsapp'], 'segment':payload['segmento'], 'currentPain':payload['mensagem']})
             db.execute('INSERT INTO leads(id,request_key,fingerprint,payload,created,updated) VALUES(?,?,?,?,?,?)', (receipt,key,fingerprint,json.dumps(payload,ensure_ascii=False),now,now))
