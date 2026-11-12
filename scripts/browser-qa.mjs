@@ -6,11 +6,12 @@ const base = process.env.NEXA_QA_URL || 'http://127.0.0.1:4173';
 const server = process.env.NEXA_QA_URL ? null : spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--host', '127.0.0.1', '--port', '4173', '--strictPort'], { stdio: 'pipe' });
 const results = [];
 let browser;
+let page;
 async function check(name, fn) { await fn(); results.push({ name, status: 'pass' }); console.log('PASS', name); }
 try {
   for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
   browser = await chromium.launch({ headless: true, executablePath: process.env.NEXA_CHROMIUM_EXECUTABLE || undefined, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   const runtimeErrors = [];
   page.on('pageerror', error => runtimeErrors.push(error.message));
   await mkdir('qa', { recursive: true });
@@ -18,25 +19,28 @@ try {
   let posts = 0;
   let acknowledgement = { ok: false };
   let pauseResponse = false;
-  await page.route('**/webhook/**', async route => {
+  await page.route(/(?:\/webhook\/|\/api\/contact)/, async route => {
     if (route.request().method() !== 'POST') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' } });
     posts++;
     if (pauseResponse) await new Promise(r => setTimeout(r, 1000));
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(acknowledgement), headers: { 'Access-Control-Allow-Origin': '*' } });
   });
+  await page.route('**/api/events', route => route.fulfill({ status: 204 }));
   for (const width of [320, 360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/nicolas-reis', '/servicos/automacao']) await check(`layout ${path} at ${width}px`, async () => {
       await page.goto(base + path);
       await page.locator('h1').waitFor();
       if (path === '/nicolas-reis') {
-        const portrait = page.locator('[data-profile-watermark] img');
+        const portrait = page.locator('[data-profile-portrait]');
         await portrait.waitFor();
         await portrait.evaluate(async img => { await img.decode(); });
-        assert.equal(await portrait.evaluate(img => img.naturalWidth), 1147);
-        assert.equal(await portrait.getAttribute('alt'), '');
-        assert.equal(await page.locator('[data-profile-watermark]').getAttribute('aria-hidden'), 'true');
-        assert.equal(await page.locator('[data-profile-watermark]').evaluate(el => getComputedStyle(el).pointerEvents), 'none');
+        assert.ok(await portrait.evaluate(img => img.naturalWidth > 0));
+        assert.equal(await portrait.getAttribute('width'), '1147');
+        assert.equal(await portrait.getAttribute('height'), '1536');
+        assert.equal(await portrait.getAttribute('alt'), 'Retrato profissional de Nícolas Reis');
+        assert.equal(await page.locator('main img[src="/images/team/nicolas-reis.jpg"]').count(), 1, 'one original portrait');
+        assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), 'light');
       }
       // Render deferred sections before verifying the complete document.
       if (path === '/') {
@@ -44,7 +48,11 @@ try {
         await page.locator('#feedback-gestores').scrollIntoViewIfNeeded();
         await page.waitForTimeout(500);
       }
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, 'horizontal overflow');
+      const overflow = await page.evaluate(() => ({
+        width: innerWidth, scrollWidth: document.documentElement.scrollWidth,
+        elements: [...document.querySelectorAll('main *')].map(el => ({tag:el.tagName, class:el.className?.baseVal ?? el.className, left:el.getBoundingClientRect().left, right:el.getBoundingClientRect().right})).filter(el => el.left < -1 || el.right > innerWidth + 1).slice(0, 12),
+      }));
+      assert.ok(overflow.scrollWidth <= overflow.width + 1, 'horizontal overflow: ' + JSON.stringify(overflow));
       const duplicates = await page.evaluate(() => { const ids = [...document.querySelectorAll('[id]')].map(x => x.id).filter(Boolean); return ids.filter((x, i) => ids.indexOf(x) !== i); });
       assert.deepEqual(duplicates, [], 'duplicate IDs');
       if ([390,1440].includes(width) && path !== '/servicos/automacao') { await page.evaluate(() => scrollTo(0,0)); await page.screenshot({ path: `qa/${path === '/' ? 'home' : 'nicolas'}-${width}.png`, fullPage: true }); }
@@ -160,7 +168,7 @@ try {
   await check('personal portfolio hero and four quick links', async () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(base + '/nicolas-reis');
-    await page.getByRole('heading', { level: 1, name: 'Conheça meu portfólio profissional' }).waitFor();
+    await page.getByRole('heading', { level: 1, name: 'Nícolas Reis.' }).waitFor();
     await page.getByText('Fundador da Nexa Reis', { exact: false }).first().waitFor();
     const navigation = page.getByRole('navigation', { name: 'Navegação do portfólio profissional' });
     for (const id of ['experiencia', 'projetos', 'formacao', 'contato-profissional']) {
@@ -171,6 +179,50 @@ try {
     assert.equal(await page.getByText('Visualizar currículo para impressão').count(), 0);
     await navigation.locator('a[href="#projetos"]').click();
     assert.equal(new URL(page.url()).hash, '#projetos');
+  });
+  await check('portfolio visuals preserve product destinations and load the captured previews', async () => {
+    await page.goto(base + '/nicolas-reis');
+    const projects = page.locator('[data-portfolio-project]');
+    await projects.first().waitFor();
+    assert.equal(await projects.count(), 4);
+    for (const image of await projects.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(async img => { await img.decode(); });
+      assert.ok(await image.evaluate(img => img.naturalWidth > 0));
+    }
+    assert.equal(await projects.locator('img').count(), 3);
+    assert.equal(await page.getByText('Representação ilustrativa', { exact: true }).count(), 1);
+    for (const [id, href] of [
+      ['chamaai-food', 'https://chamaaifood.nexareis.com.br/pilot'],
+      ['chamaai-filas', 'https://chamaai.nexareis.com.br'],
+      ['signageflow', 'https://signageflow.nexareis.com.br'],
+      ['cesta-esperta', '/#contato'],
+    ]) assert.equal(await page.locator('[data-portfolio-project="' + id + '"] a.portfolio-project-link').getAttribute('href'), href);
+    // Capture the complete design only after the below-the-fold lazy images decode.
+    await page.evaluate(() => document.fonts.ready);
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.evaluate(() => scrollTo(0, 0));
+      await page.screenshot({ path: `qa/nicolas-${width}.png`, fullPage: true });
+    }
+  });
+  await check('portfolio colors and keyboard navigation stay scoped to the personal route', async () => {
+    await page.goto(base + '/nicolas-reis');
+    await page.getByRole('heading', { level: 1, name: 'Nícolas Reis.' }).waitFor();
+    assert.equal(await page.locator('.portfolio-page').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(255, 247, 231)');
+    await page.keyboard.press('Tab');
+    assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Pular para o conteúdo');
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#main-content').evaluate(el => el === document.activeElement), true);
+    const projects = page.locator('[data-portfolio-card="projetos"]');
+    await projects.focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).hash, '#projetos');
+    await page.goto(base + '/');
+    assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), null);
+    assert.equal(await page.locator('footer').getAttribute('data-portfolio-theme'), null);
+    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(5, 5, 5)');
+    await page.goto(base + '/servicos/automacao');
+    assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), null);
   });
   await check('slow selected-section animation finishes and honors reduced motion', async () => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -208,8 +260,11 @@ try {
   assert.deepEqual(runtimeErrors, []);
   console.log(`${results.length} browser checks passed; all contact POSTs intercepted.`);
 } catch (error) {
-  results.push({status:'fail', error: String(error)}); console.error(error); process.exitCode = 1;
+  results.push({status:'fail', error: String(error)}); console.error(error);
+  if (page && !page.isClosed()) await page.screenshot({ path: 'qa/failure.png', fullPage: true }).catch(() => {});
+  process.exitCode = 1;
 } finally {
   await writeFile('qa/browser-results.json', JSON.stringify({ date: new Date().toISOString(), base, engine: 'Chromium', realContactSent: false, results }, null, 2));
   await browser?.close(); server?.kill();
 }
+

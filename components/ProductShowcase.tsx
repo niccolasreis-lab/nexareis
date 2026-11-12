@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { scrollToSection } from '../lib/navigation';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -371,6 +372,8 @@ export const ProductShowcase: React.FC = () => {
               ))}
             </div>
 
+            <Link to={'/projetos/' + activeProduct.id} className="inline-flex items-center gap-2 text-brand-cyan underline underline-offset-4 min-h-11 mb-4 text-sm">Ver detalhes do projeto <ArrowRight className="w-4 h-4" aria-hidden="true" /></Link>
+
             {/* Actions for this product */}
             <div className="flex flex-col sm:flex-row gap-4 w-full">
               {isContactCta ? (
@@ -414,3 +417,4 @@ export const ProductShowcase: React.FC = () => {
     </section>
   );
 };
+

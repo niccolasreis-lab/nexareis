@@ -7,8 +7,11 @@ export function RouteMetadata() {
   useEffect(() => {
     const path = pathname.replace(/\/$/, '') || '/';
     const meta = routeMetadata[path as keyof typeof routeMetadata];
-    const title = meta?.title || 'Página não encontrada | Nexa Reis';
+    const title = meta?.title || (path === '/metricas' ? 'Métricas privadas | Nexa Reis' : 'Página não encontrada | Nexa Reis');
     const description = meta?.description || 'Acesse a página inicial da Nexa Reis.';
+    const isPortfolio = path === '/nicolas-reis';
+    document.documentElement.dataset.pageSurface = isPortfolio ? 'portfolio' : 'commercial';
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isPortfolio ? '#fff7e7' : '#050505');
     document.title = title;
     for (const [selector, content] of [
       ['meta[name="description"]', description], ['meta[property="og:title"]', title],
@@ -26,3 +29,4 @@ export function RouteMetadata() {
   }, [pathname]);
   return null;
 }
+

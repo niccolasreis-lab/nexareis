@@ -1,11 +1,12 @@
 import { scrollToSection } from '../lib/navigation';
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { CUSTOM_SERVICES } from '../data/landingData';
 import { Button } from './Button';
 import { Code, Server, Layout, Database, Terminal, Smartphone, ArrowRight } from 'lucide-react';
 
 export const CustomSolutions: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   // Map icons
   const icons = [Code, Server, Layout, Database, Smartphone, Terminal];
 
@@ -43,7 +44,7 @@ export const CustomSolutions: React.FC = () => {
             return (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 25 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
@@ -67,7 +68,7 @@ export const CustomSolutions: React.FC = () => {
 
         {/* Giant Call to Action banner */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="p-8 sm:p-12 bg-white/5 border border-white/10 rounded-[2.5rem] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8"
@@ -95,3 +96,4 @@ export const CustomSolutions: React.FC = () => {
     </section>
   );
 };
+

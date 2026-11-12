@@ -1,208 +1,232 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowUpRight, BriefcaseBusiness, Code2, GraduationCap, Github, Instagram, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, GraduationCap, Github, Instagram, MapPin, MessageCircle, Phone, ShoppingBasket, UsersRound, ImageOff } from 'lucide-react';
 import { PRODUCTS } from '../data/landingData';
 import { nicolasProfile } from '../data/nicolasProfile';
+import '../styles/portfolio.css';
 
 const featuredProducts = PRODUCTS.filter(product =>
   ['chamaai-food', 'chamaai-filas', 'signageflow', 'cesta-esperta'].includes(product.id),
 );
 
+const projectPreviews: Record<string, { image: string; alt: string; caption: string }> = {
+  'chamaai-food': {
+    image: '/images/portfolio/chamaai-food.webp',
+    alt: 'Painel do ChamaAí Food em demonstração, com pedidos em preparo e prontos para retirada',
+    caption: 'Demonstração com dados fictícios',
+  },
+  'chamaai-filas': {
+    image: '/images/portfolio/chamaai-filas.webp',
+    alt: 'Página pública do ChamaAí, com a apresentação do sistema de gestão de filas',
+    caption: 'Página pública do projeto',
+  },
+  'signageflow': {
+    image: '/images/portfolio/signageflow.webp',
+    alt: 'Página pública do SignageFlow, com uma prévia de conteúdo em uma TV',
+    caption: 'Página pública do projeto',
+  },
+};
+
 const portfolioNavigation = [
-  { id: 'experiencia', label: 'Experiência', detail: 'Minha trajetória profissional', icon: BriefcaseBusiness },
-  { id: 'projetos', label: 'Projetos', detail: 'Sistemas e soluções que criei', icon: Code2 },
+  { id: 'experiencia', label: 'Experiência', detail: 'Minha trajetória', icon: BriefcaseBusiness },
+  { id: 'projetos', label: 'Projetos', detail: 'Soluções que criei', icon: Code2 },
   { id: 'formacao', label: 'Formação', detail: 'Cursos e aprendizado', icon: GraduationCap },
   { id: 'contato-profissional', label: 'Contato', detail: 'Vamos conversar', icon: MessageCircle },
 ];
 
-const slowEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const competencies = [
+  { icon: BriefcaseBusiness, title: 'Processos', description: 'Organização administrativa' },
+  { icon: UsersRound, title: 'Atendimento', description: 'Experiência com pessoas' },
+  { icon: Code2, title: 'Tecnologia', description: 'Sistemas para empresas' },
+];
+
+function ProjectPreview({ id, name }: { id: string; name: string }) {
+  const preview = projectPreviews[id];
+  const [failed, setFailed] = useState(false);
+  return (
+    <figure className="portfolio-project-preview">
+      <div className="portfolio-preview-frame">
+        {preview ? (
+          failed ? (
+            <div className="portfolio-preview-fallback" role="img" aria-label={'Prévia de ' + name + ' indisponível'}>
+              <ImageOff size={27} aria-hidden="true" /><strong>{name}</strong><span>Prévia indisponível</span><small>O link do projeto continua disponível.</small>
+            </div>
+          ) : (
+            <img src={preview.image} alt={preview.alt} width={960} height={659} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+          )
+        ) : (
+          <div className="portfolio-catalog-illustration" aria-hidden="true">
+            <div className="portfolio-catalog-heading"><ShoppingBasket size={22} /><strong>CestaEsperta</strong></div>
+            <div className="portfolio-catalog-items"><span /><span /><span /></div>
+            <div className="portfolio-catalog-steps"><span>Catálogo</span><span>Pedido</span><span>Entrega</span></div>
+          </div>
+        )}
+      </div>
+      <figcaption>{preview ? (failed ? 'Imagem não carregada' : preview.caption) : 'Representação ilustrativa'}</figcaption>
+    </figure>
+  );
+}
 
 export const NicolasReis: React.FC = () => {
   const reduceMotion = useReducedMotion();
+  const navigate = useNavigate();
+  const [portraitFallback, setPortraitFallback] = useState(false);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedSection) return;
     const timeout = window.setTimeout(() => setSelectedSection(null), 2000);
-    return () => window.clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, [selectedSection]);
 
-  return (
-  <article className="pb-24">
-    <motion.section
-      className="relative isolate overflow-hidden pt-32 pb-16"
-      aria-labelledby="nicolas-heading"
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reduceMotion ? 0 : 0.95, ease: slowEasing }}
-    >
-      <div data-profile-watermark aria-hidden="true" className="profile-watermark pointer-events-none absolute top-20 right-0 -z-10 w-full lg:w-1/2 select-none">
-        <img src={nicolasProfile.portrait} alt="" width={1147} height={1536} decoding="async" className="h-auto w-full" />
-      </div>
-      <div className="max-w-7xl mx-auto px-6">
-        <Link to="/" className="text-brand-cyan inline-flex items-center gap-2 mb-10 underline underline-offset-4">
-          <ArrowUpRight size={16} aria-hidden="true" /> Conhecer a Nexa Reis
-        </Link>
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-8">
-            <p className="text-brand-cyan text-xs font-semibold uppercase tracking-[0.18em] mb-4">Portfólio profissional</p>
-            <h1 id="nicolas-heading" className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight max-w-3xl mb-5">Conheça meu portfólio profissional</h1>
-            <p className="text-lg sm:text-xl text-gray-light leading-relaxed max-w-2xl mb-8">
-              Projetos, sistemas desenvolvidos e experiência em administração e tecnologia.
-            </p>
-            <div className="border-l-[3px] border-brand-cyan pl-5 mb-7">
-              <h2 className="font-display text-2xl sm:text-3xl font-bold mb-1">Nícolas Reis</h2>
-              <p className="text-white-soft font-medium">Administração e Tecnologia</p>
-              <p className="text-gray-light text-sm mt-1">Fundador da Nexa Reis · Criador dos projetos apresentados neste portfólio</p>
-            </div>
-            <p className="flex items-center gap-2 text-gray-light mb-7"><MapPin size={17} aria-hidden="true" /> {nicolasProfile.city}</p>
-            <div className="space-y-4 text-base text-gray-light leading-relaxed max-w-2xl">
-              <p>Minha experiência começou nas atividades operacionais do Mercantil Santa Paula. Ao longo dos anos, conheci diferentes rotinas da empresa e hoje atuo como Encarregado Administrativo.</p>
-              <p>Sou o fundador da Nexa Reis, onde criei projetos de tecnologia voltados a processos reais das empresas. Também curso Análise e Desenvolvimento de Sistemas na Faculdade Anhanguera.</p>
-            </div>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand-cyan text-[#050505] px-5 py-3 font-semibold hover:bg-white transition-colors">
-                <Phone size={17} aria-hidden="true" /> Entrar em contato
-              </a>
-            </div>
-          </div>
-          <div className="lg:col-span-4 flex lg:justify-end">
-            <div className="w-40 sm:w-52 lg:w-full max-w-[280px] rounded-[1.5rem] overflow-hidden border border-white/15 bg-dark-card shadow-xl">
-              <img src={nicolasProfile.portrait} alt="Retrato profissional de Nícolas Reis" width={1147} height={1536} decoding="async" fetchPriority="high" className="block w-full h-auto" />
-            </div>
-          </div>
-        </div>
+  const handleAnchor = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    setSelectedSection(reduceMotion ? null : id);
+    navigate('#' + id);
+  };
 
-        <nav aria-label="Navegação do portfólio profissional" className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-14">
-          {portfolioNavigation.map(({ id, label, detail, icon: Icon }, index) => (
+  const selection = (id: string) => selectedSection === id && !reduceMotion ? 'true' : undefined;
+
+  return (
+    <article className="portfolio-page">
+      <div className="portfolio-shell">
+        <motion.section
+          className="portfolio-hero"
+          aria-labelledby="nicolas-heading"
+          initial={reduceMotion ? false : { opacity: 0.96, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="portfolio-hero-copy">
+            <p className="portfolio-introduction">Olá, eu sou o</p>
+            <h1 id="nicolas-heading">Nícolas<br />Reis.</h1>
+            <p className="portfolio-role">Administração e Tecnologia</p>
+            <p className="portfolio-founder">Fundador da Nexa Reis</p>
+            <p className="portfolio-summary">Conheço a rotina de uma empresa de perto. E crio projetos digitais para ajudar a organizá-la.</p>
+            <div className="portfolio-hero-actions">
+              <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="portfolio-button portfolio-button-green">
+                Entrar em contato <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+              <a href="#projetos" onClick={event => handleAnchor(event, 'projetos')} className="portfolio-text-link">Ver meus projetos <ArrowDown size={16} aria-hidden="true" /></a>
+            </div>
+            <p className="portfolio-location"><MapPin size={15} aria-hidden="true" /> {nicolasProfile.city}</p>
+          </div>
+          <figure className="portfolio-portrait">
+            <div className="portfolio-sun" aria-hidden="true" />
+            <span className="portfolio-spark" aria-hidden="true">✳</span>
+            <picture>
+              {!portraitFallback && <source type="image/webp" srcSet="/images/team/nicolas-reis-400.webp 400w, /images/team/nicolas-reis-800.webp 800w, /images/team/nicolas-reis-1147.webp 1147w" sizes="(max-width: 767px) 40vw, (max-width: 1100px) 35vw, 400px" />}
+              <img data-profile-portrait src={nicolasProfile.portrait} alt="Retrato profissional de Nícolas Reis" width={1147} height={1536} decoding="async" fetchPriority="high" onError={() => { if (!portraitFallback) setPortraitFallback(true); }} />
+            </picture>
+            <figcaption><span className="portfolio-caption-mark" aria-hidden="true">N.</span><span>Da operação<br /><strong>à tecnologia.</strong></span></figcaption>
+          </figure>
+        </motion.section>
+
+        <section className="portfolio-connect" aria-label="Contato e competências profissionais">
+          <div className="portfolio-connect-contact">
+            <h2>Vamos nos conectar</h2>
+            <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer"><Phone size={17} aria-hidden="true" />{nicolasProfile.phone}</a>
+            <a href={nicolasProfile.instagram} target="_blank" rel="noopener noreferrer"><Instagram size={17} aria-hidden="true" />{nicolasProfile.instagramHandle}</a>
+          </div>
+          <div className="portfolio-competencies">
+            <h2>O que conecta meu trabalho</h2>
+            <ul>
+              {competencies.map(({ icon: Icon, title, description }) => (
+                <li key={title}><span className="portfolio-competency-icon"><Icon size={25} strokeWidth={1.6} aria-hidden="true" /></span><span><strong>{title}</strong><small>{description}</small></span></li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <nav aria-label="Navegação do portfólio profissional" className="portfolio-navigation">
+          {portfolioNavigation.map(({ id, label, detail, icon: Icon }) => (
             <motion.a
               key={id}
               href={'#' + id}
               data-portfolio-card={id}
-              data-portfolio-active={selectedSection === id ? 'true' : undefined}
-              onClick={() => setSelectedSection(reduceMotion ? null : id)}
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              whileHover={reduceMotion ? undefined : { y: -4 }}
+              data-portfolio-active={selection(id)}
+              onClick={event => handleAnchor(event, id)}
+              whileHover={reduceMotion ? undefined : { y: -2 }}
               whileTap={reduceMotion ? undefined : { scale: 0.985 }}
-              transition={{ duration: reduceMotion ? 0 : 0.7, ease: slowEasing, delay: reduceMotion ? 0 : index * 0.09 }}
-              className="group flex flex-col items-start justify-between gap-4 min-h-[130px] rounded-2xl bg-[#13161a] border border-white/15 p-4 sm:p-6 hover:border-brand-cyan/70 hover:bg-[#192027] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-cyan"
+              transition={{ duration: 0.3 }}
             >
-              <Icon size={24} className="text-brand-cyan" aria-hidden="true" />
-              <span className="block">
-                <span className="block text-lg font-display font-semibold text-white">{label}</span>
-                <span className="block text-xs text-gray-light mt-1">{detail}</span>
-              </span>
+              <Icon size={21} strokeWidth={1.6} aria-hidden="true" />
+              <span><strong>{label}</strong><small>{detail}</small></span>
+              <ArrowDown size={16} aria-hidden="true" />
             </motion.a>
           ))}
         </nav>
-      </div>
-    </motion.section>
 
-    <motion.section id="experiencia" aria-labelledby="experiencia-heading" className="bg-white-soft text-dark-bg py-16"
-      data-portfolio-effect="experience"
-      data-portfolio-selected={selectedSection === 'experiencia' && !reduceMotion ? 'true' : undefined}
-      initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.08 }}
-      transition={{ duration: reduceMotion ? 0 : 0.82, ease: slowEasing }}
-    >
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-10">
-        <div className="lg:col-span-4">
-          <BriefcaseBusiness size={25} className="mb-4 text-brand-blue" aria-hidden="true" />
-          <h2 id="experiencia-heading" className="font-display text-3xl font-bold mb-4">Experiência profissional</h2>
-          <p className="font-semibold">Mercantil Santa Paula</p>
-          <p className="text-[#555550] mt-2 text-sm">Janeiro de 2018 até o presente</p>
-        </div>
-        <ol className="lg:col-span-8 divide-y divide-black/15">
-          {nicolasProfile.experience.map(({ period, role, details }) => (
-            <li key={role} className="py-6 first:pt-0">
-              <p className="text-[#555550] text-sm mb-2">{period}</p>
-              <h3 className="font-display text-xl font-semibold mb-2">{role}</h3>
-              <p className="text-[#4b4b47] leading-relaxed max-w-2xl">{details}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </motion.section>
+        <section id="projetos" aria-labelledby="projetos-heading" className="portfolio-projects" data-portfolio-effect="projects" data-portfolio-selected={selection('projetos')}>
+          <div className="portfolio-section-heading">
+            <div><p className="portfolio-section-note">Projetos que desenvolvi</p><h2 id="projetos-heading">Da ideia à solução.</h2></div>
+            <Link to="/#produtos" className="portfolio-text-link">Conhecer a Nexa Reis <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </div>
+          <p className="portfolio-section-description">Fundei a Nexa Reis e criei os projetos apresentados abaixo. Soluções pensadas para o atendimento, a organização e a rotina das empresas.</p>
+          <div className="portfolio-project-grid">
+            {featuredProducts.map(product => {
+              const hasDemo = product.url.startsWith('https://');
+              return (
+                <article key={product.id} className="portfolio-project" data-portfolio-project={product.id}>
+                  <ProjectPreview id={product.id} name={product.name} />
+                  <div className="portfolio-project-content">
+                    <p className="portfolio-project-category">{product.category}</p>
+                    <h3>{product.name}</h3>
+                    <p className="portfolio-project-description">{product.description}</p>
+                    <Link to={'/projetos/' + product.id} className="portfolio-text-link" style={{ minHeight: 44, display: 'inline-flex', marginBlock: '0.5rem' }}>Ver detalhes do projeto <ArrowUpRight size={17} aria-hidden="true" /></Link>
+                    {hasDemo ? (
+                      <a href={product.url} target="_blank" rel="noopener noreferrer" className="portfolio-project-link" aria-label={'Conhecer projeto: ' + product.name}>Conhecer projeto <ArrowUpRight size={19} aria-hidden="true" /></a>
+                    ) : (
+                      <Link to="/#contato" className="portfolio-project-link">Solicitar informações <ArrowUpRight size={19} aria-hidden="true" /></Link>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
 
-    <motion.section id="projetos" aria-labelledby="projetos-heading" className="bg-[#0d0d0d] border-y border-white/10 py-16"
-      data-portfolio-effect="projects"
-      data-portfolio-selected={selectedSection === 'projetos' && !reduceMotion ? 'true' : undefined}
-      initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.975 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.08 }}
-      transition={{ duration: reduceMotion ? 0 : 0.96, ease: slowEasing }}
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <p className="text-brand-cyan uppercase font-semibold text-xs tracking-widest mb-3">Projetos que desenvolvi</p>
-        <h2 id="projetos-heading" className="font-display text-3xl sm:text-4xl font-bold mb-4">Da ideia à solução</h2>
-        <p className="text-gray-light leading-relaxed max-w-3xl mb-10">
-          Fundei a Nexa Reis e criei os projetos apresentados abaixo. Cada um foi pensado para apoiar atividades de empresas, desde o atendimento ao cliente até a organização de informações e operações.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-5">
-          {featuredProducts.map(product => {
-            const hasDemo = product.url.startsWith('https://');
-            return (
-              <article key={product.id} className="flex flex-col justify-between gap-7 rounded-2xl bg-[#151515] border border-white/10 p-6 sm:p-8">
-                <div>
-                  <p className="text-brand-cyan text-xs font-semibold mb-3">{product.category}</p>
-                  <h3 className="font-display text-xl font-bold mb-3">{product.name}</h3>
-                  <p className="text-gray-light text-sm leading-relaxed">{product.description}</p>
-                </div>
-                {hasDemo ? (
-                  <a href={product.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-brand-cyan underline underline-offset-4 self-start">
-                    Conhecer projeto <ArrowUpRight size={16} aria-hidden="true" />
-                  </a>
-                ) : (
-                  <Link to="/#contato" className="inline-flex items-center gap-2 text-brand-cyan underline underline-offset-4 self-start">
-                    Solicitar informações <ArrowUpRight size={16} aria-hidden="true" />
-                  </Link>
-                )}
-              </article>
-            );
-          })}
-        </div>
-      </div>
-    </motion.section>
+        <section id="experiencia" aria-labelledby="experiencia-heading" className="portfolio-experience portfolio-split-section" data-portfolio-effect="experience" data-portfolio-selected={selection('experiencia')}>
+          <div className="portfolio-section-intro">
+            <p className="portfolio-section-note">Experiência profissional</p>
+            <h2 id="experiencia-heading">Uma trajetória<br />na prática.</h2>
+            <p>Minha experiência começou nas atividades operacionais do Mercantil Santa Paula. Ao longo dos anos, conheci diferentes rotinas da empresa e hoje atuo como Encarregado Administrativo.</p>
+            <p className="portfolio-employer"><BriefcaseBusiness size={19} aria-hidden="true" /><span><strong>Mercantil Santa Paula</strong><small>Janeiro de 2018 até o presente</small></span></p>
+          </div>
+          <ol className="portfolio-timeline">
+            {nicolasProfile.experience.map(({ period, role, details }, index) => (
+              <li key={role}>
+                <span className="portfolio-timeline-dot" aria-hidden="true" />
+                <div className="portfolio-timeline-meta"><p>{period}</p>{index === 0 && <span>Cargo atual</span>}</div>
+                <h3>{role}</h3><p className="portfolio-timeline-details">{details}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-    <motion.section id="formacao" aria-labelledby="formacao-heading" className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-12 gap-10"
-      data-portfolio-effect="education"
-      data-portfolio-selected={selectedSection === 'formacao' && !reduceMotion ? 'true' : undefined}
-      initial={reduceMotion ? false : { opacity: 0, x: -18 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.08 }}
-      transition={{ duration: reduceMotion ? 0 : 0.88, ease: slowEasing }}
-    >
-      <h2 id="formacao-heading" className="lg:col-span-4 font-display text-3xl font-bold">Formação</h2>
-      <ul className="lg:col-span-8 space-y-7 text-gray-light">
-        {nicolasProfile.courses.map(course => (
-          <li key={course.name}>
-            <h3 className="text-white font-semibold text-lg">{course.name}</h3>
-            <p>{course.institution} — {course.period}</p>
-          </li>
-        ))}
-      </ul>
-    </motion.section>
+        <section id="formacao" aria-labelledby="formacao-heading" className="portfolio-education portfolio-split-section" data-portfolio-effect="education" data-portfolio-selected={selection('formacao')}>
+          <div className="portfolio-section-intro">
+            <p className="portfolio-section-note">Formação</p>
+            <h2 id="formacao-heading">Aprender faz<br />parte do caminho.</h2>
+            <p>Curso Análise e Desenvolvimento de Sistemas na Faculdade Anhanguera e sigo conectando o aprendizado às necessidades do dia a dia.</p>
+          </div>
+          <ul className="portfolio-course-list">
+            {nicolasProfile.courses.map(course => (
+              <li key={course.name}><GraduationCap size={23} strokeWidth={1.6} aria-hidden="true" /><div><h3>{course.name}</h3><p>{course.institution}</p><small>{course.period}</small></div></li>
+            ))}
+          </ul>
+        </section>
 
-    <motion.section id="contato-profissional" className="max-w-7xl mx-auto px-6 border-t border-white/15 pt-16" aria-labelledby="contato-profissional-heading"
-      data-portfolio-effect="contact"
-      data-portfolio-selected={selectedSection === 'contato-profissional' && !reduceMotion ? 'true' : undefined}
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.08 }}
-      transition={{ duration: reduceMotion ? 0 : 1, ease: slowEasing }}
-    >
-      <h2 id="contato-profissional-heading" className="font-display text-3xl font-semibold mb-3">Vamos conversar?</h2>
-      <p className="text-gray-light mb-6 max-w-2xl">Se quiser conhecer minha trajetória ou conversar sobre oportunidades e projetos, estes são meus canais de contato.</p>
-      <div className="flex flex-wrap gap-5 text-gray-light">
-        <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex gap-2 items-center py-3 underline underline-offset-4"><Phone size={18} aria-hidden="true" />{nicolasProfile.phone}</a>
-        <a href={nicolasProfile.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex gap-2 items-center py-3 underline underline-offset-4"><Instagram size={18} aria-hidden="true" />{nicolasProfile.instagramHandle}</a>
-        <a href={nicolasProfile.github} target="_blank" rel="noopener noreferrer" className="inline-flex gap-2 items-center py-3 underline underline-offset-4"><Github size={18} aria-hidden="true" />GitHub</a>
+        <section id="contato-profissional" className="portfolio-contact" aria-labelledby="contato-profissional-heading" data-portfolio-effect="contact" data-portfolio-selected={selection('contato-profissional')}>
+          <div><p className="portfolio-contact-note">Oportunidades e projetos</p><h2 id="contato-profissional-heading">Uma boa ideia começa<br /> com uma conversa.</h2><p>Quer conhecer minha trajetória ou conversar sobre um projeto? Estou por aqui.</p></div>
+          <div className="portfolio-contact-actions">
+            <a href={nicolasProfile.whatsapp} target="_blank" rel="noopener noreferrer" className="portfolio-button portfolio-button-yellow">Vamos conversar <ArrowUpRight size={20} aria-hidden="true" /></a>
+            <div className="portfolio-social-links"><a href={nicolasProfile.instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} aria-hidden="true" />Instagram</a><a href={nicolasProfile.github} target="_blank" rel="noopener noreferrer"><Github size={18} aria-hidden="true" />GitHub</a></div>
+          </div>
+        </section>
       </div>
-    </motion.section>
-  </article>
+    </article>
   );
 };

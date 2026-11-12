@@ -1,12 +1,13 @@
 import React from 'react';
 import { Logo } from './Logo';
 import { Mail, Phone, MapPin, ArrowUpRight, Github, Heart } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { scrollToSection } from '../lib/navigation';
 import { CONTACT_INFO } from '../constants';
 
 export const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const currentYear = new Date().getFullYear();
 
   const quickLinks = {
@@ -40,32 +41,32 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+    <footer data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'green' : undefined} className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
       
       {/* Footer Grid */}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
+        <div data-footer-grid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
           
           {/* Logo Column */}
-          <div className="lg:col-span-4 flex flex-col items-start text-left">
+          <div data-footer-group="brand" className="lg:col-span-4 flex flex-col items-start text-left">
             <Logo variant="header" showText={true} className="mb-6" />
             <p className="font-sans text-xs sm:text-sm text-gray-sec leading-relaxed mb-6 max-w-sm">
               Sistemas, sites e automações para organizar processos e apoiar a rotina das empresas.
             </p>
             {/* Social handles */}
             <div className="flex gap-4">
-              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
-                <Github className="w-4 h-4" />
+              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+                <Github className="w-4 h-4" aria-hidden="true" />
               </a>
-              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors">
-                <Phone className="w-4 h-4" />
+              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+                <Phone className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
           </div>
 
           {/* Navigation links Columns */}
-          <div className="lg:col-span-2 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h4>
+          <div data-footer-group="products" className="lg:col-span-2 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h2>
             <ul className="space-y-3.5">
               {quickLinks.produtos.map((link) => (
                 <li key={link.label}>
@@ -84,8 +85,8 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h4>
+          <div data-footer-group="links" className="lg:col-span-3 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h2>
             <ul className="space-y-3.5">
               {quickLinks.servicos.map((link) => (
                 <li key={link.label}>
@@ -101,8 +102,8 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 text-left">
-            <h4 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h4>
+          <div data-footer-group="links" className="lg:col-span-3 text-left">
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h2>
             <ul className="space-y-3.5">
               {quickLinks.institucional.map((link) => (
                 <li key={link.label}>
@@ -118,13 +119,6 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-        </div>
-
-        {/* 18. GIANT LETTERING STAMP - Grandioso NEXA REIS em Display font with massive letter spacing */}
-        <div className="py-12 select-none border-b border-white/5 pointer-events-none">
-          <div className="font-display font-black text-[12vw] leading-none text-center tracking-[0.25em] text-white/[0.04] uppercase pr-[-0.25em]">
-            NEXA REIS
-          </div>
         </div>
 
         {/* Copyright & Legal */}
@@ -144,3 +138,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

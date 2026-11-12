@@ -1,8 +1,9 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { PROCESS_STEPS } from '../data/landingData';
 
 export const DevelopmentProcess: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   return (
     <section id="processo" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] overflow-hidden border-t border-[#EBEBE6]">
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-left">
@@ -31,7 +32,7 @@ export const DevelopmentProcess: React.FC = () => {
               return (
                 <motion.div
                   key={step.number}
-                  initial={{ opacity: 0, y: 35 }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 35 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
@@ -67,3 +68,4 @@ export const DevelopmentProcess: React.FC = () => {
     </section>
   );
 };
+

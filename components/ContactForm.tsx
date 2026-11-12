@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
 import { Phone, Mail, MapPin, Building, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { consumeContactIntent } from '../lib/contactIntent';
+import { trackInterest } from '../lib/analytics';
 import { CONTACT_INFO } from '../constants';
 import { ContactSubmission, CONTACT_SUBMIT_ERROR } from '../lib/contactSubmission';
 
@@ -27,7 +29,7 @@ const INITIAL_STATE: FormState = {
 
 const CONTACT_WEBHOOK_URL =
   import.meta.env.VITE_CONTACT_WEBHOOK_URL ||
-  'https://1-n8n.n3hukr.easypanel.host/webhook/chamaai-lead';
+  '/api/contact';
 
 export const ContactForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
@@ -37,6 +39,8 @@ export const ContactForm: React.FC = () => {
   const [submitError, setSubmitError] = useState('');
   const [submission] = useState(() => new ContactSubmission());
   const mountedRef = useRef(false);
+  const attemptRef = useRef({ payload: '', key: '' });
+  const [receipt, setReceipt] = useState('');
 
   useEffect(() => {
     mountedRef.current = true;
@@ -56,6 +60,8 @@ export const ContactForm: React.FC = () => {
       setSubmitSuccess(false);
     };
 
+    const pending = consumeContactIntent();
+    if (pending) setForm(current => ({ ...current, ...pending }));
     window.addEventListener('nexa:contact-intent', handleContactIntent);
     return () => window.removeEventListener('nexa:contact-intent', handleContactIntent);
   }, []);
@@ -141,7 +147,12 @@ export const ContactForm: React.FC = () => {
     };
 
     try {
-      await submission.submit(CONTACT_WEBHOOK_URL, bodyPayload);
+      const serialized = JSON.stringify(bodyPayload);
+      if (attemptRef.current.payload !== serialized) attemptRef.current = { payload: serialized, key: crypto.randomUUID() };
+      const ack = await submission.submit(CONTACT_WEBHOOK_URL, bodyPayload, CONTACT_WEBHOOK_URL === '/api/contact' ? attemptRef.current.key : undefined);
+      if (ack?.registered) setReceipt(ack.receipt); else setReceipt('');
+      trackInterest('contact_registered', form.necessidade);
+      attemptRef.current = { payload: '', key: '' };
       if (!mountedRef.current) return;
       setSubmitSuccess(true);
       setForm(INITIAL_STATE);
@@ -457,13 +468,14 @@ export const ContactForm: React.FC = () => {
                     
                     <div className="max-w-md">
                       <h3 className="font-display text-2xl font-black text-[#050505] uppercase tracking-tight mb-2">
-                        Envio confirmado
+                        {receipt ? 'Solicitação registrada' : 'Envio confirmado'}
                       </h3>
                       <p className="font-sans text-sm text-gray-sec leading-relaxed">
-                        O serviço de contato confirmou a aceitação da mensagem. O retorno será feito pelo e-mail ou WhatsApp informado.
+                        {receipt ? 'Seu pedido foi salvo. O retorno será feito pelo e-mail ou WhatsApp informado.' : 'O serviço de contato confirmou a aceitação da mensagem. O retorno será feito pelo e-mail ou WhatsApp informado.'}
                       </p>
                     </div>
 
+                    {receipt && <p className="font-sans text-sm text-[#3f5142]">Protocolo: <strong className="break-all">{receipt}</strong></p>}
                     <button 
                       onClick={() => setSubmitSuccess(false)}
                       className="font-mono text-xs text-brand-blue font-bold hover:underline cursor-pointer"
@@ -482,3 +494,4 @@ export const ContactForm: React.FC = () => {
     </section>
   );
 };
+

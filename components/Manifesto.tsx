@@ -1,8 +1,9 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Shield, LayoutGrid, Eye, ArrowUpRight, Zap } from 'lucide-react';
 
 export const Manifesto: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   const manifestoPillars = [
     {
       title: "Menos tarefas manuais",
@@ -66,7 +67,7 @@ export const Manifesto: React.FC = () => {
             return (
               <motion.div 
                 key={pillar.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
@@ -94,7 +95,7 @@ export const Manifesto: React.FC = () => {
 
         {/* Dynamic Concept Block */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -112,13 +113,13 @@ export const Manifesto: React.FC = () => {
             </p>
           </div>
           <div className="lg:col-span-5 flex justify-start lg:justify-end">
-            <div className="inline-flex items-center gap-4 bg-brand-blue p-6 rounded-3xl text-white shadow-xl shadow-brand-blue/20">
+            <div className="inline-flex items-center gap-4 bg-[#0055CC] p-6 rounded-3xl text-white shadow-xl shadow-brand-blue/20">
               <div className="text-left">
                 <div className="font-display text-4xl font-extrabold tracking-tighter">On-line</div>
-                <div className="font-mono text-[9px] uppercase tracking-widest text-white/70">Dados conectados</div>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-white">Dados conectados</div>
               </div>
               <div className="h-10 w-px bg-white/20" />
-              <p className="text-xs max-w-[180px] leading-snug font-light text-white/90">
+              <p className="text-xs max-w-[180px] leading-snug font-light text-white">
                 Aplicações leves que operam sem necessidade de servidores locais físicos ou infraestrutura cara.
               </p>
             </div>
@@ -129,3 +130,4 @@ export const Manifesto: React.FC = () => {
     </section>
   );
 };
+

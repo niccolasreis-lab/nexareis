@@ -36,3 +36,9 @@ dist-ssr
 
 # Reproducible visual QA artifacts are uploaded by CI, not versioned.
 qa/*.png
+
+.agents/skills/impeccable/scripts/bin/
+
+# Receiver runtime data and Python bytecode
+__pycache__/
+*.sqlite3*

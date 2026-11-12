@@ -1,6 +1,38 @@
 {
   "rewrites": [
     {
+      "source": "/api/contact",
+      "destination": "/api/growth?resource=contact"
+    },
+    {
+      "source": "/api/events",
+      "destination": "/api/growth?resource=events"
+    },
+    {
+      "source": "/api/metrics",
+      "destination": "/api/growth?resource=metrics"
+    },
+    {
+      "source": "/orcamento",
+      "destination": "/orcamento/index.html"
+    },
+    {
+      "source": "/projetos/chamaai-food",
+      "destination": "/projetos/chamaai-food/index.html"
+    },
+    {
+      "source": "/projetos/chamaai-filas",
+      "destination": "/projetos/chamaai-filas/index.html"
+    },
+    {
+      "source": "/projetos/signageflow",
+      "destination": "/projetos/signageflow/index.html"
+    },
+    {
+      "source": "/projetos/cesta-esperta",
+      "destination": "/projetos/cesta-esperta/index.html"
+    },
+    {
       "source": "/nicolas-reis",
       "destination": "/nicolas-reis/index.html"
     },
@@ -29,11 +61,44 @@
       "destination": "/servicos/nexa-data/index.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ],
   "trailingSlash": false,
   "installCommand": "npm ci",
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/growth.ts": {
+      "maxDuration": 15
+    }
+  },
+  "headers": [
+    {
+      "source": "/metricas",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ]
 }

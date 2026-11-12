@@ -28,7 +28,7 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           isFooter ? "w-24 h-24 blur-2xl" : isHero ? "w-36 h-36 blur-3xl" : "w-10 h-10 blur-md"
         )} />
         
-        <svg 
+        <svg aria-hidden="true" focusable="false"
           viewBox="0 0 120 120" 
           className={clsx(
             "relative transition-transform duration-500 group-hover:scale-105",
@@ -135,3 +135,4 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
     </div>
   );
 };
+
