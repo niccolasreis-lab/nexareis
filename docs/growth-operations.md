@@ -16,7 +16,7 @@ A mesma tentativa reutiliza a chave de idempotência. O receptor também dedupli
 - Volume exclusivo: `nexareis-growth-data`, banco `/data/growth.sqlite3`, WAL.
 - Rota HTTPS própria: `nexareis-growth.n3hukr.easypanel.host`; arquivo dinâmico separado `nexareis-growth.yaml`. Nenhuma configuração existente foi substituída; nenhum serviço existente precisou reiniciar.
 - Credenciais em Docker Secrets. Nenhum segredo `VITE_*`, no repositório, no bundle ou nos logs de aplicação.
-- `NEXA_GROWTH_URL` e `NEXA_GROWTH_TOKEN` configuradas somente para a branch de prévia na Vercel. Antes de publicar, configurar valores próprios do ambiente de produção e repetir a validação do formulário publicado.
+- `NEXA_GROWTH_URL` e `NEXA_GROWTH_TOKEN` configuradas para a branch de prévia na Vercel e preparadas no ambiente de produção para uma publicação futura. A prévia está restrita à branch de trabalho; os dois ambientes usam este receptor comercial isolado. A preparação das variáveis não republicou nem alterou o deployment público atual. Repetir a validação do formulário no deployment publicado antes de encerrar o rollout.
 - Código versionado em `services/growth/`; instalação atual em `/opt/nexareis-growth` na VPS.
 - Eventos possuem limites de frequência e dimensões fechadas; notificações não aceitam URL ou destinatário enviados pelo visitante.
 
