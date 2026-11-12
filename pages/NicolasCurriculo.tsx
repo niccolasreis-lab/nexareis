@@ -5,12 +5,12 @@ import { nicolasProfile } from '../data/nicolasProfile';
 
 /** Print-first résumé. The browser's Print dialog supports "Save as PDF". */
 export const NicolasCurriculo: React.FC = () => (
-  <div className="pt-32 pb-20 cv-route bg-[#11171e] min-h-screen">
+  <div className="pt-32 pb-20 cv-route bg-canvas min-h-screen">
     <div className="cv-screen-tools max-w-[850px] mx-auto px-5 mb-5 flex flex-wrap items-center justify-between gap-4">
-      <Link to="/nicolas-reis" className="inline-flex items-center gap-2 text-gray-light hover:text-white">
+      <Link to="/nicolas-reis" className="inline-flex items-center gap-2 text-gray-light hover:text-ink">
         <ArrowLeft size={18} aria-hidden="true" /> Voltar ao portfólio
       </Link>
-      <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-2 bg-brand-cyan text-[#071018] rounded-full px-5 py-3 font-semibold hover:bg-white transition-colors">
+      <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-2 bg-brand-blue text-white rounded-full px-5 py-3 font-semibold hover:bg-accent-dark transition-colors">
         <Printer size={18} aria-hidden="true" /> Imprimir / salvar como PDF
       </button>
     </div>
@@ -67,3 +67,4 @@ export const NicolasCurriculo: React.FC = () => (
     </article>
   </div>
 );
+

@@ -164,7 +164,7 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contato" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
+    <section id="contato" className="py-28 light-surface bg-canvas text-[#050505] relative overflow-hidden border-t border-line">
       <div className="absolute inset-0 grid-lines opacity-[0.02] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -185,7 +185,7 @@ export const ContactForm: React.FC = () => {
 
             {/* Direct contact badges */}
             <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-line">
                 <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
                   <Mail className="w-5 h-5" />
                 </div>
@@ -197,7 +197,7 @@ export const ContactForm: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-line">
                 <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
                   <Phone className="w-5 h-5" />
                 </div>
@@ -209,7 +209,7 @@ export const ContactForm: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-[#EBEBE6]">
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-line">
                 <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center">
                   <MapPin className="w-5 h-5" />
                 </div>
@@ -225,7 +225,7 @@ export const ContactForm: React.FC = () => {
 
           {/* Right Column: Lead Capture Form Block */}
           <div className="lg:col-span-7 w-full">
-            <div className="bg-white p-5 sm:p-12 rounded-[2.5rem] border border-[#EBEBE6] shadow-sm relative overflow-hidden">
+            <div className="bg-white p-5 sm:p-12 rounded-[2.5rem] border border-line shadow-sm relative overflow-hidden">
               
               <AnimatePresence mode="wait">
                 {!submitSuccess ? (
@@ -259,8 +259,8 @@ export const ContactForm: React.FC = () => {
                             name="nome" autoComplete="name" maxLength={120}
                             value={form.nome}
                             onChange={handleInputChange}
-                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
-                              errors.nome ? 'border-red-400' : 'border-[#EBEBE6]'
+                            className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.nome ? 'border-red-400' : 'border-line'
                             }`}
                             placeholder="Ex: João da Silva"
                           />
@@ -282,8 +282,8 @@ export const ContactForm: React.FC = () => {
                             name="empresa" autoComplete="organization" maxLength={160}
                             value={form.empresa}
                             onChange={handleInputChange}
-                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
-                              errors.empresa ? 'border-red-400' : 'border-[#EBEBE6]'
+                            className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.empresa ? 'border-red-400' : 'border-line'
                             }`}
                             placeholder="Ex: Minha Empresa Ltda"
                           />
@@ -308,8 +308,8 @@ export const ContactForm: React.FC = () => {
                             name="email"
                             value={form.email}
                             onChange={handleInputChange}
-                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
-                              errors.email ? 'border-red-400' : 'border-[#EBEBE6]'
+                            className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.email ? 'border-red-400' : 'border-line'
                             }`}
                             placeholder="Ex: joao@empresa.com"
                           />
@@ -331,8 +331,8 @@ export const ContactForm: React.FC = () => {
                             name="whatsapp"
                             value={form.whatsapp}
                             onChange={handlePhoneChange}
-                            className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
-                              errors.whatsapp ? 'border-red-400' : 'border-[#EBEBE6]'
+                            className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors ${
+                              errors.whatsapp ? 'border-red-400' : 'border-line'
                             }`}
                             placeholder="(11) 99999-9999"
                           />
@@ -355,8 +355,8 @@ export const ContactForm: React.FC = () => {
                           name="segmento"
                           value={form.segmento}
                           onChange={handleInputChange}
-                          className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
-                            errors.segmento ? 'border-red-400' : 'border-[#EBEBE6]'
+                          className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
+                            errors.segmento ? 'border-red-400' : 'border-line'
                           }`}
                         >
                           <option value="">Selecione...</option>
@@ -381,8 +381,8 @@ export const ContactForm: React.FC = () => {
                           name="necessidade"
                           value={form.necessidade}
                           onChange={handleInputChange}
-                          className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
-                            errors.necessidade ? 'border-red-400' : 'border-[#EBEBE6]'
+                          className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors appearance-none cursor-pointer ${
+                            errors.necessidade ? 'border-red-400' : 'border-line'
                           }`}
                         >
                           <option value="">Selecione...</option>
@@ -411,8 +411,8 @@ export const ContactForm: React.FC = () => {
                         rows={4}
                         value={form.mensagem}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-[#F5F5F2] border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors resize-none ${
-                          errors.mensagem ? 'border-red-400' : 'border-[#EBEBE6]'
+                        className={`w-full px-4 py-3 bg-canvas border rounded-xl text-sm text-[#050505] focus:outline-none focus:ring-1 focus:ring-brand-blue transition-colors resize-none ${
+                          errors.mensagem ? 'border-red-400' : 'border-line'
                         }`}
                         placeholder="Conte-nos brevemente sobre os gargalos do seu processo operacional atual..."
                       />
@@ -462,7 +462,7 @@ export const ContactForm: React.FC = () => {
                     exit={{ opacity: 0 }}
                     className="py-16 text-center flex flex-col items-center justify-center space-y-6"
                   >
-                    <div className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-500 animate-[bounce_1s_1]">
+                    <div className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 animate-[bounce_1s_1]">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
                     

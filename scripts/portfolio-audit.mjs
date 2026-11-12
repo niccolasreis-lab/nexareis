@@ -186,10 +186,10 @@ try {
     measurements.selectedTextContrast = contrast;
     await page.locator('header a[href="/#home"]').first().click();
     await page.waitForFunction(() => document.documentElement.dataset.pageSurface === 'commercial');
-    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute('content'), '#050505');
+    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute('content'), '#F5F5F2');
     // Observe the rendered state after the route's CSS transition settles.
-    await page.waitForFunction(() => getComputedStyle(document.body).backgroundColor === 'rgb(5, 5, 5)');
-    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(5, 5, 5)');
+    await page.waitForFunction(() => getComputedStyle(document.body).backgroundColor === 'rgb(245, 245, 242)');
+    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(245, 245, 242)');
   });
   await check('mobile navigation and footer keep 44px targets without clipping the name', async () => {
     for (const width of [320, 390]) {

@@ -9,7 +9,7 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="sobre" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] relative overflow-hidden border-t border-[#EBEBE6]">
+    <section id="sobre" className="py-28 light-surface bg-canvas text-[#050505] relative overflow-hidden border-t border-line">
       <div className="absolute inset-0 grid-lines opacity-[0.02] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -37,7 +37,7 @@ export const AboutSection: React.FC = () => {
             </div>
 
             {/* Core Values / Specialty Details list */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 mt-10 border-t border-[#EBEBE6] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 mt-10 border-t border-line w-full">
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-brand-blue/5 text-brand-blue flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-5 h-5" />
@@ -63,7 +63,7 @@ export const AboutSection: React.FC = () => {
 
           {/* Right Column: Visual Tech stack showcase / Lab presentation */}
           <div className="lg:col-span-5 w-full">
-            <div className="bg-white border border-[#EBEBE6] p-8 sm:p-10 rounded-[2.5rem] shadow-sm relative overflow-hidden">
+            <div className="bg-white border border-line p-8 sm:p-10 rounded-[2.5rem] shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 w-[150px] h-[150px] rounded-full bg-brand-blue/5 blur-3xl pointer-events-none" />
               
               <div className="flex items-center gap-2 mb-6">
@@ -84,14 +84,14 @@ export const AboutSection: React.FC = () => {
                 {techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="font-mono text-xs font-semibold px-4 py-2 bg-[#F5F5F2] border border-[#EBEBE6] text-[#333330] rounded-full hover:bg-brand-blue hover:text-white hover:border-brand-blue transition-all duration-300 cursor-default"
+                    className="font-mono text-xs font-semibold px-4 py-2 bg-canvas border border-line text-[#333330] rounded-full hover:bg-brand-blue hover:text-ink hover:border-brand-blue transition-all duration-300 cursor-default"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-[#EBEBE6] flex items-center gap-3">
+              <div className="mt-8 pt-6 border-t border-line flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                 <span className="font-mono text-[9px] uppercase tracking-wider text-gray-sec font-bold">Validação conforme o escopo do projeto</span>
               </div>
@@ -104,3 +104,4 @@ export const AboutSection: React.FC = () => {
     </section>
   );
 };
+

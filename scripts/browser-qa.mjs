@@ -11,7 +11,7 @@ async function check(name, fn) { await fn(); results.push({ name, status: 'pass'
 try {
   for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
   browser = await chromium.launch({ headless: true, executablePath: process.env.NEXA_CHROMIUM_EXECUTABLE || undefined, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-  page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', colorScheme: 'dark' });
   const runtimeErrors = [];
   page.on('pageerror', error => runtimeErrors.push(error.message));
   await mkdir('qa', { recursive: true });
@@ -31,6 +31,7 @@ try {
     for (const path of ['/', '/nicolas-reis', '/servicos/automacao']) await check(`layout ${path} at ${width}px`, async () => {
       await page.goto(base + path);
       await page.locator('h1').waitFor();
+      assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).colorScheme), 'light', 'the site stays light under a dark OS preference');
       if (path === '/nicolas-reis') {
         const portrait = page.locator('[data-profile-portrait]');
         await portrait.waitFor();
@@ -220,7 +221,7 @@ try {
     await page.goto(base + '/');
     assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), null);
     assert.equal(await page.locator('footer').getAttribute('data-portfolio-theme'), null);
-    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(5, 5, 5)');
+    assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(245, 245, 242)');
     await page.goto(base + '/servicos/automacao');
     assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), null);
   });

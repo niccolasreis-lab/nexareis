@@ -37,9 +37,9 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
         >
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00F0FF" />
-              <stop offset="50%" stopColor="#00A2FF" />
-              <stop offset="100%" stopColor="#0066FF" />
+              <stop offset="0%" stopColor="#0088A8" />
+              <stop offset="50%" stopColor="#0074B8" />
+              <stop offset="100%" stopColor="#0055CC" />
             </linearGradient>
             <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="3" result="blur" />
@@ -67,9 +67,9 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           />
           
           {/* Micro-nodes on the hexagonal corners and paths */}
-          <circle cx="60" cy="12" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" filter={`url(#${glowId})`} />
-          <circle cx="102" cy="36" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" />
-          <circle cx="18" cy="84" r="3.5" fill="#050505" stroke="#00F0FF" strokeWidth="2" />
+          <circle cx="60" cy="12" r="3.5" fill="#FFFFFF" stroke="#0088A8" strokeWidth="2" filter={`url(#${glowId})`} />
+          <circle cx="102" cy="36" r="3.5" fill="#FFFFFF" stroke="#0088A8" strokeWidth="2" />
+          <circle cx="18" cy="84" r="3.5" fill="#FFFFFF" stroke="#0088A8" strokeWidth="2" />
           
           {/* Stylized double-line circuit 'N' */}
           <g filter={`url(#${glowId})`}>
@@ -86,7 +86,7 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
             <path 
               d="M 44 48 L 56 48 M 76 72 L 64 72" 
               fill="none" 
-              stroke="#050505" 
+              stroke="#FFFFFF"
               strokeWidth="1.5" 
               strokeLinecap="round" 
             />
@@ -97,9 +97,9 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
           <path d="M 66 36 L 66 48 L 74 48 L 74 58" fill="none" stroke={`url(#${gradientId})`} strokeWidth="2" />
           <path d="M 46 84 L 46 72 M 54 84 L 54 78" fill="none" stroke={`url(#${gradientId})`} strokeWidth="2" />
           
-          <circle cx="58" cy="56" r="2.5" fill="#00F0FF" />
-          <circle cx="74" cy="58" r="2.5" fill="#00F0FF" />
-          <circle cx="46" cy="72" r="2.5" fill="#00F0FF" />
+          <circle cx="58" cy="56" r="2.5" fill="#0088A8" />
+          <circle cx="74" cy="58" r="2.5" fill="#0088A8" />
+          <circle cx="46" cy="72" r="2.5" fill="#0088A8" />
         </svg>
       </div>
 
@@ -110,7 +110,7 @@ export const Logo: React.FC<LogoProps> = ({ className, showText = true, variant 
         )}>
           {/* Main Logo Text with Wide futuristic spacing */}
           <span className={clsx(
-            "font-display font-bold text-white leading-none",
+            "font-display font-bold text-ink leading-none",
             isFooter ? "text-3xl tracking-[0.15em]" : isHero ? "text-4xl tracking-[0.2em]" : "text-xl tracking-[0.1em]"
           )}>
             NEXA

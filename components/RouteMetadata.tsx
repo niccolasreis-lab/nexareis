@@ -11,7 +11,7 @@ export function RouteMetadata() {
     const description = meta?.description || 'Acesse a página inicial da Nexa Reis.';
     const isPortfolio = path === '/nicolas-reis';
     document.documentElement.dataset.pageSurface = isPortfolio ? 'portfolio' : 'commercial';
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isPortfolio ? '#fff7e7' : '#050505');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isPortfolio ? '#fff7e7' : '#F5F5F2');
     document.title = title;
     for (const [selector, content] of [
       ['meta[name="description"]', description], ['meta[property="og:title"]', title],

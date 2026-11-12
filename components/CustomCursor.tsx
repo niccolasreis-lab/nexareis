@@ -126,8 +126,8 @@ export const CustomCursor: React.FC = () => {
         animate={{
           width: isHovered ? 48 : 24,
           height: isHovered ? 48 : 24,
-          borderColor: isHovered ? 'rgba(0, 212, 255, 0.8)' : 'rgba(0, 212, 255, 0.4)',
-          backgroundColor: isHovered ? 'rgba(0, 212, 255, 0.08)' : 'rgba(0, 212, 255, 0)',
+          borderColor: isHovered ? 'rgba(0, 122, 148, 0.8)' : 'rgba(0, 122, 148, 0.4)',
+          backgroundColor: isHovered ? 'rgba(0, 122, 148, 0.08)' : 'rgba(0, 122, 148, 0)',
           scale: isMouseDown ? 0.8 : 1,
         }}
         transition={{
@@ -135,7 +135,7 @@ export const CustomCursor: React.FC = () => {
           stiffness: 450,
           damping: 25,
         }}
-        className="absolute rounded-full border border-brand-cyan pointer-events-none mix-blend-screen"
+        className="absolute rounded-full border border-brand-cyan pointer-events-none mix-blend-multiply"
       />
 
       {/* 2. Inner Dot (Immediate follower) */}
@@ -153,8 +153,9 @@ export const CustomCursor: React.FC = () => {
         transition={{
           duration: 0.12,
         }}
-        className="absolute w-2 h-2 bg-brand-cyan rounded-full pointer-events-none mix-blend-screen"
+        className="absolute w-2 h-2 bg-brand-cyan rounded-full pointer-events-none mix-blend-multiply"
       />
     </div>
   );
 };
+

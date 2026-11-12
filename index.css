@@ -5,30 +5,34 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   
-  --color-accent: #00D4FF;
-  --color-accent-dark: #0055CC;
-  --color-brand-cyan: #00D4FF;
-  --color-brand-blue: #0066FF;
-  --color-dark-bg: #050505;
-  --color-dark-card: #101010;
-  --color-dark-border: #1A1A1A;
+  --color-accent: #007A94;
+  --color-accent-dark: #0047AA;
+  --color-brand-cyan: #007A94;
+  --color-brand-blue: #0055CC;
+  --color-canvas: #F5F5F2;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #EDF2F4;
+  --color-ink: #152329;
+  --color-ink-muted: #52616B;
+  --color-line: #D5DDDF;
+  --color-control-line: #7B8A8F;
   --color-white-soft: #F5F5F2;
-  --color-gray-light: #C7C7C2;
-  --color-gray-sec: #8C8C87;
+  --color-gray-light: #46555E;
+  --color-gray-sec: #52616B;
 }
 
 /* Base resets & theme styles */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  background-color: var(--color-dark-bg);
-  color: var(--color-white-soft);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-dark-border) var(--color-dark-bg);
+  scrollbar-color: var(--color-control-line) var(--color-canvas);
 }
 
 /* Custom Webkit scrollbar for premium feel */
@@ -36,10 +40,10 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-dark-bg);
+  background: var(--color-canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-dark-border);
+  background: var(--color-control-line);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -48,8 +52,8 @@ body {
 
 /* Text Selection */
 ::selection {
-  background-color: rgba(0, 212, 255, 0.2);
-  color: var(--color-white-soft);
+  background-color: rgba(0, 122, 148, 0.18);
+  color: var(--color-ink);
 }
 
 /* Scroll Anchors Smoothness */
@@ -61,8 +65,8 @@ html {
 /* Custom Grid Utility */
 .grid-lines {
   background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(21, 35, 41, 0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(21, 35, 41, 0.03) 1px, transparent 1px);
 }
 
 /* Glowing Aura */
@@ -211,7 +215,7 @@ section[id] { scroll-margin-top: 96px; }
 }
 [data-portfolio-card][data-portfolio-active="true"] {
   border-color: rgba(0, 212, 255, 0.6);
-  background-color: #192a33;
+  background-color: #E3EFF1;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-portfolio-effect][data-portfolio-selected="true"] { animation: none !important; }
