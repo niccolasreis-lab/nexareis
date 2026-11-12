@@ -84,7 +84,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/chamaai-food-v1.png'));
   await page.locator('.project-other').getByRole('link',{name:'SignageFlow',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/signageflow-v1.png'));
-  await page.locator('header a[href="/#home"]').click();
+  await page.locator('header').getByRole('link',{name:'NEXA REIS',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/nexareis-v1.png'));
   await page.goto(base+'/projetos/inexistente');await page.getByRole('heading',{name:'Projeto não encontrado'}).waitFor();await page.waitForFunction(()=>document.querySelector('meta[name=robots]').content==='noindex,follow');
  });
