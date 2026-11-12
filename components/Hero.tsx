@@ -141,7 +141,7 @@ export const Hero: React.FC = () => {
                 <span className="font-bold text-[10px] sm:text-xs text-brand-cyan tracking-wider uppercase flex items-center gap-1">
                   <Tv className="w-3 h-3" /> ChamaAí Food
                 </span>
-                <span className="text-[8px] sm:text-[9px] font-mono text-emerald-700 bg-emerald-500/10 px-1.5 py-0.5 rounded flex items-center gap-1 font-semibold">
+                <span className="text-[8px] sm:text-[9px] font-mono text-emerald-800 bg-emerald-500/10 px-1.5 py-0.5 rounded flex items-center gap-1 font-semibold">
                   <Wifi className="w-2.5 h-2.5" /> AO VIVO
                 </span>
               </div>
@@ -159,8 +159,8 @@ export const Hero: React.FC = () => {
                 <div className="bg-surface p-2 rounded border border-brand-cyan/10">
                   <h4 className="text-[8px] sm:text-[10px] text-brand-cyan uppercase tracking-widest font-semibold mb-2">Prontos</h4>
                   <div className="space-y-1">
-                    <div className="text-[9px] sm:text-xs font-mono text-emerald-700 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1205 - Sushi</div>
-                    <div className="text-[9px] sm:text-xs font-mono text-emerald-700 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1206 - Temaki</div>
+                    <div className="text-[9px] sm:text-xs font-mono text-emerald-800 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1205 - Sushi</div>
+                    <div className="text-[9px] sm:text-xs font-mono text-emerald-800 font-bold py-0.5 px-1 bg-emerald-500/10 rounded">#1206 - Temaki</div>
                   </div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export const Hero: React.FC = () => {
                 <span className="font-bold text-[9px] sm:text-xs text-orange-800 uppercase tracking-widest flex items-center gap-1">
                   <Laptop className="w-3 h-3" /> SignageFlow
                 </span>
-                <span className="text-[7px] sm:text-[9px] font-mono text-emerald-700 bg-emerald-500/10 px-1 py-0.5 rounded flex items-center gap-1">
+                <span className="text-[7px] sm:text-[9px] font-mono text-emerald-800 bg-emerald-500/10 px-1 py-0.5 rounded flex items-center gap-1">
                   <RefreshCw className="w-2.5 h-2.5" /> Sincronizado
                 </span>
               </div>

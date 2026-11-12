@@ -130,8 +130,8 @@ export const FAQAccordion: React.FC = () => {
                     <motion.div
                       animate={{ 
                         rotate: isOpen ? 180 : 0,
-                        backgroundColor: isOpen ? 'rgba(0, 212, 255, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                        color: isOpen ? '#00D4FF' : '#8C8C87'
+                        backgroundColor: isOpen ? 'rgba(0, 95, 115, 0.12)' : 'rgba(21, 35, 41, 0.04)',
+                        color: isOpen ? '#005F73' : '#52616B'
                       }}
                       transition={{ type: "spring", stiffness: 220, damping: 22 }}
                       className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border border-line group-hover:border-brand-cyan"

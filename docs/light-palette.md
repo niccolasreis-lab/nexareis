@@ -8,7 +8,7 @@ Pedido: preservar o site aprovado e manter apenas a paleta clara. Layout, conte�
 | Superfície | `#FFFFFF` |
 | Texto principal | `#152329` |
 | Texto secundário | `#52616B` |
-| Ciano legível | `#007A94` |
+| Ciano legível | `#005F73` |
 | Azul institucional | `#0055CC` |
 
 Cabeçalho, menu móvel, painéis ilustrativos, páginas de serviços e projetos, orçamento e métricas usam superfícies claras. A preferência escura do sistema não troca o tema. Texto, seleção, foco, cursor e controles nativos acompanham a paleta.

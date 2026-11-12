@@ -28,7 +28,7 @@ export const ProductShowcase: React.FC = () => {
                 <span className="font-display font-bold text-sm tracking-wider text-ink uppercase">PAINEL DE EXPEDIÇÃO — CHAMAÍ FOOD</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[9px] bg-emerald-500/15 text-emerald-700 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold">CONEXÃO ATIVA</span>
+                <span className="font-mono text-[9px] bg-emerald-500/15 text-emerald-800 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold">CONEXÃO ATIVA</span>
                 <span className="text-xs font-mono text-gray-sec">12:51</span>
               </div>
             </div>
@@ -71,14 +71,14 @@ export const ProductShowcase: React.FC = () => {
                       <div className="font-mono text-base font-black text-ink">#1210</div>
                       <div className="text-[10px] text-gray-light">Marta S. (Balcão)</div>
                     </div>
-                    <span className="text-xs font-mono font-black text-emerald-700 bg-emerald-500/10 px-2 py-1 rounded">CHAMAR</span>
+                    <span className="text-xs font-mono font-black text-emerald-800 bg-emerald-500/10 px-2 py-1 rounded">CHAMAR</span>
                   </div>
                   <div className="p-3 bg-brand-cyan/5 border border-brand-cyan/10 rounded-lg flex justify-between items-center">
                     <div>
                       <div className="font-mono text-sm font-bold text-ink">#1211</div>
                       <div className="text-[10px] text-gray-light">Roberto S. (Ifood)</div>
                     </div>
-                    <span className="text-[10px] font-mono text-emerald-700">Expedido</span>
+                    <span className="text-[10px] font-mono text-emerald-800">Expedido</span>
                   </div>
                 </div>
               </div>
@@ -200,15 +200,15 @@ export const ProductShowcase: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center text-[10px]">
                     <span className="text-ink">TV Vitrine (Matriz)</span>
-                    <span className="font-mono text-emerald-700 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
+                    <span className="font-mono text-emerald-800 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
                   </div>
                   <div className="flex justify-between items-center text-[10px]">
                     <span className="text-ink">TV Frios (Filial Centro)</span>
-                    <span className="font-mono text-emerald-700 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
+                    <span className="font-mono text-emerald-800 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
                   </div>
                   <div className="flex justify-between items-center text-[10px]">
                     <span className="text-ink">Menu Board 01 (Praça)</span>
-                    <span className="font-mono text-emerald-700 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
+                    <span className="font-mono text-emerald-800 font-bold bg-emerald-500/10 px-1 py-0.2 rounded">100% ONLINE</span>
                   </div>
                 </div>
               </div>
@@ -245,7 +245,7 @@ export const ProductShowcase: React.FC = () => {
                   ].map(([item, status]) => (
                     <div key={item} className="rounded-lg border border-line bg-ink/5 px-3 py-2">
                       <span className="block text-[10px] text-ink">{item}</span>
-                      <span className={`text-[8px] font-mono ${status === 'Confirmado' ? 'text-emerald-700' : 'text-amber-800'}`}>{status}</span>
+                      <span className={`text-[8px] font-mono ${status === 'Confirmado' ? 'text-emerald-800' : 'text-amber-800'}`}>{status}</span>
                     </div>
                   ))}
                 </div>

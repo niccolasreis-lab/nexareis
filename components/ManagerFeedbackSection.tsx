@@ -436,7 +436,7 @@ export const FeedbackApprovalStatus: React.FC<{ status: string }> = ({ status })
   const getStyles = () => {
     switch (status) {
       case 'Aprovado para publicação':
-        return { bg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-700', label: 'Aprovado para Publicação' };
+        return { bg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-800', label: 'Aprovado para Publicação' };
       case 'Aguardando aprovação':
         return { bg: 'bg-amber-500/15 border-amber-500/30 text-amber-800', label: 'Aguardando Aprovação' };
       case 'Rascunho':
@@ -815,7 +815,7 @@ export const FeedbackCollectionForm: React.FC<FeedbackCollectionFormProps> = ({ 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-full bg-brand-cyan hover:bg-white text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-2 active:scale-95"
+              className="px-6 py-2.5 rounded-full bg-brand-cyan hover:bg-brand-blue text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-2 active:scale-95"
             >
               {isSubmitting ? (
                 <>
@@ -1030,7 +1030,7 @@ export const FeaturedClientCase: React.FC<FeaturedClientCaseProps> = ({ feedback
           <div className="pt-6 border-t border-line flex flex-wrap gap-3">
             <button 
               onClick={handleScrollToContact}
-              className="px-6 py-2.5 rounded-full bg-brand-cyan hover:bg-white text-white font-sans text-xs font-bold transition-all cursor-pointer active:scale-95"
+              className="px-6 py-2.5 rounded-full bg-brand-cyan hover:bg-brand-blue text-white font-sans text-xs font-bold transition-all cursor-pointer active:scale-95"
             >
               Quero digitalizar minha operação
             </button>

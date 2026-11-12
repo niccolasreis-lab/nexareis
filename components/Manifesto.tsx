@@ -116,10 +116,10 @@ export const Manifesto: React.FC = () => {
             <div className="inline-flex items-center gap-4 bg-brand-blue p-6 rounded-3xl text-white shadow-xl shadow-brand-blue/20">
               <div className="text-left">
                 <div className="font-display text-4xl font-extrabold tracking-tighter">On-line</div>
-                <div className="font-mono text-[9px] uppercase tracking-widest text-ink">Dados conectados</div>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-white">Dados conectados</div>
               </div>
               <div className="h-10 w-px bg-ink/20" />
-              <p className="text-xs max-w-[180px] leading-snug font-light text-ink">
+              <p className="text-xs max-w-[180px] leading-snug font-light text-white">
                 Aplicações leves que operam sem necessidade de servidores locais físicos ou infraestrutura cara.
               </p>
             </div>

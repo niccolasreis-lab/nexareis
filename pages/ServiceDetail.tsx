@@ -44,7 +44,7 @@ export const ServiceDetail: React.FC = () => {
             </p>
 
             <div style={{ marginTop: '3rem' }}>
-              <h3 style={{ color: 'white', marginBottom: '1.5rem' }}>O que podemos planejar:</h3>
+              <h3 style={{ color: 'var(--color-ink)', marginBottom: '1.5rem' }}>O que podemos planejar:</h3>
               <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {['Consultoria especializada', 'Implementação ágil', 'Suporte conforme contrato', 'Capacidade planejada para seu uso'].map(item => (
                   <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-gray-light)' }}>
@@ -61,7 +61,7 @@ export const ServiceDetail: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="p-6 sm:p-10 border border-line rounded-3xl"
           >
-            <h3 style={{ color: 'white', marginBottom: '1.5rem', textAlign: 'center' }}>Solicite um orçamento para este serviço</h3>
+            <h3 style={{ color: 'var(--color-ink)', marginBottom: '1.5rem', textAlign: 'center' }}>Solicite um orçamento para este serviço</h3>
             <p style={{ color: 'var(--color-gray-light)', fontSize: '0.875rem', marginBottom: '2rem', textAlign: 'center' }}>
               Nossos especialistas analisarão seu caso e enviarão uma proposta personalizada para <strong>{service.title}</strong>.
             </p>

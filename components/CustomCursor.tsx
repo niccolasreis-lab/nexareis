@@ -126,8 +126,8 @@ export const CustomCursor: React.FC = () => {
         animate={{
           width: isHovered ? 48 : 24,
           height: isHovered ? 48 : 24,
-          borderColor: isHovered ? 'rgba(0, 122, 148, 0.8)' : 'rgba(0, 122, 148, 0.4)',
-          backgroundColor: isHovered ? 'rgba(0, 122, 148, 0.08)' : 'rgba(0, 122, 148, 0)',
+          borderColor: isHovered ? 'rgba(0, 95, 115, 0.8)' : 'rgba(0, 95, 115, 0.4)',
+          backgroundColor: isHovered ? 'rgba(0, 95, 115, 0.08)' : 'rgba(0, 95, 115, 0)',
           scale: isMouseDown ? 0.8 : 1,
         }}
         transition={{

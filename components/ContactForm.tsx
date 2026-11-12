@@ -462,7 +462,7 @@ export const ContactForm: React.FC = () => {
                     exit={{ opacity: 0 }}
                     className="py-16 text-center flex flex-col items-center justify-center space-y-6"
                   >
-                    <div className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 animate-[bounce_1s_1]">
+                    <div className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 animate-[bounce_1s_1]">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
                     
