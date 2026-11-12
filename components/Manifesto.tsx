@@ -28,7 +28,7 @@ export const Manifesto: React.FC = () => {
   ];
 
   return (
-    <section id="manifesto" className="relative py-28 light-surface bg-[#F5F5F2] text-[#050505] overflow-hidden">
+    <section id="manifesto" className="relative py-28 light-surface bg-canvas text-[#050505] overflow-hidden">
       
       {/* Background abstract accents */}
       <div className="absolute inset-0 grid-lines opacity-[0.03] pointer-events-none" />
@@ -71,7 +71,7 @@ export const Manifesto: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="group flex flex-col justify-between p-8 bg-white border border-[#EBEBE6] rounded-3xl shadow-sm hover:shadow-xl hover:border-brand-blue/20 transition-all duration-500 min-h-[260px] text-left"
+                className="group flex flex-col justify-between p-8 bg-white border border-line rounded-3xl shadow-sm hover:shadow-xl hover:border-brand-blue/20 transition-all duration-500 min-h-[260px] text-left"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-brand-blue/5 flex items-center justify-center mb-6 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 text-brand-blue">
@@ -99,7 +99,7 @@ export const Manifesto: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-20 p-8 sm:p-12 bg-gradient-to-br from-white to-[#EBEBE6] border border-[#EBEBE6] rounded-[2.5rem] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left"
+          className="mt-20 p-8 sm:p-12 bg-gradient-to-br from-white to-[#EBEBE6] border border-line rounded-[2.5rem] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left"
         >
           <div className="lg:col-span-7">
             <span className="font-mono text-[10px] uppercase tracking-widest text-[#555550] font-bold block mb-2">
@@ -113,12 +113,12 @@ export const Manifesto: React.FC = () => {
             </p>
           </div>
           <div className="lg:col-span-5 flex justify-start lg:justify-end">
-            <div className="inline-flex items-center gap-4 bg-[#0055CC] p-6 rounded-3xl text-white shadow-xl shadow-brand-blue/20">
+            <div className="inline-flex items-center gap-4 bg-brand-blue p-6 rounded-3xl text-white shadow-xl shadow-brand-blue/20">
               <div className="text-left">
                 <div className="font-display text-4xl font-extrabold tracking-tighter">On-line</div>
                 <div className="font-mono text-[9px] uppercase tracking-widest text-white">Dados conectados</div>
               </div>
-              <div className="h-10 w-px bg-white/20" />
+              <div className="h-10 w-px bg-ink/20" />
               <p className="text-xs max-w-[180px] leading-snug font-light text-white">
                 Aplicações leves que operam sem necessidade de servidores locais físicos ou infraestrutura cara.
               </p>

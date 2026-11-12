@@ -55,7 +55,7 @@ export const FAQAccordion: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-32 bg-[#050505] border-t border-white/5 relative overflow-hidden">
+    <section id="faq" className="py-32 bg-surface-muted border-t border-line relative overflow-hidden">
       
       {/* Editorial Grid lines & Glowing Background spots */}
       <div className="absolute inset-0 grid-lines opacity-10 pointer-events-none" />
@@ -68,14 +68,14 @@ export const FAQAccordion: React.FC = () => {
         <div className="text-center mb-20">
           
           {/* Animated category tag */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-ink/5 border border-line rounded-full mb-4">
             <HelpCircle className="w-3.5 h-3.5 text-brand-cyan" />
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brand-cyan font-bold">
               Suporte & Dúvidas
             </span>
           </div>
 
-          <h2 className="title-editorial text-white uppercase mb-6">
+          <h2 className="title-editorial text-ink uppercase mb-6">
             Perguntas <br className="sm:hidden" />
             <span className="text-brand-cyan font-extrabold">Frequentes.</span>
           </h2>
@@ -98,8 +98,8 @@ export const FAQAccordion: React.FC = () => {
                 transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.3) }}
                 className={`group border rounded-3xl overflow-hidden transition-all duration-500 ${
                   isOpen 
-                    ? 'bg-[#0d0d0d] border-brand-cyan/30 shadow-[0_15px_30px_rgba(0,212,255,0.03)]' 
-                    : 'bg-white/[0.01] border-white/5 hover:border-white/10'
+                    ? 'bg-surface-muted border-brand-cyan/30 shadow-[0_15px_30px_rgba(0,212,255,0.03)]'
+                    : 'bg-ink/[0.01] border-line hover:border-brand-cyan'
                 }`}
               >
                 <h3>
@@ -107,21 +107,21 @@ export const FAQAccordion: React.FC = () => {
                     id={`faq-btn-${idx}`}
                     onClick={() => toggleAccordion(idx)}
                     onKeyDown={(e) => handleKeyDown(e, idx)}
-                    className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none focus:bg-white/[0.03] transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-brand-cyan"
+                    className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none focus:bg-ink/[0.03] transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-brand-cyan"
                     aria-expanded={isOpen}
                     aria-controls={`faq-content-${idx}`}
                     aria-label={`Pergunta ${idx + 1}: ${faq.question}`}
                   >
-                    <span className="font-display text-sm sm:text-base font-bold text-white pr-6 flex items-start gap-4">
+                    <span className="font-display text-sm sm:text-base font-bold text-ink pr-6 flex items-start gap-4">
                       {/* Premium Number Bubble */}
                       <span className={`font-mono text-xs font-semibold px-2.5 py-1 rounded-md transition-colors duration-300 ${
                         isOpen 
                           ? 'bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20' 
-                          : 'bg-white/5 text-gray-sec border border-white/5 group-hover:bg-white/10 group-hover:text-white'
+                          : 'bg-ink/5 text-gray-sec border border-line group-hover:bg-ink/10 group-hover:text-ink'
                       }`}>
                         {(idx + 1).toString().padStart(2, '0')}
                       </span>
-                      <span className="pt-0.5 group-hover:text-white transition-colors">
+                      <span className="pt-0.5 group-hover:text-ink transition-colors">
                         {faq.question}
                       </span>
                     </span>
@@ -130,11 +130,11 @@ export const FAQAccordion: React.FC = () => {
                     <motion.div
                       animate={{ 
                         rotate: isOpen ? 180 : 0,
-                        backgroundColor: isOpen ? 'rgba(0, 212, 255, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                        color: isOpen ? '#00D4FF' : '#8C8C87'
+                        backgroundColor: isOpen ? 'rgba(0, 95, 115, 0.12)' : 'rgba(21, 35, 41, 0.04)',
+                        color: isOpen ? '#005F73' : '#52616B'
                       }}
                       transition={{ type: "spring", stiffness: 220, damping: 22 }}
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border border-white/10 group-hover:border-white/20"
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border border-line group-hover:border-brand-cyan"
                     >
                       <ChevronDown className="w-4 h-4" />
                     </motion.div>
@@ -153,7 +153,7 @@ export const FAQAccordion: React.FC = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <div className="px-6 sm:px-8 pb-8 pt-2 border-t border-white/[0.03] ml-0 sm:ml-[44px]">
+                      <div className="px-6 sm:px-8 pb-8 pt-2 border-t border-line ml-0 sm:ml-[44px]">
                         <p className="font-sans text-xs sm:text-sm text-gray-light leading-relaxed font-light">
                           {faq.answer}
                         </p>
@@ -172,20 +172,20 @@ export const FAQAccordion: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-16 p-8 rounded-3xl bg-[#0c0c0c] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6"
+          className="mt-16 p-8 rounded-3xl bg-surface border border-line flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div className="flex items-center gap-4 text-left">
             <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan flex-shrink-0">
               <MessageSquare className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-display font-bold text-sm sm:text-base text-white">Sua dúvida não está aqui?</h4>
+              <h4 className="font-display font-bold text-sm sm:text-base text-ink">Sua dúvida não está aqui?</h4>
               <p className="font-sans text-xs text-gray-sec">Envie os detalhes da sua operação e conversaremos diretamente sobre o seu caso.</p>
             </div>
           </div>
           <button 
             onClick={handleScrollToContact}
-            className="w-full sm:w-auto px-6 py-3 rounded-full bg-white text-black font-sans text-xs font-semibold hover:bg-brand-cyan hover:text-black transition-all cursor-pointer whitespace-nowrap active:scale-95"
+            className="w-full sm:w-auto px-6 py-3 rounded-full bg-white text-black font-sans text-xs font-semibold hover:bg-brand-cyan hover:text-white transition-all cursor-pointer whitespace-nowrap active:scale-95"
           >
             Falar com Especialista
           </button>
@@ -195,3 +195,4 @@ export const FAQAccordion: React.FC = () => {
     </section>
   );
 };
+

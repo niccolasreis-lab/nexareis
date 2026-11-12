@@ -22,11 +22,11 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClass = "relative inline-flex min-h-11 items-center justify-center font-sans font-medium tracking-wide rounded-full overflow-hidden transition-[background-color,border-color,color,box-shadow] duration-150 select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 touch-manipulation";
   
   const variants = {
-    primary: "bg-white text-[#050505] enabled:hover:bg-white-soft shadow-lg shadow-white/5",
+    primary: "bg-brand-blue text-white enabled:hover:bg-accent-dark shadow-lg shadow-ink/5",
     lime: "bg-[#C5F467] text-[#050505] enabled:hover:bg-[#b2e052] shadow-lg shadow-[#C5F467]/10",
-    dark: "bg-[#050505] text-white enabled:hover:bg-black shadow-lg shadow-black/10",
-    outline: "bg-transparent text-white border border-white/20 enabled:hover:border-white enabled:hover:bg-white/5",
-    ghost: "bg-transparent text-gray-light enabled:hover:text-white enabled:hover:bg-white/5",
+    dark: "bg-brand-blue text-white enabled:hover:bg-accent-dark shadow-lg shadow-ink/10",
+    outline: "bg-transparent text-ink border border-control-line enabled:hover:border-brand-cyan enabled:hover:bg-ink/5",
+    ghost: "bg-transparent text-gray-light enabled:hover:text-ink enabled:hover:bg-ink/5",
   };
 
   const sizes = {

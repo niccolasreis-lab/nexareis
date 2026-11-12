@@ -5,7 +5,7 @@ import { PROCESS_STEPS } from '../data/landingData';
 export const DevelopmentProcess: React.FC = () => {
   const reduceMotion = useReducedMotion();
   return (
-    <section id="processo" className="py-28 light-surface bg-[#F5F5F2] text-[#050505] overflow-hidden border-t border-[#EBEBE6]">
+    <section id="processo" className="py-28 light-surface bg-canvas text-[#050505] overflow-hidden border-t border-line">
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-left">
         
         {/* Section Header */}
@@ -40,15 +40,15 @@ export const DevelopmentProcess: React.FC = () => {
                 >
                   {/* Step bubble */}
                   <div className="relative flex items-center justify-center mb-6 z-20">
-                    <div className="w-16 h-16 rounded-2xl bg-white border border-[#EBEBE6] shadow-sm flex items-center justify-center font-display text-xl font-bold text-brand-blue group-hover:bg-brand-blue group-hover:text-white group-hover:scale-105 transition-all duration-500">
+                    <div className="w-16 h-16 rounded-2xl bg-white border border-line shadow-sm flex items-center justify-center font-display text-xl font-bold text-brand-blue group-hover:bg-brand-blue group-hover:text-white group-hover:scale-105 transition-all duration-500">
                       {step.number}
                     </div>
                     {/* Pulsing small node inside bubble */}
-                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-brand-blue rounded-full border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-brand-blue rounded-full border-2 border-line opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
 
                   {/* Step Description Card */}
-                  <div className="bg-white p-6 rounded-2xl border border-[#EBEBE6] shadow-sm group-hover:shadow-md transition-shadow duration-300 h-full flex flex-col justify-between">
+                  <div className="bg-white p-6 rounded-2xl border border-line shadow-sm group-hover:shadow-md transition-shadow duration-300 h-full flex flex-col justify-between">
                     <div>
                       <h3 className="font-display text-base font-bold text-[#050505] uppercase tracking-tight mb-2">
                         {step.title}

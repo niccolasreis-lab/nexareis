@@ -41,11 +41,11 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'green' : undefined} className="bg-[#050505] text-[#8C8C87] pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+    <footer data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined} className="bg-surface-muted text-ink-muted pt-24 pb-12 border-t border-line relative overflow-hidden">
       
       {/* Footer Grid */}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div data-footer-grid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/5">
+        <div data-footer-grid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-line">
           
           {/* Logo Column */}
           <div data-footer-group="brand" className="lg:col-span-4 flex flex-col items-start text-left">
@@ -55,10 +55,10 @@ export const Footer: React.FC = () => {
             </p>
             {/* Social handles */}
             <div className="flex gap-4">
-              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+              <a href="https://github.com/niccolasreis-lab" aria-label="GitHub de Nícolas Reis" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-ink/5 flex items-center justify-center text-ink hover:bg-brand-cyan hover:text-white transition-colors touch-manipulation">
                 <Github className="w-4 h-4" aria-hidden="true" />
               </a>
-              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-brand-cyan hover:text-black transition-colors touch-manipulation">
+              <a href={CONTACT_INFO.social.whatsapp} aria-label="Contato pelo WhatsApp" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-ink/5 flex items-center justify-center text-ink hover:bg-brand-cyan hover:text-white transition-colors touch-manipulation">
                 <Phone className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
 
           {/* Navigation links Columns */}
           <div data-footer-group="products" className="lg:col-span-2 text-left">
-            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Nossos Produtos</h2>
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink font-bold mb-6">Nossos Produtos</h2>
             <ul className="space-y-3.5">
               {quickLinks.produtos.map((link) => (
                 <li key={link.label}>
@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
                     target={link.href.startsWith('#') ? undefined : "_blank"}
                     rel={link.href.startsWith('#') ? undefined : "noreferrer"}
                     onClick={(e) => handleScrollTo(e, link.href)}
-                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors flex items-center gap-1 group"
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-ink transition-colors flex items-center gap-1 group"
                   >
                     {link.label}
                     <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -86,14 +86,14 @@ export const Footer: React.FC = () => {
           </div>
 
           <div data-footer-group="links" className="lg:col-span-3 text-left">
-            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Soluções Sob Medida</h2>
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink font-bold mb-6">Soluções Sob Medida</h2>
             <ul className="space-y-3.5">
               {quickLinks.servicos.map((link) => (
                 <li key={link.label}>
                   <a 
                     href={link.href.startsWith("#") ? "/" + link.href : link.href}
                     onClick={(e) => handleScrollTo(e, link.href)} 
-                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-ink transition-colors"
                   >
                     {link.label}
                   </a>
@@ -103,14 +103,14 @@ export const Footer: React.FC = () => {
           </div>
 
           <div data-footer-group="links" className="lg:col-span-3 text-left">
-            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-bold mb-6">Institucional</h2>
+            <h2 className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink font-bold mb-6">Institucional</h2>
             <ul className="space-y-3.5">
               {quickLinks.institucional.map((link) => (
                 <li key={link.label}>
                   <a 
                     href={link.href.startsWith("#") ? "/" + link.href : link.href}
                     onClick={(e) => handleScrollTo(e, link.href)} 
-                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-white transition-colors"
+                    className="font-sans text-xs sm:text-sm text-gray-sec hover:text-ink transition-colors"
                   >
                     {link.label}
                   </a>
@@ -130,7 +130,7 @@ export const Footer: React.FC = () => {
           
           <div className="flex items-center gap-1.5 font-sans">
             <span>Operação com dedicação por Nexa Reis</span>
-            <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />
+            <Heart className="w-3.5 h-3.5 text-red-700 fill-red-400" />
           </div>
         </div>
 

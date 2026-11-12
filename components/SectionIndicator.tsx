@@ -78,7 +78,7 @@ export const SectionIndicator: React.FC = () => {
       aria-label="Navegação lateral de seções"
     >
       {/* Decorative vertical editorial line */}
-      <div className="absolute right-[5px] top-4 bottom-4 w-[1px] bg-white/[0.04] pointer-events-none" />
+      <div className="absolute right-[5px] top-4 bottom-4 w-[1px] bg-ink/[0.04] pointer-events-none" />
       
       {/* Running highlight track */}
       <div className="absolute right-[5px] top-4 bottom-4 w-[1px] bg-gradient-to-b from-brand-cyan/20 via-brand-blue/20 to-transparent pointer-events-none" />
@@ -107,13 +107,13 @@ export const SectionIndicator: React.FC = () => {
                   animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, x: reduceMotion ? 0 : 6 }}
                   transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-center gap-2 rounded-full bg-[#050505] px-3 py-1.5"
+                  className="flex items-center gap-2 rounded-full bg-surface-muted px-3 py-1.5"
                 >
                   <span className="font-mono text-[9px] text-brand-cyan tracking-wider">
                     {section.num}
                   </span>
                   <span className={`font-sans text-xs tracking-[0.15em] uppercase font-medium ${
-                    isActive ? 'text-white font-bold' : 'text-gray-sec hover:text-white'
+                    isActive ? 'text-ink font-bold' : 'text-gray-sec hover:text-ink'
                   }`}>
                     {section.label}
                   </span>
@@ -137,15 +137,15 @@ export const SectionIndicator: React.FC = () => {
                 animate={{
                   scale: isActive ? 1.2 : isHovered ? 1.1 : 1,
                   backgroundColor: isActive 
-                    ? '#00D4FF' 
+                    ? 'var(--color-brand-cyan)'
                     : isHovered 
-                      ? '#ffffff' 
-                      : 'rgba(255, 255, 255, 0.15)',
+                      ? 'var(--color-ink)'
+                      : 'rgba(21, 35, 41, 0.4)',
                   borderColor: isActive
-                    ? '#00D4FF'
+                    ? 'var(--color-brand-cyan)'
                     : isHovered
-                      ? 'rgba(255, 255, 255, 0.4)'
-                      : 'rgba(255, 255, 255, 0.05)'
+                      ? 'rgba(21, 35, 41, 0.6)'
+                      : 'rgba(21, 35, 41, 0.2)'
                 }}
                 transition={{ duration: 0.2 }}
                 className="w-[7px] h-[7px] rounded-full border z-10"

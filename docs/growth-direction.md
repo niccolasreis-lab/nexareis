@@ -6,7 +6,7 @@
 Ajudar o visitante a identificar uma solução e chegar ao contato com um contexto útil.
 
 ### OWN-WORLD
-Extensão da NexaReis já aprovada: preto #050505, branco #F5F5F2, ciano #00D9FF, verde #C5F467 e azul institucional. Reutilizar as famílias e os componentes existentes. O portfólio pessoal mantém creme, verde e amarelo.
+Atualização solicitada pelo proprietário em 12/11/2026: manter somente a paleta clara. Superfícies brancas e branco suave #F5F5F2, texto #152329, secundário #52616B, ciano #005F73 e azul institucional #0055CC. O verde de destaque permanece nos controles existentes. Reutilizar famílias, layout e componentes. O portfólio mantém creme, verde e amarelo, com seus painéis e rodapé também claros.
 
 ### STORY
 Escolher segmento e tarefa, entender a recomendação, conhecer o projeto e conversar. Sem preços, resultados, clientes ou funcionalidades inventados.

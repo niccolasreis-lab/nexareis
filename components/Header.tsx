@@ -109,9 +109,9 @@ export const Header: React.FC = () => {
     <>
     <header data-portfolio-theme={location.pathname === '/nicolas-reis' ? 'light' : undefined} className={`fixed top-0 left-0 right-0 z-[60] transition-colors duration-200 ${
       mobileMenuOpen
-        ? 'py-4 bg-dark-bg border-b border-dark-border'
+        ? 'py-4 bg-canvas border-b border-line'
         : isScrolled
-        ? 'py-4 bg-dark-bg/85 backdrop-blur-xl border-b border-dark-border' 
+        ? 'py-4 bg-canvas/85 backdrop-blur-xl border-b border-line'
         : 'py-6 bg-transparent border-b border-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -131,8 +131,8 @@ export const Header: React.FC = () => {
               aria-current={activeId === item.id ? 'location' : undefined}
               className={`relative font-sans text-sm tracking-wide transition-colors duration-300 ${
                 activeId === item.id
-                  ? 'text-white font-medium' 
-                  : 'text-gray-light hover:text-white'
+                  ? 'text-ink font-medium'
+                  : 'text-gray-light hover:text-ink'
               }`}
             >
               {item.label}
@@ -164,7 +164,7 @@ export const Header: React.FC = () => {
         <button 
           ref={menuButtonRef}
           type="button"
-          className="lg:hidden p-3 z-50 text-white hover:text-brand-cyan transition-colors touch-manipulation"
+          className="lg:hidden p-3 z-50 text-ink hover:text-brand-cyan transition-colors touch-manipulation"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
           aria-expanded={mobileMenuOpen}
@@ -187,7 +187,7 @@ export const Header: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0.98 }}
             transition={{ duration: reduceMotion ? 0 : 0.12 }}
-            className="fixed inset-0 z-50 bg-dark-bg flex flex-col items-center overflow-y-auto overscroll-contain px-8 pt-28 pb-8 lg:hidden"
+            className="fixed inset-0 z-50 bg-canvas flex flex-col items-center overflow-y-auto overscroll-contain px-8 pt-28 pb-8 lg:hidden"
           >
             <motion.nav aria-label="Navegação móvel" data-mobile-menu-content
               initial={reduceMotion ? false : { y: -6 }}
@@ -204,7 +204,7 @@ export const Header: React.FC = () => {
                   className={`flex min-h-11 w-full max-w-xs items-center justify-center touch-manipulation font-display text-2xl tracking-wide transition-colors duration-150 ${
                     activeId === item.id
                       ? 'text-brand-cyan font-bold'
-                      : 'text-gray-light hover:text-white'
+                      : 'text-gray-light hover:text-ink'
                   }`}
                 >
                   {item.label}

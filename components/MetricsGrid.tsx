@@ -6,7 +6,7 @@ export const MetricsGrid: React.FC = () => {
   const verifiedMetrics = METRICS.filter(metric => metric.evidence?.trim());
   if (!verifiedMetrics.length) return null;
   return (
-    <section className="py-24 bg-[#0a0a0a] border-t border-white/5 relative overflow-hidden">
+    <section className="py-24 bg-surface-muted border-t border-line relative overflow-hidden">
       {/* Background soft lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[30vw] rounded-full bg-brand-cyan/5 blur-[140px] pointer-events-none" />
 
@@ -14,10 +14,10 @@ export const MetricsGrid: React.FC = () => {
         
         {/* Header summary info */}
         <div className="max-w-3xl mx-auto mb-16 text-center">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#C5F467] font-semibold block mb-3">
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-lime-800 font-semibold block mb-3">
             Impacto Mensurável
           </span>
-          <h3 className="font-display text-2xl sm:text-3xl font-bold text-white uppercase tracking-tight">
+          <h3 className="font-display text-2xl sm:text-3xl font-bold text-ink uppercase tracking-tight">
             Nossos números refletem a produtividade física de nossos clientes
           </h3>
         </div>
@@ -31,10 +31,10 @@ export const MetricsGrid: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="p-8 bg-white/[0.01] border border-white/5 rounded-3xl text-center flex flex-col justify-center hover:bg-white/[0.03] hover:border-brand-cyan/25 transition-all duration-300 min-h-[180px]"
+              className="p-8 bg-ink/[0.01] border border-line rounded-3xl text-center flex flex-col justify-center hover:bg-ink/[0.03] hover:border-brand-cyan/25 transition-all duration-300 min-h-[180px]"
             >
               {/* Massive displaying numbers */}
-              <div className="font-display text-4xl sm:text-5xl font-black text-white mb-3 tracking-tighter">
+              <div className="font-display text-4xl sm:text-5xl font-black text-ink mb-3 tracking-tighter">
                 {metric.value}
               </div>
               
@@ -50,3 +50,4 @@ export const MetricsGrid: React.FC = () => {
     </section>
   );
 };
+

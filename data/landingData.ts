@@ -66,8 +66,8 @@ export const PRODUCTS: ProductDetail[] = [
       "Planejamento de capacidade conforme o volume de pedidos"
     ],
     segments: ["Restaurantes", "Docerias", "Padarias", "Supermercados", "Dark Kitchens"],
-    tagColor: "border-[#00D4FF] text-[#00D4FF] bg-[#00D4FF]/10",
-    accentColor: "#00D4FF"
+    tagColor: "border-brand-cyan/30 text-brand-cyan bg-brand-cyan/10",
+    accentColor: "#005F73"
   },
   {
     id: "chamaai-filas",
@@ -88,8 +88,8 @@ export const PRODUCTS: ProductDetail[] = [
       "Integração via API com sistemas legados de ERP ou prontuário"
     ],
     segments: ["Supermercados", "Clínicas", "Laboratórios", "Órgãos Públicos", "Recepções"],
-    tagColor: "border-[#C5F467] text-[#C5F467] bg-[#C5F467]/10",
-    accentColor: "#C5F467"
+    tagColor: "border-lime-700/40 text-lime-800 bg-[#C5F467]/10",
+    accentColor: "#466817"
   },
   {
     id: "signageflow",
@@ -110,8 +110,8 @@ export const PRODUCTS: ProductDetail[] = [
       "Operação multiloja e suporte a televisores em cascata"
     ],
     segments: ["Varejo", "Redes de Lojas", "Supermercados", "Franquias", "Academia"],
-    tagColor: "border-[#FF6B35] text-[#FF6B35] bg-[#FF6B35]/10",
-    accentColor: "#FF6B35"
+    tagColor: "border-orange-700/40 text-orange-800 bg-[#FF6B35]/10",
+    accentColor: "#9A3412"
   },
   {
     id: "cesta-esperta",
@@ -129,8 +129,8 @@ export const PRODUCTS: ProductDetail[] = [
       "Painel operacional para equipes de varejo alimentar"
     ],
     segments: ["Supermercados", "Mercados", "Empórios", "Varejo alimentar", "Distribuidores"],
-    tagColor: "border-[#60A5FA] text-[#60A5FA] bg-[#60A5FA]/10",
-    accentColor: "#60A5FA"
+    tagColor: "border-blue-600/40 text-blue-700 bg-[#60A5FA]/10",
+    accentColor: "#1D4ED8"
   }
 ];
 
@@ -354,4 +354,5 @@ export const managerFeedbacks: ManagerFeedback[] = [
     approved: true
   }
 ];
+
 
