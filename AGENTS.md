@@ -1,5 +1,7 @@
 # Orientações para este projeto
 
+A paleta aprovada pelo responsável é clara em todas as rotas, incluindo menus, orçamento e métricas. Preservar o layout, as animações, o conteúdo e as funcionalidades existentes nas alterações de cores.
+
 ## Interface e experiência do usuário
 
 Por solicitação do responsável pelo projeto, use a skill `frontend-design` em toda tarefa de criação, alteração ou revisão de interfaces neste repositório.
@@ -19,4 +21,8 @@ Use também [.agents/skills/impeccable/SKILL.md](.agents/skills/impeccable/SKILL
 Use [.agents/skills/web-design-guidelines/SKILL.md](.agents/skills/web-design-guidelines/SKILL.md) como revisão complementar de acessibilidade, navegação, foco, formulários, movimento e toque. Leia as diretrizes atuais antes de cada revisão. Não aplique regras fora do contexto nem troque o padrão de linguagem aprovado por uma preferência genérica.
 
 Origens e versões das duas adições estão em `.agents/skill-sources.json`. As skills são ferramentas de desenvolvimento e não fazem parte do bundle da aplicação.
+
+## Website Builder
+
+A skill `website-builder`, de `flowkit-labs/skills`, está disponível em [.agents/skills/website-builder/SKILL.md](.agents/skills/website-builder/SKILL.md). Leia suas instruções quando aplicável. Ela trata da plataforma Doany e também orienta respeitar pedidos de alteração em código local ou hospedagem nomeada. Neste projeto, seguir a arquitetura existente em GitHub/Vercel e o escopo solicitado pelo responsável.
 
