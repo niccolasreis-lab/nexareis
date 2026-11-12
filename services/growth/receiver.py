@@ -15,6 +15,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 PRODUCTS = {'chamaai-food', 'chamaai-filas', 'signageflow', 'cesta-esperta', 'sob-medida'}
+CONTACT_NEEDS = PRODUCTS | {'outros'}
 SEGMENTS = {'supermercados', 'restaurantes', 'clinicas', 'varejo', 'outros'}
 EVENTS = {'page_view', 'project_view', 'demo_click', 'whatsapp_click', 'quote_complete', 'contact_registered'}
 PATHS = {'/', '/nicolas-reis', '/curriculo', '/orcamento', *('/projetos/' + p for p in PRODUCTS if p != 'sob-medida'), *('/servicos/' + p for p in ['automacao', 'sistemas', 'integracao', 'nexa-solutions', 'nexa-data'])}
@@ -69,7 +70,7 @@ class Inbox:
             payload[name] = value.strip()
         if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', payload['email']): raise Rejected(400, 'invalid_email')
         if len(re.sub(r'\D', '', payload['whatsapp'])) not in (10,11): raise Rejected(400, 'invalid_whatsapp')
-        if payload['segmento'] not in SEGMENTS or payload['necessidade'] not in PRODUCTS: raise Rejected(400, 'invalid_choice')
+        if payload['segmento'] not in SEGMENTS or payload['necessidade'] not in CONTACT_NEEDS: raise Rejected(400, 'invalid_choice')
         canonical = json.dumps(payload, sort_keys=True, ensure_ascii=False)
         # HMAC prevents dictionary attacks on stored contact fingerprints.
         fingerprint = hmac.new(self.token.encode(), canonical.encode(), hashlib.sha256).hexdigest()
