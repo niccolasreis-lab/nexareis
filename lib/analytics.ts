@@ -5,7 +5,7 @@ export const canMeasure = () => typeof navigator !== 'undefined' && navigator.do
 export function trackInterest(event: InterestEvent, product = '', path = window.location.pathname) {
   if (!canMeasure() || !Object.hasOwn(routeMetadata, path)) return;
   const safeProduct = isProjectId(product) || product === 'sob-medida' ? product : '';
-  void fetch('/api/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event, product: safeProduct, path }), keepalive: true, credentials: 'omit' }).catch(() => {});
+  void fetch('/api/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event, product: safeProduct, path }), keepalive: true, credentials: 'same-origin' }).catch(() => {});
 }
 let vitalsStarted = false;
 export function startVitals() {
@@ -18,7 +18,7 @@ export function startVitals() {
     const report = ({ name, value, id }: { name: string; value: number; id: string }) => {
       if (!canMeasure() || sent.has(id)) return;
       sent.add(id);
-      void fetch('/api/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: name, value, path: initialPath }), keepalive: true, credentials: 'omit' }).catch(() => {});
+      void fetch('/api/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: name, value, path: initialPath }), keepalive: true, credentials: 'same-origin' }).catch(() => {});
     };
     onCLS(report); onINP(report); onLCP(report);
   }).catch(() => {});

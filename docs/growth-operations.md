@@ -40,7 +40,7 @@ Páginas individuais: `/projetos/chamaai-food`, `/projetos/chamaai-filas`, `/pro
 
 Eventos: páginas vistas, projetos consultados, demonstrações abertas, cliques no WhatsApp, orçamento guiado concluído e contatos confirmados no site. Interações não representam pessoas únicas nem garantem vendas. Produção e prévia ficam separadas. URLs são reduzidas a rotas conhecidas; queries, fragmentos, mensagens, e-mails, nomes e telefones não são dimensões válidas.
 
-`web-vitals` 6.2.3 carrega em chunk separado e registra LCP, INP e CLS do carregamento do documento. Soft navigations não são habilitadas. O painel mostra número de amostras, média e quantidade dentro dos limites bons; não calcula p75 e não certifica aprovação nos Core Web Vitals. Respeita Do Not Track e Global Privacy Control. Falhas na coleta não bloqueiam navegação ou formulário.
+`web-vitals` 6.2.3 carrega em chunk separado e registra LCP, INP e CLS do carregamento do documento. Soft navigations não são habilitadas. O painel mostra número de amostras, média e quantidade dentro dos limites bons; não calcula p75 e não certifica aprovação nos Core Web Vitals. Respeita Do Not Track e Global Privacy Control. Falhas na coleta não bloqueiam navegação ou formulário. Requisições de mesma origem podem usar a autenticação já existente da prévia protegida; o proxy não encaminha cookies ao receptor nem os grava nas métricas.
 
 ## Evidência do teste real
 
@@ -49,3 +49,5 @@ Foi enviada uma única notificação técnica identificada como teste ao destino
 ## Reversão
 
 A prévia é reversível pelo Git. Para desativar a nova camada, pode-se voltar ao webhook anterior pela variável `VITE_CONTACT_WEBHOOK_URL` e reconstruir a prévia. Para interromper a infraestrutura nova, remover somente o serviço `nexareis-growth` e seu arquivo de rota, preservando volume e segredos até encerrar a análise dos pedidos. Não remover volumes, alterar n8n ou reiniciar serviços de outros projetos.
+
+Backup de verificação criado no volume em `/data/backups/growth-2026-11-11.sqlite3`. O teste de restauração retornou `PRAGMA integrity_check = ok` e recuperou o único contato sintético. O receptor em execução usa a imagem `nexareis-growth:20261112-1`, com o mesmo código versionado de deduplicação transacional.

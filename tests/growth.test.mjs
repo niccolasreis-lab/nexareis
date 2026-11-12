@@ -10,11 +10,12 @@ const env = { NEXA_GROWTH_URL:'https://receiver.example.invalid', NEXA_GROWTH_TO
 const request = (resource='contact',body='{}',headers={}) => new Request('https://site.example.invalid/api/growth?resource='+resource,{ method:'POST', headers:{'Content-Type':'application/json','Origin':'https://site.example.invalid','x-vercel-forwarded-for':'192.0.2.1',...headers},body });
 test('private proxy forwards only the fixed resource and keeps its token server-side',async t=>{
   const mock=t.mock.method(globalThis,'fetch',async()=>Response.json({ok:true,registered:true,receipt:'NR-0123456789ABCDEF'}));
-  const response=await growthProxy(request('contact','{}',{'Idempotency-Key':'key-for-test-0000','X-Environment':'production'}),env);
+  const response=await growthProxy(request('contact','{}',{'Idempotency-Key':'key-for-test-0000','X-Environment':'production',Cookie:'deployment-auth=fake'}),env);
   assert.equal(response.status,200);
   const [url,init]=mock.mock.calls[0].arguments;
   assert.equal(String(url),'https://receiver.example.invalid/contact');
   assert.equal(init.headers.Authorization,'Bearer private-token');
+  assert.equal(Object.keys(init.headers).some(k=>k.toLowerCase()==='cookie'),false);
   assert.equal(init.headers['Idempotency-Key'],'key-for-test-0000');
   assert.equal(init.headers['X-Environment'],'preview');
   assert.match(init.headers['X-Client-Key'],/^[a-f0-9]{64}$/);
@@ -39,6 +40,7 @@ test('metric report key is forwarded separately from the service credential',asy
   assert.equal((await growthProxy(request('metrics','{}',{Authorization:'Bearer wrong'}),env)).status,401);
   const init=mock.mock.calls[0].arguments[1];
   assert.equal(init.headers['X-Metrics-Key'],'wrong');assert.equal(init.headers.Authorization,'Bearer private-token');
+  assert.equal(Object.keys(init.headers).some(k=>k.toLowerCase()==='cookie'),false);
 });
 test('durable receipt requires a valid protocol and adds idempotency without changing the payload',async t=>{
   const mock=t.mock.method(globalThis,'fetch',async()=>Response.json({ok:true,registered:true,receipt:'NR-0123456789ABCDEF'}));
