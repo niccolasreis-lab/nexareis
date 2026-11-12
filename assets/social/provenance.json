@@ -1,0 +1,69 @@
+{
+  "generator": "npm run generate:social",
+  "font": {
+    "name": "Space Grotesk",
+    "source": "https://github.com/google/fonts/tree/main/ofl/spacegrotesk",
+    "gitBlobSha": "a1b2e6c26093066510a31147e7aec9abdc8d6c5e",
+    "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72",
+    "license": "scripts/assets/SpaceGrotesk-OFL.txt"
+  },
+  "copySource": "data/projectCases.ts",
+  "brandSource": "components/Logo.tsx",
+  "assets": [
+    {
+      "id": "nexareis",
+      "path": "public/images/social/nexareis-v1.png",
+      "svg": "assets/social/nexareis-v1.svg",
+      "width": 1200,
+      "height": 630,
+      "mimeType": "image/png",
+      "sha256": "84f47739762e1671a7976e4e95b16b5cf24dab497cb85354ea9895e4b6c5c9d9",
+      "alt": "Nexa Reis — sites, sistemas e automações para empresas.",
+      "kind": "outlined typography and existing brand geometry; no generated photography"
+    },
+    {
+      "id": "chamaai-food",
+      "path": "public/images/social/chamaai-food-v1.png",
+      "svg": "assets/social/chamaai-food-v1.svg",
+      "width": 1200,
+      "height": 630,
+      "mimeType": "image/png",
+      "sha256": "b1e3333286f8ce2e1e90753e4866af43fd0586facfd95a9e176f4ed0a1a16a22",
+      "alt": "ChamaAí Food — pedidos em preparo, pedidos prontos e retirada.",
+      "kind": "outlined typography and existing brand geometry; no generated photography"
+    },
+    {
+      "id": "chamaai-filas",
+      "path": "public/images/social/chamaai-filas-v1.png",
+      "svg": "assets/social/chamaai-filas-v1.svg",
+      "width": 1200,
+      "height": 630,
+      "mimeType": "image/png",
+      "sha256": "7059fcfb8343a4dc3243ad33ff4060c54bfb62aa82736d1b2dcabea350a9dab1",
+      "alt": "ChamaAí — Gestão de Filas: senhas, chamadas e atendimento.",
+      "kind": "outlined typography and existing brand geometry; no generated photography"
+    },
+    {
+      "id": "signageflow",
+      "path": "public/images/social/signageflow-v1.png",
+      "svg": "assets/social/signageflow-v1.svg",
+      "width": 1200,
+      "height": 630,
+      "mimeType": "image/png",
+      "sha256": "9ba75a792addcc2e68900225bd27258460937a88ab27da0f139ced792644a7ec",
+      "alt": "SignageFlow — conteúdos, playlists e programação de telas.",
+      "kind": "outlined typography and existing brand geometry; no generated photography"
+    },
+    {
+      "id": "cesta-esperta",
+      "path": "public/images/social/cesta-esperta-v1.png",
+      "svg": "assets/social/cesta-esperta-v1.svg",
+      "width": 1200,
+      "height": 630,
+      "mimeType": "image/png",
+      "sha256": "2ad5e270dc4221efbe2a76cacb40f3b50cc1977a8cc09e1c4683a67b852db49b",
+      "alt": "CestaEsperta — fluxo ilustrativo de catálogo, pedido e entrega.",
+      "kind": "outlined typography and existing brand geometry; no generated photography"
+    }
+  ]
+}

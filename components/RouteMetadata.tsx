@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ORIGIN, routeMetadata } from '../lib/routeMetadata';
+import { socialMetadata } from '../lib/socialMetadata';
 
 export function RouteMetadata() {
   const { pathname } = useLocation();
@@ -14,9 +15,8 @@ export function RouteMetadata() {
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isPortfolio ? '#fff7e7' : '#F5F5F2');
     document.title = title;
     for (const [selector, content] of [
-      ['meta[name="description"]', description], ['meta[property="og:title"]', title],
-      ['meta[property="og:description"]', description], ['meta[property="og:url"]', ORIGIN + path],
-      ['meta[name="twitter:title"]', title], ['meta[name="twitter:description"]', description],
+      ['meta[name="description"]', description],
+      ...Object.entries(socialMetadata(path, { title, description })).map(([key, value]) => [`meta[${key.startsWith('og:') ? 'property' : 'name'}="${key}"]`, value]),
       ['meta[name="robots"]', meta ? 'index,follow' : 'noindex,follow'],
     ]) document.querySelector(selector)?.setAttribute('content', content);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', ORIGIN + path);
