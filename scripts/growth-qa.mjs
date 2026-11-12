@@ -76,8 +76,16 @@ try{
  await check('project pages preserve demo destinations, disclosure and individual metadata',async()=>{
   for(const [id,url] of Object.entries({'chamaai-food':'https://chamaaifood.nexareis.com.br/pilot','chamaai-filas':'https://chamaai.nexareis.com.br','signageflow':'https://signageflow.nexareis.com.br','cesta-esperta':''})){
    await page.goto(base+'/projetos/'+id);await page.locator('main h1').waitFor();assert.match(await page.title(),/Projetos Nexa Reis/);assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://www.nexareis.com.br/projetos/'+id);
+   assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'),'https://www.nexareis.com.br/images/social/'+id+'-v1.png');
+   assert.equal(await page.locator('meta[name="twitter:card"]').getAttribute('content'),'summary_large_image');
    if(url)assert.equal(await page.getByRole('link',{name:'Abrir demonstração',exact:true}).getAttribute('href'),url);else{assert.equal(await page.getByRole('link',{name:'Abrir demonstração',exact:true}).count(),0);await page.getByText('Representação ilustrativa do fluxo.',{exact:false}).waitFor();}
   }
+  await page.locator('.project-other').getByRole('link',{name:'ChamaAí Food',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/chamaai-food-v1.png'));
+  await page.locator('.project-other').getByRole('link',{name:'SignageFlow',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/signageflow-v1.png'));
+  await page.locator('header').getByRole('link',{name:'NEXA REIS',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('meta[property="og:image"]').content.endsWith('/nexareis-v1.png'));
   await page.goto(base+'/projetos/inexistente');await page.getByRole('heading',{name:'Projeto não encontrado'}).waitFor();await page.waitForFunction(()=>document.querySelector('meta[name=robots]').content==='noindex,follow');
  });
  await check('private metrics reject invalid access and render empty/loaded data honestly',async()=>{

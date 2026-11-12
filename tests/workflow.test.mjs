@@ -10,17 +10,19 @@ const flows = ["chamaai", "formularios"].map((n) =>
     ),
   ),
 );
+// A bounded test-only budget tolerates scheduling delays on shared CI runners.
+const vmTestTimeout = 5000;
 const expr = (s, j) =>
   vm.runInNewContext(
     "(" + s.slice(3, -2) + ")",
     { $json: j },
-    { timeout: 1000 },
+    { timeout: vmTestTimeout },
   );
 const code = (s, j) =>
   vm.runInNewContext(
     "(function(){" + s + "})()",
     { $json: j },
-    { timeout: 1000 },
+    { timeout: vmTestTimeout },
   )[0].json;
 for (const w of flows) {
   const send = w.nodes.find((n) => n.type === "n8n-nodes-base.httpRequest");
@@ -165,3 +167,4 @@ test("general form required fields and labels remain valid", () => {
     /CAMPOS_OBRIGATORIOS_AUSENTES:email/,
   );
 });
+

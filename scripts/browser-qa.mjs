@@ -216,7 +216,9 @@ try {
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('#main-content').evaluate(el => el === document.activeElement), true);
     const projects = page.locator('[data-portfolio-card="projetos"]');
-    await projects.focus(); await page.keyboard.press('Enter');
+    // Bind focus and Enter to the link, then await the observable navigation.
+    await projects.press('Enter');
+    await page.waitForURL(base + '/nicolas-reis#projetos');
     assert.equal(new URL(page.url()).hash, '#projetos');
     await page.goto(base + '/');
     assert.equal(await page.locator('header').getAttribute('data-portfolio-theme'), null);
