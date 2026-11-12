@@ -1,5 +1,6 @@
 import concurrent.futures
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -19,6 +20,17 @@ class InboxTests(unittest.TestCase):
             self.assertEqual(db.execute('SELECT count(*) FROM leads').fetchone()[0],1)
             self.assertEqual(db.execute('SELECT SUM(count) FROM limits').fetchone()[0],1)
         self.assertEqual(self.inbox.contact(self.payload,'key-for-test-00000','test'),results[0])
+    def test_every_existing_form_need_is_accepted_without_inventing_a_project(self):
+        form=(Path(__file__).resolve().parents[2]/'components'/'ContactForm.tsx').read_text()
+        options=form.split('id="necessidade"',1)[1].split('</select>',1)[0]
+        needs=re.findall(r'<option value="([^"]+)"',options)
+        self.assertIn('outros',needs)
+        for need in needs:
+            with self.subTest(need=need):
+                ack=self.inbox.contact({**self.payload,'necessidade':need},'form-compatibility-'+need,need)
+                self.assertTrue(ack['registered'])
+        with self.assertRaises(Rejected):self.inbox.contact({**self.payload,'necessidade':'unknown'},'form-compatibility-unknown','test')
+        with self.assertRaises(Rejected):self.inbox.metric(dict(event='project_view',product='outros',path='/projetos/outros'),'test','preview')
     def test_rate_limit_counts_only_new_leads_and_still_allows_a_safe_retry(self):
         first=self.inbox.contact(self.payload,'key-for-test-0000','test')
         for i in range(1,5):self.inbox.contact({**self.payload,'mensagem':'Pedido diferente '+str(i)},'key-for-test-0000'+str(i),'test')
