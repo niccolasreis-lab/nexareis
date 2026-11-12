@@ -1,5 +1,7 @@
 # Revisão final da extensão comercial
 
+Registro histórico da revisão anterior à publicação. O estado publicado e os testes adicionais de produção estão em [production-release-2026-11-12.md](production-release-2026-11-12.md).
+
 A revisão independente examinou as 27 capturas necessárias em 320, 390, 768 e 1440 px e as referências do site anterior. As evidências foram consideradas válidas. As quatro páginas, o orçamento, a confirmação com protocolo e o painel de métricas mantiveram as paletas e não apresentaram transbordamento horizontal nas capturas.
 
 A disposição inicial foi `fix`, com um ajuste material: os nomes dos produtos apareciam menores que as frases de apoio no topo das páginas. A correção estabelece o nome como título principal, com a explicação menor abaixo, preservando todo o conteúdo. A matriz foi recapturada em todos os quatro tamanhos e devolvida ao mesmo revisor. A passagem de veredito marcou o único ajuste como `resolved`, com disposição `ship` restrita à correção da hierarquia dos títulos. As 16 capturas das páginas de projeto foram consideradas válidas, sem regressão visual atribuída a essa correção.
@@ -15,7 +17,7 @@ A verificação em navegador usa o build do PR. O acesso automatizado à prévia
 - 42 testes de código/contrato, 9 do receptor, 33 verificações existentes de navegador, 16 de auditoria do portfólio e 10 da extensão comercial: 110 verificações aprovadas.
 - Artefato de capturas e relatórios: `browser-qa`, ID `13902743082`.
 - A revisão inicial cobriu as 27 capturas necessárias e referências anteriores; o veredito final pontua somente o ajuste material listado, sem ampliar sua aprovação a um teste de produção.
-- Receptor ativo com o mesmo hash SHA-256 do código versionado: `a5d4c5d3e48ccbe35dde7eaeab0dc342344466cd67f974fec8bc099f5c3e7786`.
+- A correspondência do código do receptor foi conferida no registro administrativo privado.
 - Repetição da solicitação após reiniciar o receptor devolveu o protocolo original e manteve um único contato aceito. Nenhuma nova mensagem de teste foi enviada nessa verificação.
 - `main` permaneceu em `b0f0ca5fe20095797e659d17386995e08e655e92`. A publicação pública não foi realizada nesta etapa.
 
