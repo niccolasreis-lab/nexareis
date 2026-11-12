@@ -21,3 +21,7 @@ seed: none (pinned). "preservando a identidade visual já aprovada". Conteúdo a
 320, 390, 768 e 1440 px, teclado, foco ao trocar etapa, movimento reduzido, feedback de erro e sucesso, capturas reais e nenhuma perda de dados. Backend isolado: persistir antes de confirmar, deduplicar e nunca repetir automaticamente uma notificação de resultado incerto.
 
 Extensão do sistema existente: comparação final com as superfícies aprovadas; nenhuma alteração do sistema visual global.
+
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+Aplicação a esta extensão: preservar o sistema visual e seus arquivos existentes; documentar a comparação e o resultado da revisão. Nenhum novo raster de produto foi gerado ou substituído.

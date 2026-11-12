@@ -1,3 +1,4 @@
+import { demoProject } from '../lib/interestLinks.ts';
 import api from '../api/growth.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -70,4 +71,12 @@ test('bad upstream JSON and malformed endpoint fail as server errors',async t=>{
   t.mock.method(globalThis,'fetch',async()=>new Response('<html>not an acknowledgement</html>'));
   assert.equal((await growthProxy(request(),env)).status,503);
   assert.equal((await growthProxy(request(),{...env,NEXA_GROWTH_URL:'invalid'})).status,503);
+});
+
+test('all three existing demo destinations map to interest events with or without a root slash',()=>{
+  assert.equal(demoProject('https://chamaaifood.nexareis.com.br/pilot'),'chamaai-food');
+  assert.equal(demoProject('https://chamaai.nexareis.com.br/'),'chamaai-filas');
+  assert.equal(demoProject('https://signageflow.nexareis.com.br/?source=test'),'signageflow');
+  assert.equal(demoProject('https://signageflow.nexareis.com.br/unrelated'),undefined);
+  assert.equal(demoProject('https://example.invalid'),undefined);
 });

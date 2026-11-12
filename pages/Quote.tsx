@@ -60,7 +60,7 @@ export function Quote() {
                 <h3>{result.name}</h3><p>{result.description}</p>
                 <p className="quote-disclaimer">Essa indicação parte da tarefa escolhida. A compatibilidade, as integrações e a implantação precisam ser avaliadas com você.</p>
                 {result.projectId && <Link to={'/projetos/' + result.projectId} className="growth-inline-link">Conhecer o projeto <ArrowRight size={17} aria-hidden="true" /></Link>}
-                <div className="quote-result-actions"><button type="button" className="growth-button" onClick={contact}>Levar resumo ao contato <ArrowRight size={17} aria-hidden="true" /></button><a href={result.whatsapp} target="_blank" rel="noopener noreferrer" className="growth-button secondary"><MessageCircle size={17} aria-hidden="true" /> Conversar pelo WhatsApp</a></div>
+                <div className="quote-result-actions"><button type="button" className="growth-button" onClick={contact}>Levar resumo ao contato <ArrowRight size={17} aria-hidden="true" /></button><a data-interest-product={need} href={result.whatsapp} target="_blank" rel="noopener noreferrer" className="growth-button secondary"><MessageCircle size={17} aria-hidden="true" /> Conversar pelo WhatsApp</a></div>
                 <details className="quote-message"><summary>Ver a mensagem que preparei</summary><p>{result.message}</p></details>
               </div>}
             </motion.div>
