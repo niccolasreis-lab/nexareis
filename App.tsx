@@ -8,6 +8,7 @@ import { RouteMetadata } from './components/RouteMetadata';
 import { Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { InterestTracking } from './components/InterestTracking';
+const MotionPreview = React.lazy(() => import('./pages/MotionPreview').then(({ MotionPreview }) => ({ default: MotionPreview })));
 const Quote = React.lazy(() => import('./pages/Quote').then(({ Quote }) => ({ default: Quote })));
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail').then(({ ProjectDetail }) => ({ default: ProjectDetail })));
 const Metrics = React.lazy(() => import('./pages/Metrics').then(({ Metrics }) => ({ default: Metrics })));
@@ -134,6 +135,7 @@ function AnimatedRoutes() {
             </Suspense>
           }
         />
+        <Route path="/preview/motion" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando prévia…</p>}><MotionPreview /></Suspense>} />
         <Route path="/orcamento" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando orçamento…</p>}><Quote /></Suspense>} />
         <Route path="/projetos/:projectId" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando projeto…</p>}><ProjectDetail /></Suspense>} />
         <Route path="/metricas" element={<Suspense fallback={<p className="pt-32 px-6" role="status">Carregando métricas…</p>}><Metrics /></Suspense>} />
