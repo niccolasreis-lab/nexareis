@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, RotateCcw } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../styles/cinematic-stage.css';
 
@@ -33,22 +33,16 @@ const scenes = [
   },
 ] as const;
 
-const modes: Array<{ value: MotionLevel; label: string }> = [
-  { value: 'off', label: 'Desativadas' },
-  { value: 'soft', label: 'Suaves' },
-  { value: 'full', label: 'Completas' },
-];
-
 export function CinematicStage() {
   const reduceMotion = useReducedMotion();
-  const [motionLevel, setMotionLevel] = useState<MotionLevel>('soft');
   const [activeScene, setActiveScene] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [visible, setVisible] = useState(true);
   const [tabVisible, setTabVisible] = useState(true);
   const stageRef = useRef<HTMLElement>(null);
 
-  const level: MotionLevel = reduceMotion ? 'off' : motionLevel;
+  // Full cinematic motion by default. Respect OS accessibility preferences.
+  const level: MotionLevel = reduceMotion ? 'off' : 'full';
   const scene = scenes[activeScene];
   const animated = level !== 'off';
   const duration = level === 'full' ? 0.8 : level === 'soft' ? 0.46 : 0;
@@ -182,22 +176,7 @@ export function CinematicStage() {
             ><span /></button>
           ))}
         </div>
-        <div className="nr-cine__intensity" role="group" aria-label="Intensidade das animações">
-          <span className="nr-cine__intensity-label">MOVIMENTO</span>
-          {modes.map((option) => (
-            <button
-              type="button"
-              key={option.value}
-              onClick={() => setMotionLevel(option.value)}
-              className={motionLevel === option.value ? 'nr-cine__mode nr-cine__mode--active' : 'nr-cine__mode'}
-              aria-pressed={motionLevel === option.value}
-              disabled={Boolean(reduceMotion) && option.value !== 'off'}
-              title={reduceMotion && option.value !== 'off' ? 'Seu dispositivo prefere movimento reduzido' : undefined}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+
       </div>
       <p className="nr-cine__help">Prévia experimental • Cenas navegáveis • A página inicial atual não foi modificada.</p>
     </section>
